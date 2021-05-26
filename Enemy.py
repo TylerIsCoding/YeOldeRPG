@@ -21,4 +21,10 @@ class Nick(Enemy):
     
     def attack(self, playerchar):
         atk = Dice.d_4() + self.additional_damage
-        playerchar.hp = (playerchar.hp + playerchar.blk) - atk
+        final_attack = atk - playerchar.blk
+        playerchar.hp -= final_attack
+        if playerchar.hp > 0:
+            print("They dealt " + str(final_attack) + " of damage to you!")
+            print("You have " + str(playerchar.hp) + " hit points remaining.")
+        elif playerchar.hp <= 0:
+            print("They did a devastating " + str(final_attack) + " points of damage! You have been killed!")

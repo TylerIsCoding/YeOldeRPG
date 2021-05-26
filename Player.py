@@ -27,11 +27,18 @@ class Mage(Player):
     
     def attack(self, enemy):
         atk = Dice.d_6() + self.additional_damage
-        enemy.hp = (enemy.hp + enemy.blk) - atk
+        final_attack = atk - enemy.blk
+        enemy.hp -= final_attack
+        if enemy.hp > 0:
+            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("They have " + str(enemy.hp) + " hit points remaining.")
+        elif enemy.hp <= 0:
+            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 
 class Warrior(Player):
 
+    max_attack_str = "1d12"
     def __init__(self, name):
         super().__init__(name)
         self.role = "Warrior"
@@ -47,11 +54,18 @@ class Warrior(Player):
 
     def attack(self, enemy):
         atk = Dice.d_12() + self.additional_damage
-        enemy.hp = (enemy.hp + enemy.blk) - atk
+        final_attack = atk - enemy.blk
+        enemy.hp -= final_attack
+        if enemy.hp > 0:
+            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("They have " + str(enemy.hp) + " hit points remaining.")
+        elif enemy.hp <= 0:
+            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 
 class Rogue(Player):
 
+    max_attack_str = "1d6"
     def __init__(self, name):
         super().__init__(name)
         self.role = "Rogue"
@@ -67,11 +81,18 @@ class Rogue(Player):
 
     def attack(self, enemy):
         atk = Dice.d_6() + self.additional_damage
-        enemy.hp = (enemy.hp + enemy.blk) - atk
+        final_attack = atk - enemy.blk
+        enemy.hp -= final_attack
+        if enemy.hp > 0:
+            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("They have " + str(enemy.hp) + " hit points remaining.")
+        elif enemy.hp <= 0:
+            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 
 class Barb(Player):
 
+    max_attack_str = "1d8"
     def __init__(self, name):
         super().__init__(name)
         self.role = "Barbarian"
@@ -87,6 +108,10 @@ class Barb(Player):
 
     def attack(self, enemy):
         atk = Dice.d_8() + self.additional_damage
-        enemy.hp = (enemy.hp + enemy.blk) - atk
-        print("You dealt " + str((enemy.hp + enemy.blk) - atk) + " to the enemy!")
-
+        final_attack = atk - enemy.blk
+        enemy.hp -= final_attack
+        if enemy.hp > 0:
+            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("They have " + str(enemy.hp) + " hit points remaining.")
+        elif enemy.hp <= 0:
+            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")

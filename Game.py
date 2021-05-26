@@ -55,7 +55,7 @@ class Game:
         print("Hit Points: " + str(self.myPlayer.hp))
         print("Mana Points: " + str(self.myPlayer.mp))
         print("Defence: " + str(self.myPlayer.blk))
-        print("Attack Points: " + str(self.myPlayer.atk))
+        print("Attack Dice: " + self.myPlayer.max_attack_str)
         print("\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")
         if "n" in answer_3:
@@ -73,5 +73,5 @@ class Game:
             if "s" in combat_choice.lower():
                 pass
             elif "a" in combat_choice.lower():
-                self.myPlayer.attack
+                self.myPlayer.attack(self.nick)
 
