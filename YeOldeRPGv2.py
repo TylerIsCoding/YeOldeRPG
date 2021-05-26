@@ -6,13 +6,25 @@ import datetime
 import random
 
 ### Dice Rolls ###
-
-d_20 = random.randint(1, 20)
-d_12 = random.randint(1, 12)
-d_10 = random.randint(1, 10)
-d_8 = random.randint(1, 8)
-d_6 = random.randint(1, 6)
-d_4 = random.randint(1, 4)
+class Dice:
+    @staticmethod
+    def d_20():
+        return random.randint(1, 20)
+    @staticmethod
+    def d_12():
+        return random.randint(1, 12)
+    @staticmethod
+    def d_10():
+        return random.randint(1, 10)
+    @staticmethod
+    def d_8():
+        return random.randint(1, 8)
+    @staticmethod
+    def d_6():
+        return random.randint(1, 6)
+    @staticmethod
+    def d_4():
+        return random.randint(1, 4)
 
 
 ### Player Setup ###
@@ -44,8 +56,9 @@ class Enemy:
 
 ### Enemy List ###
 
-Enemy.nick_the_scav = Enemy("Nick the Scav", 5, 3, 3, 2)
-Enemy.shturman = Enemy("Shturman", 10, 5, 5, 5)
+Enemy.nick_the_scav = Enemy("Nick the Scav", d_6, d_4, d_4, d_4)
+Enemy.shturman = Enemy("Shturman", d_12, d_6, d_6, d_6)
+Enemy.
 
 
 ### Main Menu ###
@@ -81,19 +94,19 @@ class Setup:
         answer_2 = input("\n>>> ")
         if "w" in answer_2.lower():
             myPlayer.role = 'Warrior'
-            myPlayer.hp = d_20
-            myPlayer.mp = d_6
-            myPlayer.blk = d_8
-            myPlayer.atk = d_12
+            myPlayer.hp = Dice.d_20
+            myPlayer.mp = Dice.d_6
+            myPlayer.blk = Dice.d_8
+            myPlayer.atk = Dice.d_12
             myPlayer.skill_1 = "Shield Bash"
             myPlayer.skill_2 = "Double Suplex"
             Setup.confirmation(self)
         elif "m" in answer_2.lower():
             myPlayer.role = 'Mage'
-            myPlayer.hp = d_6
-            myPlayer.mp = d_10
-            myPlayer.blk = d_6
-            myPlayer.atk = d_8
+            myPlayer.hp = Dice.d_6
+            myPlayer.mp = Dice.d_10
+            myPlayer.blk = Dice.d_6
+            myPlayer.atk = Dice.d_8
             myPlayer.skill_1 = "Fireball"
             myPlayer.skill_2 = "Ice Shard"
             myPlayer.skill_3 = "Healing"
