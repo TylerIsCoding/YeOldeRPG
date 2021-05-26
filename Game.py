@@ -1,9 +1,11 @@
 from Dice import *
 from Player import *
+from Enemy import *
 
 class Game:
 
     myPlayer = Player("name")
+    nick = Nick()
 
     def main_menu(self):
         print("############################")
@@ -63,3 +65,9 @@ class Game:
         else:
             print("\n\nYou have to choose (Y)es or (N)o")
             return True
+    
+    def chapter_one(self):
+        print("Placeholder")
+        while self.myPlayer.hp > 0 and self.nick.hp > 0:
+            combat_choice = input("Do you use a (S)kill or do you (A)ttack?!\n>>> ")
+
