@@ -128,7 +128,7 @@ class Menu:
         else:
             print("\n" * 100)
             print("You must select Play or Quit.\n")
-            self.main_menu()
+            Menu.main_menu(self)
 
 
 ### Player setup. Naming the character and picking the class ###
@@ -152,14 +152,14 @@ class Setup:
             Rogue.roll_rogue(self)
             Setup.confirmation(self)
         elif "b" in answer_2.lower():
-            Barb.roll_bard(self)
+            Barb.roll_barb(self)
             Setup.confirmation(self)
         else:
             self.player_setup_class()
 
     def confirmation(self):
-        print("\n" + myPlayer.name + " the " + myPlayer.role)
-        print("#############################")
+        print("\n   " + myPlayer.name + " the " + myPlayer.role)
+        print("########################")
         print("Hit Points: " + str(myPlayer.hp))
         print("Mana Points: " + str(myPlayer.mp))
         print("Defence: " + str(myPlayer.blk))
@@ -185,6 +185,7 @@ class ChapterOne:
         print("############################")
         print("#       Chapter One        #")
         print("############################")
+        print("\n"*5)
 
 
 Menu.main_menu(Menu)
