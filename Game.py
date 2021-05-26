@@ -70,4 +70,8 @@ class Game:
         print("Placeholder")
         while self.myPlayer.hp > 0 and self.nick.hp > 0:
             combat_choice = input("Do you use a (S)kill or do you (A)ttack?!\n>>> ")
+            if "s" in combat_choice.lower():
+                pass
+            elif "a" in combat_choice.lower():
+                self.myPlayer.attack
 

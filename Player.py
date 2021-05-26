@@ -88,4 +88,5 @@ class Barb(Player):
     def attack(self, enemy):
         atk = Dice.d_8() + self.additional_damage
         enemy.hp = (enemy.hp + enemy.blk) - atk
+        print("You dealt " + str((enemy.hp + enemy.blk) - atk) + " to the enemy!")
 
