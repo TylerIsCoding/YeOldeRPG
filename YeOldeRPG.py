@@ -4,7 +4,6 @@ import sys
 import os
 import datetime
 import random
-
 from Game import *
 
 game = Game()

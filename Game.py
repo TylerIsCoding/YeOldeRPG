@@ -1,4 +1,4 @@
-import Dice
+from Dice import *
 from Player import *
 
 class Game:
