@@ -44,7 +44,6 @@ class Player:
 
 myPlayer = Player()
 
-
 class Enemy:
     def __init__(self, name, hp, mp, blk, atk):
         self.name = ''
@@ -56,8 +55,8 @@ class Enemy:
 
 ### Enemy List ###
 
-Enemy.nick_the_scav = Enemy("Nick the Scav", d_6, d_4, d_4, d_4)
-Enemy.shturman = Enemy("Shturman", d_12, d_6, d_6, d_6)
+Enemy.nick_the_scav = Enemy("Nick the Scav", Dice.d_6(), Dice.d_4(), Dice.d_4(), Dice.d_4())
+Enemy.shturman = Enemy("Shturman", Dice.d_12(), Dice.d_6(), Dice.d_6(), Dice.d_6())
 Enemy.
 
 
@@ -94,19 +93,19 @@ class Setup:
         answer_2 = input("\n>>> ")
         if "w" in answer_2.lower():
             myPlayer.role = 'Warrior'
-            myPlayer.hp = Dice.d_20
-            myPlayer.mp = Dice.d_6
-            myPlayer.blk = Dice.d_8
-            myPlayer.atk = Dice.d_12
+            myPlayer.hp = Dice.d_20()
+            myPlayer.mp = Dice.d_6()
+            myPlayer.blk = Dice.d_8()
+            myPlayer.atk = Dice.d_12()
             myPlayer.skill_1 = "Shield Bash"
             myPlayer.skill_2 = "Double Suplex"
             Setup.confirmation(self)
         elif "m" in answer_2.lower():
             myPlayer.role = 'Mage'
-            myPlayer.hp = Dice.d_6
-            myPlayer.mp = Dice.d_10
-            myPlayer.blk = Dice.d_6
-            myPlayer.atk = Dice.d_8
+            myPlayer.hp = Dice.d_6()
+            myPlayer.mp = Dice.d_10()
+            myPlayer.blk = Dice.d_6()
+            myPlayer.atk = Dice.d_8()
             myPlayer.skill_1 = "Fireball"
             myPlayer.skill_2 = "Ice Shard"
             myPlayer.skill_3 = "Healing"
@@ -132,7 +131,7 @@ class Setup:
         print("\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")
         if "n" in answer_3:
-            ChapterOne.intro_chap_one(self)
+            ChapterOne.intro_chap_one()
         elif "y" in answer_3:
             Setup.player_setup_class(self)
 
