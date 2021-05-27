@@ -30,7 +30,7 @@ class Mage(Player):
         final_attack = atk - enemy.blk
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
@@ -57,7 +57,7 @@ class Warrior(Player):
         final_attack = atk - enemy.blk
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
@@ -84,7 +84,7 @@ class Rogue(Player):
         final_attack = atk - enemy.blk
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
@@ -111,7 +111,7 @@ class Barb(Player):
         final_attack = atk - enemy.blk
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " of damage to the enemy!")
+            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")

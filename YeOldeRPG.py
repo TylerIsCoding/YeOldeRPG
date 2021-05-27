@@ -8,4 +8,4 @@ from Game import *
 
 game = Game()
 game.main_menu()
-game.chapter_one()
+game.chapter_one_begin()
