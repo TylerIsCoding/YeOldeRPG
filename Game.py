@@ -76,19 +76,59 @@ class Game:
         print("#      Chapter One      #")
         print("#########################")
         print("\n\n\nAs night falls you enter a small tavern on the crossroads.")
-        print("There aren't many patrons in the tavern but the fireplace burns bright and the ale seems to be flowing.\n")
+        print("There aren't many patrons in the tavern but the fireplace burns bright and the ale seems to be flowing.\n\n\n")
+        print("##################################################################################")
+        print("#                                                                                #")
+        print("#                                  ▄▄▄▄▄,                                        #")                     
+        print("#                      ▄█▀▀▀▀▀█▄██▀      ▀█,██▀▀▀█▄█▀▀▀██,                       #")                    
+        print("#                  ▄███                    `             ▀██,                    #")                    
+        print("#                 █▌                                        ▀█                   #")                 
+        print("#                ██  ▐█                                   ▐█▀                    #")                  
+        print("#               ██    ▀█▀                            ,,    ██                    #")                 
+        print("#              █▀                                  ,▄█  ▄,  ██                   #")                 
+        print("#              █▄   █████▀████▀▀██████r         ▄▄█▀  ,████▀▀                    #")               
+        print("#               █  █▌                 ▀██▄           █▌   █▌      ,▄█▄           #")        
+        print("#              ▐█ ██                     ██        ███▄▄█████████▀▀  ╙█          #")      
+        print("#               ███▀▀▀█████▄▄▄██████▀▀▀▀███▀▀█▌    ▀██ ,,  █          ╘█         #")      
+        print("#              ▄███            ,▄▄▄,         █     ▄█   ██ ██ ▄████    ▐█        #")     
+        print("#             ▐█ █▌           ▐█   ▀█        █   ▄█   ███▀,▄█▀    █▌    ▐█       #")     
+        print("#               ▀██▄           █▄,,▄█        ▀██▀   ,▄▄██▀▀█▌      █▄    █▌      #")    
+        print("#                █▌ ▀▀███▄▄▄▄▄▄▄▄▄▄▄,,,,,,,▄██▀▀▀▀▀▀▀      ▐█       █    ▐█      #")    
+        print("#                █                 ▀▀▀▀▀▀▀▀▀         ▐      █      █▌    j█      #")    
+        print("#                █▌     ▐U                ▐W         ▌      █▌      █▌   j█      #")     
+        print("#                █▌     ▐                  ▌         █       █      █▌   ▐█      #")    
+        print("#                █      █                  █         █      ▐█      █▌   █▌      #")    
+        print("#               ▐█      █                  █          ▌      █▄     █▌   ▐█      #")   
+        print("#               ██      █                  █          █       █    █▀    ▐█      #")   
+        print("#               █▌      ▌                  █          █       █,▄██      █       #")    
+        print("#               █       ▌                  ▐          ▐      ▄██      ,▄██       #")     
+        print("#              █▌      ▐                   ▐r            ,▄██▀ █▌  ▄█▀           #")       
+        print("#              ██      █                    ▌       ,▄██▀▀▀▄,  ▐█▀▀              #")          
+        print("#            ▄███▀█▄,,                       ,▄▄██▀▀▀     ▄ █r ██                #")           
+        print("#           ▐█ █▌    `▀▀▀▀▀▀▀▀▀▀█████████▀▀▀▀`            ███▄███▌               #")           
+        print("#            ▀██              ▄█▀▀▀█                    ,▄██▀    █               #")           
+        print("#              █▄             █,   █▌              ,▄██▀▀▌      ▐█               #")           
+        print("#              ████▄▄,         ▀▀▀▀`   ,,,▄▄▄▄███▀▀      █      █▌               #")          
+        print("#              █     `█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀`    ▐▌           █      █                #")          
+        print("#              █▌     █                     ▐             ▌   ▄█▀                #")           
+        print("#              ██     █                     ▐             █,█▀                   #")           
+        print("#                ▀█▄  █                     ▐  ,▄▄▄▄▄▄▄███▀▀                     #")          
+        print("#                  ▀▀██▄▄▄,       ,,▄▄▄▄▄▄▄██▀▀`                                 #")         
+        print("#                         ▀▀▀▀▀▀▀▀``                                             #")         
+        print("#                                                                                #")
+        print("##################################################################################")
         self.table_answers()
 
 
     def table_answers(self):   
-        print("Do you (C)all the Ale Wench or do you (R)est a bit before ordering?")
-        answer = input(">>> ")
+        print("\nDo you (C)all the Ale Wench or do you (R)est a bit before ordering?")
+        answer = input("\n>>> ")
         if "c" in answer.lower():
             print("\nThe Ale Wench is passing by when you raise your hand to order. You order a large pint of cold ale and sit at the nearest empty table.")
             print("You feel tense and tired from the harsh travel of the road. You take a moment to reflect on where you're headed...")
             self.fame_or_escape()
         elif "r" in answer.lower():
-            print("You find the nearest table and put down your pack and weapon. The dust from the road fills the air as \nyou kick the toes of your boots on the table leg.")
+            print("\nYou find the nearest table and put down your pack and weapon. The dust from the road fills the air as \nyou kick the toes of your boots on the table leg.")
             print("You sit back in the wooden chair. A small creature approaches and hops into the vacant chair in front of you.")
             self.doge_convo()
 
@@ -107,7 +147,7 @@ class Game:
         
     
     def doge_convo(self):
-        print("\n\n\n##################################################################################")
+        print("\n\n##################################################################################")
         print("#                                                               ▄▀▀▀█            #")
         print("#                                                           ,▄▀    █▌            #")
         print("#                                                           ▄█      j█           #")
@@ -147,13 +187,13 @@ class Game:
         print("#                           --▀▀                                               ▐█#")
         print("##################################################################################")
 
-
-
-
-
-        #while self.myPlayer.hp > 0 and self.nick.hp > 0:
-            #combat_choice = input("Do you use a (S)kill or do you (A)ttack?!\n>>> ")
-            #if "s" in combat_choice.lower():
-                #pass
-            #elif "a" in combat_choice.lower():
-                #self.myPlayer.attack(self.nick)
+        print('\n"Hello there, traveler! What is your name?"')
+        print("Do you (T)ell him or do you (R)emain silent?")
+        answer = input("\n>>> ")
+        if "t" in answer.lower():
+            print("You tell him your name is " + self.myPlayer.name + " and he wags his puffy tail happily.")
+        elif "r" in answer.lower():
+            print('"...The silent type, I see. Well then, I shall call you Booba!"')
+            self.myPlayer.name = "Booba"
+        else:
+            pass
