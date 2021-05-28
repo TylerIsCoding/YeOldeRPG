@@ -72,9 +72,9 @@ class Game:
 
     def chapter_one_begin(self):
         print("\n" * 100)
-        print("#########################")
-        print("#      Chapter One      #")
-        print("#########################")
+        print("                            #########################                            ")
+        print("                            #      Chapter One      #                            ")
+        print("                            #########################                            ")
         print("\n\n\nAs night falls you enter a small tavern on the crossroads.")
         print("There aren't many patrons in the tavern but the fireplace burns bright and the ale seems to be flowing.\n\n\n")
         print("##################################################################################")
@@ -195,5 +195,7 @@ class Game:
         elif "r" in answer.lower():
             print('"...The silent type, I see. Well then, I shall call you Booba!"')
             self.myPlayer.name = "Booba"
+            print('\n"My name is Meelon Husk. It\'s a pleasure to meet you. I can see by your outfit and your gear, \nthat you appear to be an adventurer.')
+
         else:
             pass
