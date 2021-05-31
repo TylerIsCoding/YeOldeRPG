@@ -11,7 +11,7 @@ class Player:
 
 class Mage(Player):
 
-    max_attack = "1d6"
+    max_attack_str = "1d6"
     def __init__(self, name):
         super().__init__(name)
         self.role = "Mage"
