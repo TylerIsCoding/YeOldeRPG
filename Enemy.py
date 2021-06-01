@@ -28,4 +28,5 @@ class Nick(Enemy):
             print("You have " + str(playerchar.hp) + " hit points remaining.")
         elif playerchar.hp <= 0:
             print("They did a devastating " + str(final_attack) + " points of damage! You have been killed!")
+            
 
