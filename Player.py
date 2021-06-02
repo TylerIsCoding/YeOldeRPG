@@ -1,11 +1,10 @@
 from Dice import *
-from Utility import typingPrint
 from Utility import *
-import typing
 
 ### Player Setup ###
 
 class Player:
+
 
     additional_damage = 0
     def __init__(self, name):
@@ -30,14 +29,14 @@ class Mage(Player):
     
     def attack(self, enemy):
         atk = Dice.d_6() + self.additional_damage
-        final_attack = atk - enemy.blk
+        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
-            print("They have " + str(enemy.hp) + " hit points remaining.")
+            Utility.typingPrint("You dealt " + str(final_attack) + " points of damage to the enemy!")
+            Utility.typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
             """Code for enemy turn here"""
         elif enemy.hp <= 0:
-            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
+            Utility.typingPrint("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 
 class Warrior(Player):
@@ -58,14 +57,14 @@ class Warrior(Player):
 
     def attack(self, enemy):
         atk = Dice.d_12() + self.additional_damage
-        final_attack = atk - enemy.blk
+        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
-            print("They have " + str(enemy.hp) + " hit points remaining.")
+            Utility.typingPrint("You dealt " + str(final_attack) + " points of damage to the enemy!")
+            Utility.typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
             """Code for enemy turn here"""
         elif enemy.hp <= 0:
-            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
+            Utility.typingPrint("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 
 class Rogue(Player):
@@ -86,14 +85,14 @@ class Rogue(Player):
 
     def attack(self, enemy):
         atk = Dice.d_6() + self.additional_damage
-        final_attack = atk - enemy.blk
+        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
-            print("They have " + str(enemy.hp) + " hit points remaining.")
+            Utility.typingPrint("You dealt " + str(final_attack) + " points of damage to the enemy!")
+            Utility.typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
             """Code for enemy turn here"""
         elif enemy.hp <= 0:
-            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
+            Utility.typingPrint("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 
 class Barb(Player):
@@ -114,47 +113,47 @@ class Barb(Player):
 
     def attack(self, enemy):
         atk = Dice.d_8() + self.additional_damage
-        final_attack = atk - enemy.blk
+        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
         enemy.hp -= final_attack
         if enemy.hp > 0:
-            print("You dealt " + str(final_attack) + " points of damage to the enemy!")
-            print("They have " + str(enemy.hp) + " hit points remaining.")
+            Utility.typingPrint("\nYou dealt " + str(final_attack) + " points of damage to the enemy!")
+            Utility.typingPrint("\nThey have " + str(enemy.hp) + " hit points remaining.")
             """Code for enemy turn here"""
         elif enemy.hp <= 0:
-            print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
+            Utility.typingPrint("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
 class Skills():
 
     def fireball(self, enemy):
         fire_atk = Dice.d_6() + 2
-        final_fire_dmg = fire_atk - enemy.blk
+        final_fire_dmg = fire_atk - enemy.blk if (fire_atk - enemy.blk) >= 0 else 0
         enemy.hp -= final_fire_dmg
         if self.myPlayer.mp < 5:
-            typingPrint("You do not have enough Mana.")
-            self.player_combat_prompt()
-        elif self.myPlayer.mp <= 5:
+            Utility.typingPrint("You do not have enough Mana.")
+            self.player_combat_prompt(enemy)
+        elif self.myPlayer.mp >= 5:
             self.myPlayer.mp -= 5
-            typingPrint("You unleash a mighty fireball and deal " + str(final_fire_dmg) + " points of damage!")
+            Utility.typingPrint("You unleash a mighty fireball and deal " + str(final_fire_dmg) + " points of damage!")
             if enemy.hp > 0:
-                typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
+                Utility.typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
                 """Code for enemy turn here"""
             elif enemy.hp <= 0:
-                typingPrint("You have burned the enemy to a crisp! You are victorious.")
+                Utility.typingPrint("You have burned the enemy to a crisp! You are victorious.")
     
     def iceblast(self, enemy):
         ice_atk = Dice.d_4() + 2
-        final_ice_dmg = ice_atk - enemy.blk
+        final_ice_dmg = ice_atk - enemy.blk if (ice_atk - enemy.blk) >= 0 else 0
         enemy.hp -= final_ice_dmg
         if self.myPlayer.mp < 4:
-            typingPrint("You do not have enough Mana.")
+            Utility.typingPrint("You do not have enough Mana.")
             self.player_combat_prompt()
         elif self.myPlayer.mp <= 4:
             self.myPlayer.mp -= 4
-            typingPrint("You extend your arm, release a blast of ice, and deal " + str(final_ice_dmg) + " points of damage!")
+            Utility.typingPrint("You extend your arm, release a blast of ice, and deal " + str(final_ice_dmg) + " points of damage!")
             if enemy.hp > 0:
-                typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
+                Utility.typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
                 """Code for enemy turn here"""
             elif enemy.hp <= 0:
-                typingPrint("You have frozen the enemy solid! They collapse and shatter. You are victorious.")
+                Utility.typingPrint("You have frozen the enemy solid! They collapse and shatter. You are victorious.")
 
 
