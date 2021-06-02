@@ -1,6 +1,7 @@
 import time,os,sys
 import typing
 from Dice import *
+from Player import *
 
 def typingPrint(text):
   for character in text:
@@ -28,7 +29,7 @@ def gameOver(self):
   typingPrint("\n(Y)es or (N)o")
   answer = input("\n>>> ")
   if "y" in answer.lower():
-    self.game.main_menu()
+    self.Game.main_menu()
   elif "n" in answer.lower():
     quit()
   else:
@@ -41,9 +42,24 @@ def initiative(self):
   typingPrint('\nYou both roll for initiative!')
   typingPrint("\n\nYou rolled a " + str(player_init) + " and the enemy rolled a " + str(enemy_init) + ".")
   if player_init > enemy_init:
-    typingPrint('\nYou rolled higher and get the first attack!')
-    """Code for player combat turn here"""
+    typingPrint('\n\nYou rolled higher and get the first attack!')
+    player_init_win = True
+    return player_init_win
   else:
-    typingPrint('\nThe enemy rolled higher and gets the first attack!')
-    """Code for enemy combat turn here"""
+    typingPrint('\n\nThe enemy rolled higher and gets the first attack!')
+    player_init_win = False
+    return player_init_win
+
+
+def player_combat_prompt(self):
+  typingPrint("\nDo you (A)ttack or do you use a (S)kill?")
+  fastTypingPrint("\n########################################")
+  typingPrint("\nYou have:")
+  typingPrint("\nHP:" + str(self.myPlayer.hp))
+  typingPrint("\nMP:" + str(self.myPlayer.mp))
+  answer = input('\n>>> ')
+  if 'a' in answer.lower():
+    self.myPlayer.attack()
+  elif 's' in answer.lower():
+    self.myPlayer.skill_list()
 

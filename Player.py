@@ -1,5 +1,7 @@
 from Dice import *
+from Utility import typingPrint
 from Utility import *
+import typing
 
 ### Player Setup ###
 
@@ -129,7 +131,7 @@ class Skills():
         enemy.hp -= final_fire_dmg
         if self.myPlayer.mp < 5:
             typingPrint("You do not have enough Mana.")
-            """Code for returning to action selection here"""
+            self.player_combat_prompt()
         elif self.myPlayer.mp <= 5:
             self.myPlayer.mp -= 5
             typingPrint("You unleash a mighty fireball and deal " + str(final_fire_dmg) + " points of damage!")
@@ -145,7 +147,7 @@ class Skills():
         enemy.hp -= final_ice_dmg
         if self.myPlayer.mp < 4:
             typingPrint("You do not have enough Mana.")
-            """Code for returning to action selection here"""
+            self.player_combat_prompt()
         elif self.myPlayer.mp <= 4:
             self.myPlayer.mp -= 4
             typingPrint("You extend your arm, release a blast of ice, and deal " + str(final_ice_dmg) + " points of damage!")
