@@ -1,4 +1,5 @@
 from Dice import *
+from Utility import *
 
 ### Enemy Setup ###
 
@@ -7,6 +8,7 @@ class Enemy:
     additional_damage = 0
 
 class Nick(Enemy):
+    
     def __init__(self):
         self.name = "Nick the Scav"
         self.hp = Dice.d_4()
@@ -28,5 +30,5 @@ class Nick(Enemy):
             print("You have " + str(playerchar.hp) + " hit points remaining.")
         elif playerchar.hp <= 0:
             print("They did a devastating " + str(final_attack) + " points of damage! You have been killed!")
-            
+            gameOver()
 

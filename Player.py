@@ -1,4 +1,5 @@
 from Dice import *
+from Utility import *
 
 ### Player Setup ###
 
@@ -32,6 +33,7 @@ class Mage(Player):
         if enemy.hp > 0:
             print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
+            """Code for enemy turn here"""
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
@@ -59,6 +61,7 @@ class Warrior(Player):
         if enemy.hp > 0:
             print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
+            """Code for enemy turn here"""
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
@@ -86,6 +89,7 @@ class Rogue(Player):
         if enemy.hp > 0:
             print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
+            """Code for enemy turn here"""
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
 
@@ -113,5 +117,42 @@ class Barb(Player):
         if enemy.hp > 0:
             print("You dealt " + str(final_attack) + " points of damage to the enemy!")
             print("They have " + str(enemy.hp) + " hit points remaining.")
+            """Code for enemy turn here"""
         elif enemy.hp <= 0:
             print("You did a devastating " + str(final_attack) + " points of damage! The enemy has been slain!")
+
+class Skills():
+
+    def fireball(self, enemy):
+        fire_atk = Dice.d_6() + 2
+        final_fire_dmg = fire_atk - enemy.blk
+        enemy.hp -= final_fire_dmg
+        if self.myPlayer.mp < 5:
+            typingPrint("You do not have enough Mana.")
+            """Code for returning to action selection here"""
+        elif self.myPlayer.mp <= 5:
+            self.myPlayer.mp -= 5
+            typingPrint("You unleash a mighty fireball and deal " + str(final_fire_dmg) + " points of damage!")
+            if enemy.hp > 0:
+                typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
+                """Code for enemy turn here"""
+            elif enemy.hp <= 0:
+                typingPrint("You have burned the enemy to a crisp! You are victorious.")
+    
+    def iceblast(self, enemy):
+        ice_atk = Dice.d_4() + 2
+        final_ice_dmg = ice_atk - enemy.blk
+        enemy.hp -= final_ice_dmg
+        if self.myPlayer.mp < 4:
+            typingPrint("You do not have enough Mana.")
+            """Code for returning to action selection here"""
+        elif self.myPlayer.mp <= 4:
+            self.myPlayer.mp -= 4
+            typingPrint("You extend your arm, release a blast of ice, and deal " + str(final_ice_dmg) + " points of damage!")
+            if enemy.hp > 0:
+                typingPrint("They have " + str(enemy.hp) + " hit points remaining.")
+                """Code for enemy turn here"""
+            elif enemy.hp <= 0:
+                typingPrint("You have frozen the enemy solid! They collapse and shatter. You are victorious.")
+
+
