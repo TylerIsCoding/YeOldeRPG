@@ -2,7 +2,7 @@ import typing
 from Dice import *
 from Player import *
 from Enemy import *
-from Utility import *
+from Utility import Utility
 
 class Game:
 
