@@ -1,7 +1,7 @@
 import typing
 from Dice import *
 from Player import *
-from Enemy import *
+from Enemy import Nick
 from Utility import Utility
 
 class Game:
@@ -349,5 +349,45 @@ class Game:
             if result:
                 Utility.player_combat_prompt(self.myPlayer, self.nick)
             else:
-                """self.enemy_combat_prompt"""
-                pass
+                Nick.attack(self.nick, self.myPlayer)
+            self.post_nick_fight()
+            
+    def post_nick_fight(self):
+        continue_prompt = input("\n\n>>> Hit enter to continue")
+        if '' in continue_prompt:
+
+            Utility.typingPrint('\n\n"Wow!" says Meelon. "It looks like you can fight... \nLook, he dropped this after you got him."')
+            print('\n\n\n###########################################################################################################################')
+            print("#                                                           ▄▄,,,                                                         #")  
+            print("#                        █444444▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄██╢╢▓╢██▄,,,,,,,,,,                                 ▄▄███▄     #") 
+            print("#                       █▀     ██╢██╢▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓╢███╢▓▓▓▓█▓▓█▓▓▓▓▓▓▓▓▓████████████████████████████████████████▄   #")
+            print("#                     ▄█▀     ▐█╬██████████████████████████████████████████████████████████████████████████████████████   #") 
+            print("#                   ▄█▀       █╢▓█▌                      ,,,▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄█████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀     #") 
+            print("#            ,▄▄▄█▀▀         █╣▓▓█                ▄▀             ,,,,▄▄▄▄▄▄▄▄▄▄Æ▀        ,^▄█                             #")
+            print("#         ▐▀▀ ▌     ╚       ▐█╢╢█▌                 `▀▀▀▀▀`                    ,,,,...⌐∞'▄▄█▀                              #") 
+            print("#         █   '     ▌       ▐█▓██           ,,,,..⌐¬∞∞═══^^''''``    ,,▄▄▄▄▄▄▄▄▄▄▄4▀▀▀▀▀                                  #") 
+            print("#         █,,...⌐⌐¬════^^''''7▀▀`              ,,,▄▄▄▄▄▄▄▄&4▀▀▀▀▀▀▀▀▀▀ `                                                  #") 
+            print("#         █            ,,,▄▄▄▄▄▄▄▄▄████████████▓▀                                                                         #") 
+            print("#        ▐█4▀▀▀▀▀▀▀▀▀▀█▀██▀   ▐█ ╢█▓▓▓▓▓▓▓█▓▓███                                                                          #")
+            print("#        ▐▌           █ ▀█  ,▄█╢ █╢▓▓▓▓▓▓╫█▓▓█╣▌                                                                          #")
+            print("#        ▐▌      ,,, ▐█████████ ▓██▓▓▓▓▓▓█╢▓███                                                                           #")
+            print("#       ,█     ,██▀-'   ▀▀   █ ▓▓▓██████╢▓▓▓█╣▌                                                                           #")
+            print("#      ▄▀     ▄██            █▓▓▓▓▓▓▓▓▓▓▓▓▓▓█╣█                                                                           #")
+            print("#    ╒█      ██▀            ██╢╢╢████████████▀                                                                            #")
+            print("#    █       ██▌                                                                                                          #")
+            print("#   █-       ▐██                                                                                                          #")  
+            print("#  ▐█,      ,▄██                                                                                                          #") 
+            print("#    `▀444████▀                                                                                                           #")
+            print('###########################################################################################################################')  
+            Utility.typingPrint('\n\nThe doge bends down and picks up a weapon off of the ground.')
+            Utility.typingPrint('\nIt appears to be a TOZ-106! You pick it up. It adds (+ 1) to your damage roll.')
+            self.myPlayer.additional_damage += 1
+            Utility.typingPrint('\n\nYou now do ' + str(self.myPlayer.max_attack_str) + " + " + str(self.myPlayer.additional_damage) + ' points of damage.')
+            
+            continue_prompt_2 = input("\n\n>>> Hit enter to continue")
+            if '' in continue_prompt_2:
+                self.woods()
+
+
+    def woods(self):
+        pass

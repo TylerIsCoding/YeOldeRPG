@@ -41,9 +41,9 @@ class Utility:
 
   def player_combat_prompt(player, enemy):
 
-    Utility.typingPrint("\nDo you (A)ttack or do you use a (S)kill?")
+    Utility.typingPrint("\n\nDo you (A)ttack or do you use a (S)kill?")
     Utility.fastTypingPrint("\n########################################")
-    Utility.typingPrint("\nYou have:")
+    Utility.typingPrint("\n\nYou have:")
     Utility.typingPrint("\nHP:" + str(player.hp))
     Utility.typingPrint("\nMP:" + str(player.mp))
     answer = input('\n>>> ')
@@ -59,10 +59,12 @@ class Utility:
     Utility.typingPrint('\nYou both roll for initiative!')
     Utility.typingPrint("\n\nYou rolled a " + str(player_init) + " and the enemy rolled a " + str(enemy_init) + ".")
     if player_init > enemy_init:
-      Utility.typingPrint('\n\nYou rolled higher and get the first attack!')
+      Utility.typingPrint('\n\nYou rolled higher and get the first attack!\n')
       return True
+    if player_init == enemy_init:
+      Utility.typingPrint('\n\nYou both tied. The enemy gets to attack first!')
     else:
-      Utility.typingPrint('\n\nThe enemy rolled higher and gets the first attack!')
+      Utility.typingPrint('\n\nThe enemy rolled higher and gets the first attack!\n')
       return False
 
 
