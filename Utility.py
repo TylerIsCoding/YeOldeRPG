@@ -44,13 +44,14 @@ class Utility:
     Utility.typingPrint("\n\nDo you (A)ttack or do you use a (S)kill?")
     Utility.fastTypingPrint("\n########################################")
     Utility.typingPrint("\n\nYou have:")
-    Utility.typingPrint("\nHP:" + str(player.hp))
-    Utility.typingPrint("\nMP:" + str(player.mp))
+    Utility.typingPrint("\nHP: " + str(player.hp))
+    Utility.typingPrint("\nMP: " + str(player.mp))
+    Utility.typingPrint("\nSkills: " + str(player.skills[1, 1]))
     answer = input('\n>>> ')
     if 'a' in answer.lower():
       player.attack(enemy)
     elif 's' in answer.lower():
-      player.skill_list()
+      pass
 
   def initiative():
 
@@ -67,4 +68,6 @@ class Utility:
       Utility.typingPrint('\n\nThe enemy rolled higher and gets the first attack!\n')
       return False
 
+ 
+    
 

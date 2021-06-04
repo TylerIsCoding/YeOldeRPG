@@ -390,4 +390,7 @@ class Game:
 
 
     def woods(self):
-        pass
+        Utility.typingPrint('\nDaylight creeps over the hills and treetops. The two of you gather your gear and start towards the Woods.')
+        Utility.typingPrint('\nAs you walk Meelon continues explaining about Shturman.')
+        Utility.typingPrint('\n\n"Shturman is said to be in possession of the mighty Kappa container...\nIt has the ability to hold a vast amount of items in a very small space."')
+        Utility.typingPrint('\n\n"If we could aquire the Kappa container AND remove Shturman\'s evil hold \non the Woods, I\'m sure that the King would be most grateful."')
