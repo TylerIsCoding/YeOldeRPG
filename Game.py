@@ -2,12 +2,15 @@ import typing
 from Dice import *
 from Player import *
 from Enemy import Nick
+from Enemy import Steven
 from Utility import Utility
+from random import *
 
 class Game:
 
     myPlayer = Player("name")
     nick = Nick()
+    steven = Steven()
 
 
     def main_menu(self):
@@ -67,6 +70,8 @@ class Game:
         Utility.typingPrint("\nMana Points: " + str(self.myPlayer.mp))
         Utility.typingPrint("\nDefence: " + str(self.myPlayer.blk))
         Utility.typingPrint("\nAttack Dice: " + self.myPlayer.max_attack_str)
+        skillset = "{0}, {1}".format(str(self.myPlayer.skill1['name']), str(self.myPlayer.skill2['name']))
+        Utility.typingPrint('\nSkills: ' + str(skillset))
         Utility.typingPrint("\n\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")
         if "n" in answer_3:
@@ -164,7 +169,7 @@ class Game:
     def doge_convo(self):
         continue_prompt = input("\n\n>>> Hit enter to continue")
         if '' in continue_prompt:
-            Utility.typingPrint('\n' * 4)
+            print('\n' * 100)
             Utility.typingPrint('                         ')
             print("\n##################################################################################")
             print("#                                                               ▄▀▀▀█            #")
@@ -246,7 +251,7 @@ class Game:
 
         continue_prompt = input("\n\n>>> Hit enter to continue")
         if '' in continue_prompt:
-            Utility.typingPrint('                         ')                                                                                            
+            print('\n' * 100)                                                                                            
             print('\n\n\n##################################################################################')
             print('#               ~      ,,                                                        #')               
             print('#              ▓       ╙▄>),                                                     #')               
@@ -304,7 +309,8 @@ class Game:
 
         continue_prompt = input("\n\n>>> Hit enter to continue")
         if '' in continue_prompt:
-            Utility.typingPrint('\n                         ')
+
+            print('\n' * 100)
             print("\n\n\n#################################################################################################")
             print("#                                                                                               #")
             print("#                                  ▄▄▄▄▀▀▀▀▀▀▀▀▀▀█▄▄▄╓                                          #")
@@ -357,40 +363,101 @@ class Game:
         if '' in continue_prompt:
 
             Utility.typingPrint('\n\n"Wow!" says Meelon. "It looks like you can fight... \nLook, he dropped this after you got him."')
-            print('\n\n\n###########################################################################################################################')
-            print("#                                                           ▄▄,,,                                                         #")  
-            print("#                        █444444▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄██╢╢▓╢██▄,,,,,,,,,,                                 ▄▄███▄     #") 
-            print("#                       █▀     ██╢██╢▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓╢███╢▓▓▓▓█▓▓█▓▓▓▓▓▓▓▓▓████████████████████████████████████████▄   #")
-            print("#                     ▄█▀     ▐█╬██████████████████████████████████████████████████████████████████████████████████████   #") 
-            print("#                   ▄█▀       █╢▓█▌                      ,,,▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄█████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀     #") 
-            print("#            ,▄▄▄█▀▀         █╣▓▓█                ▄▀             ,,,,▄▄▄▄▄▄▄▄▄▄Æ▀        ,^▄█                             #")
-            print("#         ▐▀▀ ▌     ╚       ▐█╢╢█▌                 `▀▀▀▀▀`                    ,,,,...⌐∞'▄▄█▀                              #") 
-            print("#         █   '     ▌       ▐█▓██           ,,,,..⌐¬∞∞═══^^''''``    ,,▄▄▄▄▄▄▄▄▄▄▄4▀▀▀▀▀                                  #") 
-            print("#         █,,...⌐⌐¬════^^''''7▀▀`              ,,,▄▄▄▄▄▄▄▄&4▀▀▀▀▀▀▀▀▀▀ `                                                  #") 
-            print("#         █            ,,,▄▄▄▄▄▄▄▄▄████████████▓▀                                                                         #") 
-            print("#        ▐█4▀▀▀▀▀▀▀▀▀▀█▀██▀   ▐█ ╢█▓▓▓▓▓▓▓█▓▓███                                                                          #")
-            print("#        ▐▌           █ ▀█  ,▄█╢ █╢▓▓▓▓▓▓╫█▓▓█╣▌                                                                          #")
-            print("#        ▐▌      ,,, ▐█████████ ▓██▓▓▓▓▓▓█╢▓███                                                                           #")
-            print("#       ,█     ,██▀-'   ▀▀   █ ▓▓▓██████╢▓▓▓█╣▌                                                                           #")
-            print("#      ▄▀     ▄██            █▓▓▓▓▓▓▓▓▓▓▓▓▓▓█╣█                                                                           #")
-            print("#    ╒█      ██▀            ██╢╢╢████████████▀                                                                            #")
-            print("#    █       ██▌                                                                                                          #")
-            print("#   █-       ▐██                                                                                                          #")  
-            print("#  ▐█,      ,▄██                                                                                                          #") 
-            print("#    `▀444████▀                                                                                                           #")
-            print('###########################################################################################################################')  
-            Utility.typingPrint('\n\nThe doge bends down and picks up a weapon off of the ground.')
-            Utility.typingPrint('\nIt appears to be a TOZ-106! You pick it up. It adds (+ 1) to your damage roll.')
-            self.myPlayer.additional_damage += 1
-            Utility.typingPrint('\n\nYou now do ' + str(self.myPlayer.max_attack_str) + " + " + str(self.myPlayer.additional_damage) + ' points of damage.')
-            
-            continue_prompt_2 = input("\n\n>>> Hit enter to continue")
-            if '' in continue_prompt_2:
-                self.woods()
+            get_loot = input('\n\n>>> Hit enter to loot the scav.')
+            if '' in get_loot:
+
+                print('\n\n\n###########################################################################################################################')
+                print("#                                                           ▄▄,,,                                                         #")  
+                print("#                        █444444▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄██╢╢▓╢██▄,,,,,,,,,,                                 ▄▄███▄     #") 
+                print("#                       █▀     ██╢██╢▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓╢███╢▓▓▓▓█▓▓█▓▓▓▓▓▓▓▓▓████████████████████████████████████████▄   #")
+                print("#                     ▄█▀     ▐█╬██████████████████████████████████████████████████████████████████████████████████████   #") 
+                print("#                   ▄█▀       █╢▓█▌                      ,,,▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄            ▄█████▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀     #") 
+                print("#            ,▄▄▄█▀▀         █╣▓▓█                ▄▀             ,,,,▄▄▄▄▄▄▄▄▄▄Æ▀        ,^▄█                             #")
+                print("#         ▐▀▀ ▌     ╚       ▐█╢╢█▌                 `▀▀▀▀▀`                    ,,,,...⌐∞'▄▄█▀                              #") 
+                print("#         █   '     ▌       ▐█▓██           ,,,,..⌐¬∞∞═══^^''''``    ,,▄▄▄▄▄▄▄▄▄▄▄4▀▀▀▀▀                                  #") 
+                print("#         █,,...⌐⌐¬════^^''''7▀▀`              ,,,▄▄▄▄▄▄▄▄&4▀▀▀▀▀▀▀▀▀▀ `                                                  #") 
+                print("#         █            ,,,▄▄▄▄▄▄▄▄▄████████████▓▀                                                                         #") 
+                print("#        ▐█4▀▀▀▀▀▀▀▀▀▀█▀██▀   ▐█ ╢█▓▓▓▓▓▓▓█▓▓███                                                                          #")
+                print("#        ▐▌           █ ▀█  ,▄█╢ █╢▓▓▓▓▓▓╫█▓▓█╣▌                                                                          #")
+                print("#        ▐▌      ,,, ▐█████████ ▓██▓▓▓▓▓▓█╢▓███                                                                           #")
+                print("#       ,█     ,██▀-'   ▀▀   █ ▓▓▓██████╢▓▓▓█╣▌                                                                           #")
+                print("#      ▄▀     ▄██            █▓▓▓▓▓▓▓▓▓▓▓▓▓▓█╣█                                                                           #")
+                print("#    ╒█      ██▀            ██╢╢╢████████████▀                                                                            #")
+                print("#    █       ██▌                                                                                                          #")
+                print("#   █-       ▐██                                                                                                          #")  
+                print("#  ▐█,      ,▄██                                                                                                          #") 
+                print("#    `▀444████▀                                                                                                           #")
+                print('###########################################################################################################################')  
+                Utility.typingPrint('\n\nThe doge bends down and picks up a weapon off of the ground.')
+                Utility.typingPrint('\nIt appears to be a TOZ-106! You pick it up. It adds (+ 1) to your damage roll.')
+                self.myPlayer.additional_damage += 1
+                Utility.typingPrint('\n\nYou now do ' + str(self.myPlayer.max_attack_str) + " + " + str(self.myPlayer.additional_damage) + ' points of damage.')
+                
+                continue_prompt_2 = input("\n\n>>> Hit enter to build camp.")
+                if '' in continue_prompt_2:
+                    self.woods()
 
 
     def woods(self):
+        print('\n' * 100)
+        print('#####################################################################################')                                                                                
+        print('#                                       ▐▄                                          #')
+        print('#                                      ▄▀█                                          #')
+        print('#                                     █▄▀        █▄                                 #')
+        print('#                                      ▀          █▀▄                               #')
+        print('#                                                  ▌ █                              #')
+        print('#                                       ▄▄▌        ▌  ▀█,                           #')
+        print('#                                    ▄▀▀▐▀       ,█     ▀▄                          #')
+        print('#                                  ▄▀  ▄▀      ▄▀¬       ▐▄                         #')
+        print('#                                 █     ▀▀▄▄▄▀▀           ▌                         #')
+        print('#                                ¬▌                      █                          #')
+        print('#                                 █                    ▄▀                           #')
+        print('#                                 █             ,      █                            #')
+        print('#                                █▀      ▄    ▄▀▀       █                           #')
+        print('#                            ,▄▀▀     ,Æ█    ▄ ▐         █                          #')
+        print('#                           █▀      ,▀   ▀∞∞▀   ▀▄       ▐▌                         #')
+        print('#                           ▌       ▌             ▀▄      █                         #')
+        print('#                          ,▌       ▌               ▄     ▐▌                        #')
+        print('#                         █▀      ▄,▄              ▄▀     ▐▌                        #')
+        print('#                          ▀▄      N             ▄▀      ▄▀      ▄██▄               #')
+        print('#                             ▀▀▄    ▀▄        ,▀     ,█▀     ▄▄███ ▀█              #')
+        print('#                          ,,,▄▄▄████▄ ▀     ,▀    ▄█▀▄▄▄███▀▀▀¢██   █▌             #')
+        print('#          ██▀██████████▀▀█▀▀▀▀ÅΣΣÅ▒▒Å▀████████████▀▀▀▀▀╟▒▒▒▒▒▒▄█ █ ▐█              #')
+        print('#        ▄█▀▀█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▄█▀▀%▒▒▒▒▒██▒▒▒█Ñ▒▒▒▒▒▒▒▒▒▒▒⌠▀▀▀████  ▌ ▀█              #')
+        print('#      ,█▀ █▄▀██▀▀▀▀▀▀▀▒▒▒▒▒▒▒▒▒▄██▀▀██¢▒▒▒▐█▒▒▒▀▀▀▀▀▀▀▒▒▒▒▒▒▒█▌ █ ╓▄▀█▄            #')
+        print('#     ╒█  ▄⌐██ ▀█▌▒▒▒▄▄██▀▀▒▒▒▒▒░▒▄███▀▒▒▒▒▒████████▀▀▀██▄▄▒▒▒██ ▀▄ █  █            #')
+        print('#     █ ▄█▀ ██ ▄██▀▀▀≡▒▒▒▒▒██▌▒▄██▀██▒▒█▒▒▒█▒█▌    ▀▀█▀▀████▀▀▀██  █ ▄█`            #')
+        print('#     ▀▌ ▄█▀ ▄█▀▒▒▒▄█▀▀▒▒▄▀▒▄█▀▀  ██▒▄█▒▒▒▒█▒██           -▀▀████ ,█▀▀              #')
+        print('#      ▀█  ▄█▀▒█▀▀▄▄████▀████    █▀▒█▀▒▒▒▄▌▀▒▒█                ▀▀▀▀                 #')
+        print('#       ╙███▄███▀▀▀¬      -    ▄█▀▒████▀██▌▒▒▒█                                     #')
+        print('#          -                  ██▀▀▀▀▄▄▄   ▀██▐█                                     #')
+        print('#                            █▀ ▄▄▄▀▀  ▀▀0▄ ▀██                                     #')
+        print('#                           █▌█▀    █▀  ,  ▀▌ █▌                                    #')
+        print('#                          █▀ ▌  █▀▀██▀▄█▀  ███                                     #')
+        print('#                          ╙▀█▀  █⌐ ▀▀█▀ ▀████                                      #')
+        print('#                             ▀█▄  ,▄███▀▀-                                         #')
+        print('#                               ▀▀▀▀                                                #')
+        print('#####################################################################################')
+        regen = randint(2, 4)
+        Utility.typingPrint('\n\nYou both settle in for some rest. You regain {0} hit points back.'.format(str(regen)))
+        self.myPlayer.hp += regen
         Utility.typingPrint('\nDaylight creeps over the hills and treetops. The two of you gather your gear and start towards the Woods.')
         Utility.typingPrint('\nAs you walk Meelon continues explaining about Shturman.')
         Utility.typingPrint('\n\n"Shturman is said to be in possession of the mighty Kappa container...\nIt has the ability to hold a vast amount of items in a very small space."')
         Utility.typingPrint('\n\n"If we could aquire the Kappa container AND remove Shturman\'s evil hold \non the Woods, I\'m sure that the King would be most grateful."')
+        Utility.typingPrint('\n\n"Listen, {0}, we should head East. \nThat\'s where Shturman was last spotted... or so I\'ve heard..."'.format(self.myPlayer.name))
+        Utility.typingPrint('\n\n\nThe two of you head East to see if you can find any traces of Shturman. \nAs you try to locate any clues you hear the sound of twigs snapping\nand the unmistakable smell of sweat!')
+        continue_prompt = input("\n\n>>> Hit enter to continue")
+        if '' in continue_prompt:
+            self.steven_fight()
+
+    def steven_fight(self):
+        print('\n' * 100)
+        Utility.typingPrint('\nA wild Sweaty Steven appears!')
+        result = Utility.initiative()
+        if result:
+            Utility.player_combat_prompt(self.myPlayer, self.steven)
+        else:
+            Steven.attack(self.steven, self.myPlayer)
+        
+
