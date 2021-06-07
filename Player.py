@@ -154,47 +154,47 @@ class AttackSkills:
     icewall = {
         'name': 'Ice Wall',
         'des': str("\nA solid sheet of ice emerges from your fingertips!"),
-        'damage': Dice.d_8(),
-        'damagedice': "1d8",
+        'damage': Dice.d_8() + Dice.d_4(),
+        'damagedice': "1d8 + 1d4",
         'mpcost': 4
     }
 
     shieldbash = {
         'name': 'Sheild Bash',
         'des': str("\nYou throw your weight behind your sheild into the enemy!"),
-        'damage': Dice.d_6(),
-        'damagedice': "1d6",
-        'mpcost': 2
+        'damage': Dice.d_6() + Dice.d_6(),
+        'damagedice': "2d6",
+        'mpcost': 3
     }
 
     whirlwind = {
         'name': 'Whirlwind',
         'des': str("\nYou take your weapon and unleash a fury of attacks!"),
-        'damage': Dice.d_8(),
-        'damagedice': "1d8",
+        'damage': Dice.d_8() + Dice.d_8(),
+        'damagedice': "2d8",
         'mpcost': 4
     }
 
     kick = {
         'name': 'Powerful Kick',
         'des': str('\nYou kick the enemy with all of your power!'),
-        'damage': Dice.d_6(),
-        'damagedice': "1d6",
+        'damage': Dice.d_6() + Dice.d_4(),
+        'damagedice': "1d6 + 1d4",
         'mpcost': 3
     }
 
     backstab = {
         'name': 'Back Stab',
         'des': str("\nYou glide behind the enemy and attack from the rear!"),
-        'damage': Dice.d_6(),
-        'damagedice': "1d6",
+        'damage': Dice.d_6() + 2,
+        'damagedice': "1d6 + 2",
         'mpcost': 2
     }
 
     overhead = {
         'name': 'Overhead Swing',
         'des': str('\nYou swing your weapon downward with both hands as hard as you can!'),
-        'damage': Dice.d_8(),
+        'damage': Dice.d_8() + Dice.d_4(),
         'damagedice': "1d8",
         'mpcost': 5
     }
