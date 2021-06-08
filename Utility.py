@@ -33,7 +33,7 @@ class Utility:
     Utility.typingPrint("\n(Y)es or (N)o")
     answer = input("\n>>> ")
     if "y" in answer.lower():
-      self.main_menu()
+      Game.main_menu()
     elif "n" in answer.lower():
       quit()
     else:
