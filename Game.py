@@ -1,10 +1,10 @@
 import typing
 from Dice import *
-from Player import *
 from Enemy import Nick
 from Enemy import Steven
-from Utility import Utility
+from Utility import *
 from random import *
+from Player import *
 
 class Game:
 

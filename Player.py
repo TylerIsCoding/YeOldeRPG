@@ -6,11 +6,48 @@ from Enemy import *
 
 class Player:
 
-
     additional_damage = 0
+    
     def __init__(self, name):
         self.name = name
 
+    def attack(player, enemy):
+        damage = (player.atk + Player.additional_damage) - enemy.blk if (player.atk + Player.additional_damage) - enemy.blk > 0 else 0
+        enemy.hp -= damage
+        Utility.typingPrint(f'\nYou rolled a {player.atk} on your damage dice and {enemy.name} blocked {enemy.blk} of it. \
+            You have dealt {damage} points of damage. The enemy has {enemy.hp} hit points remaining.')
+
+    def skill1(player, enemy):
+        if player.skill1 in AttackSkill:
+            Utility.typingPrint(f"\n{player.skill1['effectdes']}")
+            damage = player.skill1['effect'](player, enemy)
+            enemy.hp -= damage
+            player.mp -= player.skill1['mpcost']
+        elif player.skill1 in BuffSkill:
+            Utility.typingPrint(f"\n{player.skill1['effectdes']}")
+            player.skill1['effect'](player)
+            player.mp -= player.skill1['mpcost']
+        elif player.skill1 in RecoverySkill:
+            Utility.typingPrint(f"\n{player.skill1['effectdes']}")
+            player.skill1['effect'](player)
+            player.mp -= player.skill1['mpcost']
+
+    def skill2(player, enemy):
+        if player.skill2 in AttackSkill:
+            Utility.typingPrint(f"\n{player.skill1['effectdes']}")
+            damage = player.skill2['effect'](player, enemy)
+            enemy.hp -= damage
+            player.mp -= player.skill2['mpcost']
+        elif player.skill2 in BuffSkill:
+            Utility.typingPrint(f"\n{player.skill2['effectdes']}")
+            player.skill2['effect'](player)
+            player.mp -= player.skill2['mpcost']
+        elif player.skill2 in RecoverySkill:
+            Utility.typingPrint(f"\n{player.skill2['effectdes']}")
+            player.skill2['effect'](player)
+            player.mp -= player.skill2['mpcost']
+    
+    
 
 class Mage(Player):
 
@@ -22,8 +59,10 @@ class Mage(Player):
         self.hp = Dice.d_6()
         self.mp = Dice.d_10()
         self.blk = Dice.d_4()
-        self.skill1 = AttackSkills.fireball
-        self.skill2 = AttackSkills.icewall
+        self.atk = Dice.d_6()
+        self.additional_damage = 0
+        self.skill1 = AttackSkill.shield_bash
+        self.skill2 = AttackSkill.shield_bash
         total_skill_points = (self.hp + self.mp + self.blk)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_6()
@@ -31,18 +70,6 @@ class Mage(Player):
             self.blk = Dice.d_4()
             total_skill_points = (self.hp + self.mp + self.blk)
     
-    def attack(self, enemy):
-
-        atk = Dice.d_6() + self.additional_damage
-        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
-        enemy.hp -= final_attack
-        if enemy.hp > 0:
-            Utility.typingPrint("\nYou dealt " + str(final_attack) + " points of damage to " + str(enemy.name))
-            Utility.typingPrint("\n" + str(enemy.name) + " has " + str(enemy.hp) + " hit points remaining.")
-            enemy.attack(self)
-        elif enemy.hp <= 0:
-            Utility.typingPrint("\nYou did a devastating " + str(final_attack) + " points of damage! " + str(enemy.name) + " has been slain!")
-
 
 class Warrior(Player):
 
@@ -54,26 +81,16 @@ class Warrior(Player):
         self.hp = Dice.d_20()
         self.mp = Dice.d_6()
         self.blk = Dice.d_8()
-        self.skill1 = AttackSkills.shieldbash
-        self.skill2 = AttackSkills.whirlwind
+        self.atk = Dice.d_12()
+        self.additional_damage = 0
+        self.skill1 = AttackSkill.overhead_slash
+        self.skill2 = AttackSkill.shield_bash
         total_skill_points = (self.hp + self.mp + self.blk)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_20()
             self.mp = Dice.d_6()
             self.blk = Dice.d_8()
             total_skill_points = (self.hp + self.mp + self.blk)
-
-    def attack(self, enemy):
-
-        atk = Dice.d_12() + self.additional_damage
-        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
-        enemy.hp -= final_attack
-        if enemy.hp > 0:
-            Utility.typingPrint("\nYou dealt " + str(final_attack) + " points of damage to " + str(enemy.name) + '.')
-            Utility.typingPrint("\n" + str(enemy.name) + " has " + str(enemy.hp) + " hit points remaining.")
-            enemy.attack(self)
-        elif enemy.hp <= 0:
-            Utility.typingPrint("\nYou did a devastating " + str(final_attack) + " points of damage! " + str(enemy.name) + " has been slain!")
 
 
 class Rogue(Player):
@@ -86,27 +103,16 @@ class Rogue(Player):
         self.hp = Dice.d_8()
         self.mp = Dice.d_8()
         self.blk = Dice.d_10()
-        self.skill1 = AttackSkills.backstab
-        self.skill2 = AttackSkills.kick
+        self.atk = Dice.d_6()
+        self.additional_damage = 0
+        self.skill1 = AttackSkill.shield_bash
+        self.skill2 = AttackSkill.shield_bash
         total_skill_points = (self.hp + self.mp + self.blk)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_8()
             self.mp = Dice.d_8()
             self.blk = Dice.d_10()
             total_skill_points = (self.hp + self.mp + self.blk)
-
-    def attack(self, enemy):
-
-        atk = Dice.d_6() + self.additional_damage
-        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
-        enemy.hp -= final_attack
-        if enemy.hp > 0:
-            Utility.typingPrint("\nYou dealt " + str(final_attack) + " points of damage to " + str(enemy.name) + '.')
-            Utility.typingPrint("\n" + str(enemy.name) + " has " + str(enemy.hp) + " hit points remaining.")
-            enemy.attack(self)
-        elif enemy.hp <= 0:
-            Utility.typingPrint("\nYou did " + str(final_attack) + " points of damage. " + str(enemy.name) + " has been slain!")
-
 
 class Barb(Player):
 
@@ -118,8 +124,10 @@ class Barb(Player):
         self.hp = Dice.d_12()
         self.mp = Dice.d_6()
         self.blk = Dice.d_6()
-        self.skill1 = AttackSkills.overhead
-        self.skill2 = AttackSkills.kick
+        self.atk = Dice.d_8()
+        self.additional_damage = 0
+        self.skill1 = AttackSkill.shield_bash
+        self.skill2 = AttackSkill.shield_bash
         total_skill_points = (self.hp + self.mp + self.blk)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_12()
@@ -127,105 +135,62 @@ class Barb(Player):
             self.blk = Dice.d_6()
             total_skill_points = (self.hp + self.mp + self.blk)
 
-    def attack(self, enemy):
 
-        atk = Dice.d_8() + self.additional_damage
-        final_attack = atk - enemy.blk if (atk - enemy.blk) >= 0 else 0
-        enemy.hp -= final_attack
-        if enemy.hp > 0:
-            Utility.typingPrint("\nYou dealt " + str(final_attack) + " points of damage to " + str(enemy.name) + '.')
-            Utility.typingPrint('\n' + str(enemy.name) + " has " + str(enemy.hp) + " hit points remaining.")
-            enemy.attack(self)
-        elif enemy.hp <= 0:
-            Utility.typingPrint("\nYou did a devastating " + str(final_attack) + " points of damage! " + str(enemy.name) + " has been slain!")
-        
-    
+class AttackSkill:
 
-class AttackSkills:
+    def slash_damage(player, enemy):
+        damage = (Dice.d_6() + player.additional_damage) - enemy.blk if (Dice.d_6() + player.additional_damage) - enemy.blk < 0 else 0
+        enemy.hp -= damage
+        Utility.typingPrint(f'\nYou dealt {damage} points of slash damage to {enemy.name}.')
+        Utility.typingPrint(f'\n{enemy.name} has {enemy.hp} hit points remaining.')
 
-    fireball = {
-        'name': 'Fireball',
-        'des': str("\nYou unleash a mighty fireball!"),
-        'damage': Dice.d_10(),
-        'damagedice': "1d10",
-        'mpcost': 5
-    }
+    def fire_damage(player, enemy):
+        damage = (Dice.d_8() + player.additional_damage) - enemy.blk if (Dice.d_6() + player.additional_damage) - enemy.blk < 0 else 0
+        enemy.hp -= damage
+        Utility.typingPrint(f'\nYou dealt {damage} points of fire damage to {enemy.name}.')
+        Utility.typingPrint(f'\n{enemy.name} has {enemy.hp} hit points remaining.')
 
-    icewall = {
-        'name': 'Ice Wall',
-        'des': str("\nA solid sheet of ice emerges from your fingertips!"),
-        'damage': Dice.d_8() + Dice.d_4(),
-        'damagedice': "1d8 + 1d4",
-        'mpcost': 4
-    }
+    def crushing_damage(player, enemy):
+        damage = (Dice.d_6() + player.additional_damage) - enemy.blk if (Dice.d_6() + player.additional_damage) - enemy.blk < 0 else 0
+        enemy.hp -= damage
+        Utility.typingPrint(f'\nYou dealt {damage} points of crushing damage to {enemy.name}.')
+        Utility.typingPrint(f'\n{enemy.name} has {enemy.hp} hit points remaining.')
 
-    shieldbash = {
-        'name': 'Sheild Bash',
-        'des': str("\nYou throw your weight behind your sheild into the enemy!"),
-        'damage': Dice.d_6() + Dice.d_6(),
-        'damagedice': "2d6",
-        'mpcost': 3
-    }
-
-    whirlwind = {
-        'name': 'Whirlwind',
-        'des': str("\nYou take your weapon and unleash a fury of attacks!"),
-        'damage': Dice.d_8() + Dice.d_8(),
-        'damagedice': "2d8",
-        'mpcost': 4
-    }
-
-    kick = {
-        'name': 'Powerful Kick',
-        'des': str('\nYou kick the enemy with all of your power!'),
-        'damage': Dice.d_6() + Dice.d_4(),
-        'damagedice': "1d6 + 1d4",
-        'mpcost': 3
-    }
-
-    backstab = {
-        'name': 'Back Stab',
-        'des': str("\nYou glide behind the enemy and attack from the rear!"),
-        'damage': Dice.d_6() + 2,
-        'damagedice': "1d6 + 2",
-        'mpcost': 2
-    }
-
-    overhead = {
-        'name': 'Overhead Swing',
-        'des': str('\nYou swing your weapon downward with both hands as hard as you can!'),
-        'damage': Dice.d_8() + Dice.d_4(),
-        'damagedice': "1d8",
-        'mpcost': 5
-    }
-
-class PassiveSkills:
-
-    shadows = {
-        'name': "Hide in Shadows",
-        'des': str("\nYou attempt to hide in the shadows."),
+    overhead_slash = {
+        'name': "Overhead Slash",
         'mpcost': 4,
-        'effectdice': Dice.d_4(),
-        'effectdes': ("\nYour defense raises by {0} for this turn!".format('effectdice')),
-        'effect': ' '#This needs to player.blk += the effect dice... 
+        'effect': slash_damage,
+        'skilldes': "\nA powerful overhead slash. Does 1d6 damage.",
+        'effectdes': "\nYou swing your weapon from overhead!"
+    }
+    
+    shield_bash = {
+        'name': "Shield Bash",
+        'mpcost': 4,
+        'effect': crushing_damage,
+        'skilldes': "\nAttacks with the player's shield. Does 1d6 damage.",
+        'effectdes': f"\nYou throw the weight of your shield into the enemy!"
     }
 
-class BuffSkills:
+class BuffSkill:
 
-    minorhealing = {
-        'name': "Minor Healing",
-        'des': str('\nYou attempt to heal yourself of minor wounds.'),
-        'mpcost': 6,
-        'effectdice': Dice.d_4(),
-        'effectdes': ("\nYou heal yourself for {0} hit points!".format('effectdice')),
-        'effect': ' '#This needs to player.hp += the effect dice...
-    }
+    def raise_blk(player):
+        effect = Dice.d_4()
+        player.blk += effect
 
-    majorhealing = {
-        'name': "Major Healing",
-        'des': str('\nYou attempt to heal yourself of major wounds.'),
-        'mpcost': 8,
-        'effectdice': Dice.d_6(),
-        'effectdes': ("\nYou heal yourself for {0} hit points!".format('effectdice')),
-        'effect': ' '#This needs to player.hp += the effect dice...
-    }
+class RecoverySkill:
+
+    def mp_recovery(player):
+        recovery = Dice.d_4()
+        player.mp += recovery
+        Utility.typingPrint(f'\nYou recovered {recovery} MP this turn.')
+    
+    def minor_hp_recovery(player):
+        recovery = Dice.d_4()
+        player.hp += recovery
+        Utility.typingPrint(f'\nYou recovered {recovery} HP this turn.')
+    
+    def major_hp_recovery(player):
+        recovery = Dice.d_6()
+        player.hp += recovery
+        Utility.typingPrint(f'\nYou recovered {recovery} HP this turn.')

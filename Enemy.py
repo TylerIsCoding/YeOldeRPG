@@ -1,7 +1,7 @@
 from Dice import *
 from Game import *
 from Player import *
-from Utility import *
+import Utility
 import random
 
 ### Enemy Setup ###
@@ -147,6 +147,6 @@ class Skills:
     sweat = {
         'name': 'Get Sweaty',
         'des': str('\n sweats all over you!'),
-        'damage': Dice.d_6, #Temporarily just doing damage
+        'damage': Dice.d_6(), #Temporarily just doing damage
         'mpcost': 4
     }

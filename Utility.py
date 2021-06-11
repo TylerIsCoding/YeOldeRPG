@@ -1,4 +1,4 @@
-import time,os,sys
+import time, sys
 from Dice import *
 from Player import *
 from Game import *
@@ -51,57 +51,27 @@ class Utility:
     Utility.fastTypingPrint("\nSkills: " + str(skillset))
     answer = input('\n>>> ')
     if 'a' in answer.lower():
-      mprecovery = randint(1, 2)
-      player.mp += mprecovery
-      Utility.typingPrint('\nYou recovered {0} MP this turn.'.format(mprecovery))
-      player.attack(enemy)
+      Player.attack(player, enemy)
     elif 's' in answer.lower():
       Utility.typingPrint('\nDo you want to use (1) {0} or (2) {1}?'.format(player.skill1['name'], player.skill2['name']))
       Utility.fastTypingPrint('\n\nSkill: %s' % player.skill1['name'])
       Utility.fastTypingPrint('\nMana Cost: %s' % player.skill1['mpcost'])
-      Utility.fastTypingPrint('\nDamage: %s' % player.skill1['damagedice'])
+      Utility.fastTypingPrint('\nEffect: %s' % player.skill1['skilldes'])
       Utility.fastTypingPrint('\n\nSkill: %s' % player.skill2['name'])
       Utility.fastTypingPrint('\nMana Cost: %s' % player.skill2['mpcost'])
-      Utility.fastTypingPrint('\nDamage: %s' % player.skill2['damagedice'])
+      Utility.fastTypingPrint('\nEffect: %s' % player.skill2['skilldes'])
       answer = input("\n\n>>> ")
-      if str(1) in answer.lower():
-        if player.mp >= player.skill1['mpcost']:
-          damage = (player.skill1['damage'] - enemy.blk) if (player.skill1['damage'] - enemy.blk) >= 0 else 0
-          Utility.typingPrint('\n\n{0}'.format(player.skill1['des']))
-          Utility.typingPrint('\nYou use {0} on {1} for {2} damage!'.format(player.skill1['name'], enemy.name, damage))
-          player.mp -= player.skill1['mpcost']
-          enemy.hp -= damage
-          mprecovery = randint(1, 2)
-          player.mp += mprecovery
-          Utility.typingPrint('\nYou recovered {0} MP this turn.'.format(mprecovery))
-          if enemy.hp > 0:
-            Utility.typingPrint('\n\n{0} has {1} hit points remaining.'.format(enemy.name, enemy.hp))
-            enemy.attack(player)
-          elif enemy.hp <= 0:
-            Utility.typingPrint('\n{0} has been killed!'.format(enemy.name))
-        elif player.mp < player.skill1['mpcost']:
-          Utility.typingPrint('\nYou do not have enough mana. You only have {0} MP remaining.'.format(player.mp))
-          Utility.player_combat_prompt(player, enemy)
-      elif str(2) in answer.lower():
-        if player.mp >= player.skill2['mpcost']:
-          damage = (player.skill2['damage'] - enemy.blk) if (player.skill2['damage'] - enemy.blk) >= 0 else 0
-          Utility.typingPrint('\n\n{0}'.format(player.skill2['des']))
-          Utility.typingPrint('\nYou use {0} on {1} for {2} damage!'.format(player.skill2['name'], enemy.name, damage))
-          player.mp -= player.skill2['mpcost']
-          enemy.hp -= damage
-          mprecovery = randint(1, 2)
-          player.mp += mprecovery
-          Utility.typingPrint('\nYou recovered {0} MP this turn.'.format(mprecovery))
-          if enemy.hp > 0:
-            Utility.typingPrint('\n\n{0} has {1} hit points remaining.'.format(enemy.name, enemy.hp))
-            enemy.attack(player)
-          elif enemy.hp <= 0:
-            Utility.typingPrint('\n{0} has been killed!'.format(enemy.name))
-        elif player.mp < player.skill2['mpcost']:
-          Utility.typingPrint('\nYou do not have enough mana. You only have {0} MP remaining.'.format(player.mp))
-          Utility.player_combat_prompt(player, enemy)
-      else:
-        Utility.player_combat_prompt(player, enemy)
+      if str(1) in answer:
+        Player.skill1(player, enemy)
+      elif str(2) in answer:
+        Player.skill2(player, enemy)
+    else:
+      Utility.player_combat_prompt(player, enemy)
+
+  def player_killed(player):
+    if player.hp < 0:
+      Utility.typingPrint('\nYou have been killed!')
+      Utility.gameOver()
 
 
 
