@@ -34,3 +34,13 @@ class Dice:
         result = random.randint(1, 4)
         return result
 
+    @staticmethod
+    def d_2():
+        result = random.randint(1, 2)
+        return result
+
+    @staticmethod
+    def d_0():
+        result = random.randint(0, 0)
+        return result
+

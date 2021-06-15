@@ -1,10 +1,9 @@
-import typing
 from Dice import *
 from Enemy import Nick
 from Enemy import Steven
-from Utility import *
 from random import *
 from Player import *
+from Utility import *
 
 class Game:
 
@@ -355,7 +354,7 @@ class Game:
             if result:
                 Utility.player_combat_prompt(self.myPlayer, self.nick)
             else:
-                Nick.attack(self.nick, self.myPlayer)
+                Utility.enemy_attack(self.nick, self.myPlayer)
             self.post_nick_fight()
             
     def post_nick_fight(self):
@@ -458,6 +457,6 @@ class Game:
         if result:
             Utility.player_combat_prompt(self.myPlayer, self.steven)
         else:
-            Steven.attack(self.steven, self.myPlayer)
+            Utility.enemy_attack(self.steven, self.myPlayer)
         
 
