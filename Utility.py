@@ -4,24 +4,47 @@ from Game import *
 from random import *
 from Player import *
 
-class Utility:
+class TextSpeed:
 
   @staticmethod
-  def typingPrint(text):
+  def normal(text):
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
       time.sleep(0.04)
 
   @staticmethod
-  def fastTypingPrint(text):
+  def fast(text):
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
       time.sleep(0.0000000000000000000000000000000001)
 
   @staticmethod
-  def slowTypingPrint(text):
+  def slow(text):
+    for character in text:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(1)
+
+class Utility:
+  
+  @staticmethod
+  def normal(text):
+    for character in text:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(0.04)
+
+  @staticmethod
+  def fast(text):
+    for character in text:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(0.0000000000000000000000000000000001)
+
+  @staticmethod
+  def slow(text):
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()

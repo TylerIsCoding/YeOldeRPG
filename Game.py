@@ -19,17 +19,43 @@ class Game:
         Utility.typingPrint("\nWelcome to Ye Olde Text RPG!")
         Utility.typingPrint("\n############################")
         Utility.typingPrint("\n       --(P)lay--")
+        Utility.typingPrint("\n      --(O)ptions--")
         Utility.typingPrint("\n       --(Q)uit--")
         print('\n' * 10)
         main_menu_selection = input("\n>>> ")
         if "p" in main_menu_selection.lower():
             self.player_setup()
+        elif "o" in main_menu_selection.lower():
+            self.options()
         elif "q" in main_menu_selection.lower():
             quit()
         else:
             print("\n" * 100)
             Utility.typingPrint("\nYou must select Play or Quit.\n")
             self.main_menu()
+    
+    def options(self):
+
+        Utility.typingPrint("\n############################")
+        Utility.typingPrint("\n#         Options          #")
+        Utility.typingPrint("\n############################")
+        Utility.typingPrint("\n       --Text Speed--")
+        Utility.typingPrint("\n         1.) Normal")
+        Utility.typingPrint("\n         2.) Fast")
+        Utility.typingPrint("\n         3.) Instant")
+        Utility.typingPrint("\n          (R)eturn")
+        answer = input('\n\n>>> ')
+        if str(1) in answer:
+            self.main_menu()
+        elif str(2) in answer:
+            self.main_menu()
+        elif str(3) in answer:
+            self.main_menu()
+        elif "r" in answer.lower():
+            self.main_menu()
+        else:
+            Utility.typingPrint('\nYou need to make a valid selection.')
+            self.options()
 
 
     def player_setup(self):
