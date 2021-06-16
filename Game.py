@@ -47,8 +47,8 @@ class Game:
         elif "b" in answer_2.lower():
             self.myPlayer = Barb(player_name)
         else:
-            self.player_setup()
-        while self.confirmation():
+            self.skillselection1()
+        while self.skillselection1():
             if "w" in answer_2.lower():
                 self.myPlayer = Warrior(player_name)
             elif "m" in answer_2.lower():
@@ -60,17 +60,140 @@ class Game:
             else:
                 break
 
+    def skillselection1(self):
+
+            Utility.typingPrint('\n\nYou now must choose two skills.')
+            Utility.typingPrint('\n\nFor your first skill, do you want an (A)ttack Skill, a (B)uff Skill, or a (R)estorative Skill?')
+            answer = input('\n\n>>>')
+            if "a" in answer.lower():
+                Utility.typingPrint('\n\nHere are the available Attack Skills:')
+                Utility.fastTypingPrint('\n#####################################')
+                if self.myPlayer.role == "Warrior":
+                    for key, value in AttackSkill.warrior_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill1 = AttackSkill.warrior_attack_skill_list[int(answer1)]
+                    self.skillselection2()
+                elif self.myPlayer.role == "Mage":
+                    for key, value in AttackSkill.mage_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill1 = AttackSkill.mage_attack_skill_list[int(answer1)]
+                    self.skillselection2()
+                elif self.myPlayer.role == "Rogue":
+                    for key, value in AttackSkill.rogue_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill1 = AttackSkill.rogue_attack_skill_list[int(answer1)]
+                    self.skillselection2()
+                elif self.myPlayer.role == "Barbarian":
+                    for key, value in AttackSkill.barb_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill1 = AttackSkill.barb_attack_skill_list[int(answer1)]
+                    self.skillselection2()
+            elif "b" in answer.lower():
+                Utility.typingPrint('\n\nHere are the available Buff Skills:')
+                for key, value in BuffSkill.buff_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                answer1 = input('\n>>> ')
+                self.myPlayer.skill1 = BuffSkill.buff_skill_list[int(answer1)]
+                self.skillselection2()
+            elif "r" in answer.lower():
+                Utility.typingPrint('\n\nHere are the available Restorative Skills:')
+                for key, value in RecoverySkill.recovery_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                answer1 = input('\n>>> ')
+                self.myPlayer.skill1 = RecoverySkill.recovery_list[int(answer1)]
+                self.skillselection2()
+            else:
+                self.skillselection1()
+
+    def skillselection2(self):
+
+            Utility.typingPrint('\n\nYou now must choose the second skill.')
+            Utility.typingPrint('\n\nFor your second skill, do you want an (A)ttack Skill, a (B)uff Skill, or a (R)estorative Skill?')
+            answer = input('\n\n>>>')
+            if "a" in answer.lower():
+                Utility.typingPrint('\n\nHere are the available Attack Skills:')
+                Utility.fastTypingPrint('\n#####################################')
+                if self.myPlayer.role == "Warrior":
+                    for key, value in AttackSkill.warrior_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill2 = AttackSkill.warrior_attack_skill_list[int(answer1)]
+                    if self.myPlayer.skill1 == self.myPlayer.skill2:
+                        Utility.typingPrint('\n\nThe second skill cannot be the same as the first. Try again.')
+                        self.skillselection2()
+                    else:
+                        self.confirmation()
+                elif self.myPlayer.role == "Mage":
+                    for key, value in AttackSkill.mage_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill2 = AttackSkill.mage_attack_skill_list[int(answer1)]
+                    if self.myPlayer.skill1 == self.myPlayer.skill2:
+                        Utility.typingPrint('\n\nThe second skill cannot be the same as the first. Try again.')
+                        self.skillselection2()
+                    else:
+                        self.confirmation()
+                elif self.myPlayer.role == "Rogue":
+                    for key, value in AttackSkill.rogue_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill2 = AttackSkill.rogue_attack_skill_list[int(answer1)]
+                    if self.myPlayer.skill1 == self.myPlayer.skill2:
+                        Utility.typingPrint('\n\nThe second skill cannot be the same as the first. Try again.')
+                        self.skillselection2()
+                    else:
+                        self.confirmation()
+                elif self.myPlayer.role == "Barbarian":
+                    for key, value in AttackSkill.barb_attack_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                    answer1 = input('\n>>> ')
+                    self.myPlayer.skill2 = AttackSkill.barb_attack_skill_list[int(answer1)]
+                    if self.myPlayer.skill1 == self.myPlayer.skill2:
+                        Utility.typingPrint('\n\nThe second skill cannot be the same as the first. Try again.')
+                        self.skillselection2()
+                    else:
+                        self.confirmation()
+            elif "b" in answer.lower():
+                Utility.typingPrint('\n\nHere are the available Buff Skills:')
+                for key, value in BuffSkill.buff_skill_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                answer1 = input('\n>>> ')
+                self.myPlayer.skill2 = BuffSkill.buff_skill_list[int(answer1)]
+                if self.myPlayer.skill1 == self.myPlayer.skill2:
+                    Utility.typingPrint('\n\nThe second skill cannot be the same as the first. Try again.')
+                    self.skillselection2()
+                else:
+                    self.confirmation()
+            elif "r" in answer.lower():
+                Utility.typingPrint('\n\nHere are the available Restorative Skills:')
+                for key, value in RecoverySkill.recovery_list.items():
+                        Utility.fastTypingPrint(f"\n{str(key)}.) {value['name']}")
+                answer1 = input('\n>>> ')
+                self.myPlayer.skill2 = RecoverySkill.recovery_list[int(answer1)]
+                if self.myPlayer.skill1 == self.myPlayer.skill2:
+                    Utility.typingPrint('\n\nThe second skill cannot be the same as the first. Try again.')
+                    self.skillselection2()
+                else:
+                    self.confirmation()
+            else:
+                self.skillselection2()
+    
+
 
     def confirmation(self):
 
-        Utility.typingPrint("\n   " + self.myPlayer.name + " the " + self.myPlayer.role)
+        Utility.typingPrint(f"\n   {self.myPlayer.name} the {self.myPlayer.role}")
         Utility.typingPrint("\n########################")
-        Utility.typingPrint("\nHit Points: " + str(self.myPlayer.hp))
-        Utility.typingPrint("\nMana Points: " + str(self.myPlayer.mp))
-        Utility.typingPrint("\nDefence: " + str(self.myPlayer.blk))
-        Utility.typingPrint("\nAttack Dice: " + self.myPlayer.max_attack_str)
+        Utility.typingPrint(f"\nHit Points: {self.myPlayer.hp}")
+        Utility.typingPrint(f"\nMana Points: {self.myPlayer.mp}")
+        Utility.typingPrint(f"\nDefence: {self.myPlayer.defense}")
+        Utility.typingPrint(f"\nAttack Dice: {self.myPlayer.max_attack_str}")
         skillset = "{0}, {1}".format(str(self.myPlayer.skill1['name']), str(self.myPlayer.skill2['name']))
-        Utility.typingPrint('\nSkills: ' + str(skillset))
+        Utility.typingPrint(f'\nSkills: {str(skillset)}')
         Utility.typingPrint("\n\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")
         if "n" in answer_3:

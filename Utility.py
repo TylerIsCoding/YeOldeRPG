@@ -28,7 +28,7 @@ class Utility:
       time.sleep(1)
 
   @staticmethod
-  def gameOver(self):
+  def gameOver():
     Utility.typingPrint("\nGame over! Would you like to try again?")
     Utility.typingPrint("\n(Y)es or (N)o")
     answer = input("\n>>> ")
@@ -37,10 +37,9 @@ class Utility:
     elif "n" in answer.lower():
       quit()
     else:
-      self.gameOver()
+      Utility.gameOver()
 
   def player_combat_prompt(player, enemy):
-
     Utility.typingPrint("\n\nDo you (A)ttack or do you use a (S)kill?")
     Utility.fastTypingPrint("\n########################################")
     Utility.fastTypingPrint("\n\nYou have:")
@@ -80,13 +79,15 @@ class Utility:
 
   def attack(player, enemy):
     Utility.typingPrint('\n\nYou have chosen to attack!')
-    damage = (player.atk + player.additional_damage) - enemy.blk if (player.atk + player.additional_damage) - enemy.blk > 0 else 0
+    attack = player.atk()
+    enemyblock = enemy.blk()
+    damage = (attack + player.additional_damage) - enemyblock if (attack + player.additional_damage) - enemyblock > 0 else 0
     enemy.hp -= damage
-    Utility.typingPrint(f"\n\nYou rolled a {player.atk} on your damage dice and {enemy.name} blocked {enemy.blk} of it.\
+    Utility.typingPrint(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {enemyblock} of it.\
     \nYou have dealt {damage} points of damage. The enemy has {enemy.hp} hit points remaining.") if enemy.hp > 0 else 0
     if enemy.hp <= 0:
-      Utility.typingPrint(f"\n\nYou rolled a {player.atk} on your damage dice and {enemy.name} blocked {enemy.blk} of it.\
-      \nYou have dealt {damage} points of damage. The enemy has {enemy.hp} hit points remaining.") if enemy.hp > 0 else 0
+      Utility.typingPrint(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {enemyblock} of it.\
+      \nYou have dealt {damage} points of damage. The enemy has 0 hit points remaining.")
       RecoverySkill.mp_recovery(player)
       Utility.enemy_killed(enemy)
     elif enemy.hp > 0:
@@ -100,29 +101,30 @@ class Utility:
       SkillUse.enemy_skill2(enemy, player)
     else:
       Utility.typingPrint(f'\n\n{enemy.name} attacks!')
-      damage = (enemy.atk + enemy.additional_damage) - player.blk if (enemy.atk + enemy.additional_damage) - player.blk > 0 else 0
+      enemyattack = enemy.atk()
+      playerblock = player.blk()
+      damage = (enemyattack + enemy.additional_damage) - playerblock if (enemyattack + enemy.additional_damage) - playerblock > 0 else 0
       player.hp -= damage
-      Utility.typingPrint(f'\n\n{enemy.name} rolled a {enemy.atk} on their damage dice and you blocked {player.blk} of it.\
+      Utility.typingPrint(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {playerblock} of it.\
       \nThey have dealt {damage} points of damage. You have {player.hp} hit points remaining.') if player.hp > 0 else 0
       if player.hp <= 0:
-        Utility.typingPrint(f'\n\n{enemy.name} rolled a {enemy.atk} on their damage dice and you blocked {player.blk} of it.\
-        \nThey have dealt {damage} points of damage. You have {player.hp} hit points remaining.') if player.hp > 0 else 0
+        Utility.typingPrint(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {playerblock} of it.\
+        \nThey have dealt {damage} points of damage. You have 0 hit points remaining.')
         Utility.player_killed(player)
       elif player.hp > 0:
         RecoverySkill.mp_recovery(enemy)
         Utility.player_combat_prompt(player, enemy)
 
-  def player_killed(player, self):
+  def player_killed(player):
     if player.hp <= 0:
       Utility.typingPrint('\nYou have been killed!')
-      Utility.gameOver(self)
+      Utility.gameOver()
 
   def enemy_killed(enemy):
     if enemy.hp <= 0:
       Utility.typingPrint(f'\n{enemy.name} has been killed!')
 
   def initiative():
-
     player_init = Dice.d_10()
     enemy_init = Dice.d_10()
     Utility.typingPrint('\nYou both roll for initiative!')
@@ -191,7 +193,7 @@ class SkillUse:
 class RecoverySkill:
 
   def mp_recovery(player):
-        recovery = player.mprecover
+        recovery = player.mprecover()
         player.mp += recovery
         Utility.typingPrint(f'\n{player.name} naturally recovered {recovery} MP this turn.')
 
@@ -223,13 +225,19 @@ class RecoverySkill:
     'skilldes': "\nA major healing spell. Recovers 1d6 HP on casting.",
     'effectdes': "\nYou cast heal major wounds!"
   }
+
+  recovery_list = {
+    1: heal_minor,
+    2: heal_major
+  }
     
 
 class AttackSkill:
 
     
     def physical_damage(skill, player, enemy):
-      damage = (skill['dice']() + skill['additionaldamage']()) - (enemy.blk // 2) if (skill['dice']() + skill['additionaldamage']()) - (enemy.blk // 2) > 0 else 0
+      block = enemy.blk()
+      damage = (skill['dice']() + skill['additionaldamage']()) - block if (skill['dice']() + skill['additionaldamage']()) - block > 0 else 0
       enemy.hp -= damage
       Utility.typingPrint(f"\n\n{skill['effectdes']}")
       Utility.typingPrint(f"\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
@@ -305,11 +313,34 @@ class AttackSkill:
       'name': "Leg Shot",
       'element': "leg",
       'mpcost': 4,
-      'dice': Dice.d_8,
+      'dice': Dice.d_6,
       'additionaldamage': Dice.d_0,
       'effect': physical_damage,
-      'skilldes': "\nA shot to the legs for 1d8 damage.",
+      'skilldes': "\nA shot to the legs for 1d6 damage.",
       'effectdes': "\nAim for the legs!"
+    }
+
+    warrior_attack_skill_list = {
+      1: overhead_slash,
+      2: shield_bash,
+      3: flurry,
+      4: legshot
+    }
+
+    rogue_attack_skill_list = {
+      1: backstab,
+      2: flurry,
+      3: legshot
+    }
+
+    mage_attack_skill_list = {
+      1: fireball,
+      2: icewall,
+    }
+
+    barb_attack_skill_list = {
+      1: flurry,
+      2: overhead_slash,
     }
 
 class BuffSkill:
@@ -342,4 +373,9 @@ class BuffSkill:
       'effect': blk_buff,
       'skilldes': "\nThe enemy hides in a bush!",
       'effectdes': "\nThe enemy hides in a bush. Their defense raises by 1d4 for two turns."
+  }
+
+  buff_skill_list = {
+    1: shadows,
+    2: bush
   }
