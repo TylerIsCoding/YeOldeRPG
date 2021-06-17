@@ -20,7 +20,7 @@ class Nick(Enemy):
         self.atk = Dice.d_8
         self.mprecover = Dice.d_4
         self.skill1 = AttackSkill.legshot
-        self.skill2 = AttackSkill.shield_bash
+        self.skill2 = AttackSkill.fireball
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 15 or total_skill_points <= 8:
             self.hp = Dice.d_8()
@@ -37,7 +37,7 @@ class Steven(Enemy):
         self.atk = Dice.d_10
         self.mprecover = Dice.d_4
         self.skill1 = AttackSkill.legshot
-        self.skill2 = AttackSkill.shield_bash
+        self.skill2 = AttackSkill.legshot
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 15 or total_skill_points <= 8:
             self.hp = Dice.d_8()

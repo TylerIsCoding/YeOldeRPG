@@ -2,5 +2,8 @@ from Game import *
 from Utility import *
 
 game = Game()
-game.player_setup()
+Utility.menu = TextSpeed.instant
+Utility.combat = TextSpeed.fast
+Utility.story = TextSpeed.instant
+game.player_name()
 game.nick_fight()

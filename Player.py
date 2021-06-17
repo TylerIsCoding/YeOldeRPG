@@ -11,6 +11,7 @@ class Player:
     def __init__(self, name):
         self.name = name
 
+
 class Mage(Player):
 
     max_attack_str = "1d6"

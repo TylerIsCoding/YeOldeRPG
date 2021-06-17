@@ -1,6 +1,5 @@
 import time, sys
 from Dice import *
-from Game import *
 from random import *
 from Player import *
 
@@ -19,6 +18,13 @@ class TextSpeed:
       sys.stdout.write(character)
       sys.stdout.flush()
       time.sleep(0.0000000000000000000000000000000001)
+  
+  @staticmethod
+  def instant(text):
+    for character in text:
+      sys.stdout.write(character)
+      sys.stdout.flush()
+      time.sleep(0)
 
   @staticmethod
   def slow(text):
@@ -27,33 +33,45 @@ class TextSpeed:
       sys.stdout.flush()
       time.sleep(1)
 
+class Turn:
+
+  current_turn = ''
+
+  def turn_count(turn):
+    turn += 1
+    Turn.current_turn = turn
+
 class Utility:
   
   @staticmethod
-  def normal(text):
+  def story(text):
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
       time.sleep(0.04)
 
   @staticmethod
-  def fast(text):
+  def menu(text):
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
       time.sleep(0.0000000000000000000000000000000001)
-
+  
   @staticmethod
-  def slow(text):
+  def combat(text):
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
-      time.sleep(1)
+      time.sleep(0.02)
+  
+  @staticmethod
+  def clear():
+    print('\n' * 100)
 
   @staticmethod
   def gameOver():
-    Utility.typingPrint("\nGame over! Would you like to try again?")
-    Utility.typingPrint("\n(Y)es or (N)o")
+    Utility.menu("\nGame over! Would you like to try again?")
+    Utility.menu("\n(Y)es or (N)o")
     answer = input("\n>>> ")
     if "y" in answer.lower():
       Game.main_menu()
@@ -61,55 +79,61 @@ class Utility:
       quit()
     else:
       Utility.gameOver()
+  
 
   def player_combat_prompt(player, enemy):
-    Utility.typingPrint("\n\nDo you (A)ttack or do you use a (S)kill?")
-    Utility.fastTypingPrint("\n########################################")
-    Utility.fastTypingPrint("\n\nYou have:")
-    Utility.fastTypingPrint("\nHP: " + str(player.hp))
-    Utility.fastTypingPrint("\nMP: " + str(player.mp))
+
+    print('\n' * 5)
+    this_turn = Turn.current_turn
+    Turn.turn_count(this_turn)
+    Utility.combat(f'\nTurn: {Turn.current_turn}')
+    Utility.combat("\n\nDo you (A)ttack or do you use a (S)kill?")
+    TextSpeed.fast("\n########################################")
+    Utility.combat("\n\nYou have:")
+    Utility.combat("\nHP: " + str(player.hp))
+    Utility.combat("\nMP: " + str(player.mp))
     skillset = "{0}, {1}".format(player.skill1['name'], player.skill2['name'])
-    Utility.fastTypingPrint("\nSkills: " + str(skillset))
+    Utility.combat("\nSkills: " + str(skillset))
     answer = input('\n>>> ')
     if 'a' in answer.lower():
       Utility.attack(player, enemy)
     elif 's' in answer.lower():
-      Utility.typingPrint('\nDo you want to use (1) {0} or (2) {1}?'.format(player.skill1['name'], player.skill2['name']))
-      Utility.fastTypingPrint('\n\nSkill: %s' % player.skill1['name'])
-      Utility.fastTypingPrint('\nMana Cost: %s' % player.skill1['mpcost'])
-      Utility.fastTypingPrint('\nEffect: %s' % player.skill1['skilldes'])
-      Utility.fastTypingPrint('\n\nSkill: %s' % player.skill2['name'])
-      Utility.fastTypingPrint('\nMana Cost: %s' % player.skill2['mpcost'])
-      Utility.fastTypingPrint('\nEffect: %s' % player.skill2['skilldes'])
+      Utility.combat('\nDo you want to use (1) {0} or (2) {1}?'.format(player.skill1['name'], player.skill2['name']))
+      Utility.combat('\n\nSkill: %s' % player.skill1['name'])
+      Utility.combat('\nMana Cost: %s' % player.skill1['mpcost'])
+      Utility.combat('\nEffect: %s' % player.skill1['skilldes'])
+      Utility.combat('\n\nSkill: %s' % player.skill2['name'])
+      Utility.combat('\nMana Cost: %s' % player.skill2['mpcost'])
+      Utility.combat('\nEffect: %s' % player.skill2['skilldes'])
       answer = input("\n\n>>> ")
       if str(1) in answer:
         if player.mp >= player.skill1['mpcost']:
           SkillUse.skill1(player, enemy)
         else:
-          Utility.typingPrint('\nYou do not have enough mana.')
+          Utility.combat('\nYou do not have enough mana.')
           Utility.player_combat_prompt(player, enemy)
       elif str(2) in answer:
         if player.mp >= player.skill2['mpcost']:
           SkillUse.skill2(player, enemy)
         else:
-          Utility.typingPrint('\nYou do not have enough mana.')
+          Utility.combat('\nYou do not have enough mana.')
           Utility.player_combat_prompt(player, enemy)
       else:
-        Utility.typingPrint('\nYou must select a skill.')
+        Utility.combat('\nYou must select a skill.')
         Utility.player_combat_prompt(player, enemy)
     else:
       Utility.player_combat_prompt(player, enemy)
 
   def attack(player, enemy):
-    Utility.typingPrint('\n\nYou have chosen to attack!')
+    Utility.combat('\n\nYou have chosen to attack!')
     attack = player.atk()
     enemyblock = enemy.blk()
     damage = (attack + player.additional_damage) - enemyblock if (attack + player.additional_damage) - enemyblock > 0 else 0
     enemy.hp -= damage
-    Utility.typingPrint(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {enemyblock} of it.\
+    Utility.combat(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {enemyblock} of it.\
     \nYou have dealt {damage} points of damage. The enemy has {enemy.hp} hit points remaining.") if enemy.hp > 0 else 0
     if enemy.hp <= 0:
-      Utility.typingPrint(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {enemyblock} of it.\
+      Utility.combat(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {enemyblock} of it.\
       \nYou have dealt {damage} points of damage. The enemy has 0 hit points remaining.")
       RecoverySkill.mp_recovery(player)
       Utility.enemy_killed(enemy)
@@ -118,20 +142,28 @@ class Utility:
       Utility.enemy_attack(enemy, player)
 
   def enemy_attack(enemy, player):
-    if enemy.mp >= enemy.skill1['mpcost']:
+    if enemy.mp >= enemy.skill1['mpcost'] and enemy.mp >= enemy.skill2['mpcost']:
+      RandSkill1 = SkillUse.enemy_skill1
+      RandSkill2 = SkillUse.enemy_skill2
+      selection = random.choice((RandSkill1, RandSkill2))
+      if selection == RandSkill1:
+        SkillUse.enemy_skill1(enemy, player)
+      elif selection == RandSkill2:
+        SkillUse.enemy_skill2(enemy, player)
+    elif enemy.mp >= enemy.skill1['mpcost']:
       SkillUse.enemy_skill1(enemy, player)
     elif enemy.mp >= enemy.skill2['mpcost']:
       SkillUse.enemy_skill2(enemy, player)
     else:
-      Utility.typingPrint(f'\n\n{enemy.name} attacks!')
+      Utility.combat(f'\n\n{enemy.name} attacks!')
       enemyattack = enemy.atk()
       playerblock = player.blk()
       damage = (enemyattack + enemy.additional_damage) - playerblock if (enemyattack + enemy.additional_damage) - playerblock > 0 else 0
       player.hp -= damage
-      Utility.typingPrint(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {playerblock} of it.\
+      Utility.combat(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {playerblock} of it.\
       \nThey have dealt {damage} points of damage. You have {player.hp} hit points remaining.') if player.hp > 0 else 0
       if player.hp <= 0:
-        Utility.typingPrint(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {playerblock} of it.\
+        Utility.combat(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {playerblock} of it.\
         \nThey have dealt {damage} points of damage. You have 0 hit points remaining.')
         Utility.player_killed(player)
       elif player.hp > 0:
@@ -140,25 +172,25 @@ class Utility:
 
   def player_killed(player):
     if player.hp <= 0:
-      Utility.typingPrint('\nYou have been killed!')
+      Utility.combat('\nYou have been killed!')
       Utility.gameOver()
 
   def enemy_killed(enemy):
     if enemy.hp <= 0:
-      Utility.typingPrint(f'\n{enemy.name} has been killed!')
+      Utility.combat(f'\n{enemy.name} has been killed!')
 
   def initiative():
     player_init = Dice.d_10()
     enemy_init = Dice.d_10()
-    Utility.typingPrint('\nYou both roll for initiative!')
-    Utility.typingPrint("\n\nYou rolled a " + str(player_init) + " and the enemy rolled a " + str(enemy_init) + ".")
+    Utility.combat('\nYou both roll for initiative!')
+    Utility.combat("\n\nYou rolled a " + str(player_init) + " and the enemy rolled a " + str(enemy_init) + ".")
     if player_init > enemy_init:
-      Utility.typingPrint('\n\nYou rolled higher and get the first attack!\n')
+      Utility.combat('\n\nYou rolled higher and get the first attack!\n')
       return True
     if player_init == enemy_init:
-      Utility.typingPrint('\n\nYou both tied. The enemy gets to attack first!')
+      Utility.combat('\n\nYou both tied. The enemy gets to attack first!')
     else:
-      Utility.typingPrint('\n\nThe enemy rolled higher and gets the first attack!\n')
+      Utility.combat('\n\nThe enemy rolled higher and gets the first attack!\n')
       return False
 
 
@@ -168,9 +200,9 @@ class SkillUse:
         skill = player.skill1
         player.skill1['effectdes']
         player.skill1['effect'](skill, player, enemy)
-        Utility.typingPrint(f"\nThis action cost {player.name} {player.skill1['mpcost']} mana.")
+        Utility.combat(f"\nThis action cost {player.name} {player.skill1['mpcost']} mana.")
         player.mp -= player.skill1['mpcost']
-        Utility.typingPrint(f"\n{player.name} has {player.mp} MP remaining.")
+        Utility.combat(f"\n{player.name} has {player.mp} MP remaining.")
         if enemy.hp <= 0:
           Utility.enemy_killed(enemy)
         else:
@@ -180,9 +212,9 @@ class SkillUse:
         skill = player.skill2
         player.skill2['effectdes']
         player.skill2['effect'](skill, player, enemy)
-        Utility.typingPrint(f"\nThis action cost {player.name} {player.skill2['mpcost']} mana.")
+        Utility.combat(f"\nThis action cost {player.name} {player.skill2['mpcost']} mana.")
         player.mp -= player.skill2['mpcost']
-        Utility.typingPrint(f"\n{player.name} has {player.mp} MP remaining.")
+        Utility.combat(f"\n{player.name} has {player.mp} MP remaining.")
         if enemy.hp <= 0:
           Utility.enemy_killed(enemy)
         else:
@@ -192,9 +224,9 @@ class SkillUse:
         skill = enemy.skill1
         enemy.skill1['effectdes']
         enemy.skill1['effect'](skill, enemy, player)
-        Utility.typingPrint(f"\nThis action cost {enemy.name} {enemy.skill1['mpcost']} mana.")
+        Utility.combat(f"\nThis action cost {enemy.name} {enemy.skill1['mpcost']} mana.")
         enemy.mp -= enemy.skill1['mpcost']
-        Utility.typingPrint(f"\n{enemy.name} has {enemy.mp} MP remaining.")
+        Utility.combat(f"\n{enemy.name} has {enemy.mp} MP remaining.")
         if player.hp <= 0:
           Utility.player_killed(player)
         else:
@@ -204,9 +236,9 @@ class SkillUse:
         skill = enemy.skill2
         enemy.skill2['effectdes']
         enemy.skill2['effect'](skill, enemy, player)
-        Utility.typingPrint(f"\nThis action cost {enemy.name} {enemy.skill2['mpcost']} mana.")
+        Utility.combat(f"\nThis action cost {enemy.name} {enemy.skill2['mpcost']} mana.")
         enemy.mp -= enemy.skill2['mpcost']
-        Utility.typingPrint(f"\n{enemy.name} has {enemy.mp} MP remaining.")
+        Utility.combat(f"\n{enemy.name} has {enemy.mp} MP remaining.")
         if player.hp <= 0:
           Utility.player_killed(player)
         else:
@@ -218,14 +250,14 @@ class RecoverySkill:
   def mp_recovery(player):
         recovery = player.mprecover()
         player.mp += recovery
-        Utility.typingPrint(f'\n{player.name} naturally recovered {recovery} MP this turn.')
+        Utility.combat(f'\n{player.name} naturally recovered {recovery} MP this turn.\n\n')
 
     
   def hp_recovery(skill, player, enemy):
         recovery = skill['dice']()
         player.hp += recovery
-        Utility.typingPrint(f"\n\n{skill['effectdes']}")
-        Utility.typingPrint(f"\n{player.name} recovered {recovery} HP from {skill['name']}.")
+        Utility.combat(f"\n\n{skill['effectdes']}")
+        Utility.combat(f"\n{player.name} recovered {recovery} HP from {skill['name']}.")
         enemy == False
 
   
@@ -262,8 +294,8 @@ class AttackSkill:
       block = enemy.blk()
       damage = (skill['dice']() + skill['additionaldamage']()) - block if (skill['dice']() + skill['additionaldamage']()) - block > 0 else 0
       enemy.hp -= damage
-      Utility.typingPrint(f"\n\n{skill['effectdes']}")
-      Utility.typingPrint(f"\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
+      Utility.combat(f"\n\n{skill['effectdes']}")
+      Utility.combat(f"\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
         
 
     overhead_slash = {
@@ -369,18 +401,24 @@ class AttackSkill:
 class BuffSkill:
 
   def blk_buff(skill, player, enemy):
-      characterbuff = skill['dice']()
-      player.blk += characterbuff
-      Utility.typingPrint(f"\n\n{skill['effectdes']}")
-      Utility.typingPrint(f"\n{player.name} has used {skill['name']} \nand raised their {skill['element']} by {characterbuff}.")
-      enemy == False
+      current_turn = Turn.current_turn
+      while current_turn != skill['turns']:
+        characterbuff = skill['dice']()
+        Utility.menu(f"\n\n{skill['effectdes']}")
+        Utility.menu(f"\n{player.name} has used {skill['name']} \nand raised their {skill['element']} by {characterbuff}.")
+        enemy == False
 
+  def combat_end(player, enemy):
+    while enemy.hp <= 0:
+      return True
+    else:
+      return False
   
   shadows = {
       'name': "Hide in Shadows",
       'element': 'defence',
       'mpcost': 4,
-      'turns': 2,
+      'turns': combat_end,
       'dice': Dice.d_4,
       'effect': blk_buff,
       'skilldes': "\nYou attempt to hide in shadows! Raises defence by 1d4 until the end of the battle.",
