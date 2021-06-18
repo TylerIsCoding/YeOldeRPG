@@ -27,7 +27,7 @@ class Game:
         if "p" in main_menu_selection.lower():
             Utility.story = TextSpeed.normal
             Utility.combat = TextSpeed.normal
-            self.player_setup()
+            self.player_name()
         elif "o" in main_menu_selection.lower():
             self.options()
         elif "q" in main_menu_selection.lower():
@@ -574,7 +574,7 @@ class Game:
                 Turn.turn_count(-1)
                 Utility.player_combat_prompt(self.myPlayer, self.nick)
             else:
-                Turn.turn_count(-1)
+                Turn.turn_count(0)
                 Utility.enemy_attack(self.nick, self.myPlayer)
             self.post_nick_fight()
             
@@ -582,6 +582,7 @@ class Game:
         continue_prompt = input("\n\n>>> Hit enter to continue")
         if '' in continue_prompt:
 
+            Utility.clear()
             Utility.story('\n\n"Wow!" says Meelon. "It looks like you can fight... \nLook, he dropped this after you got him."')
             get_loot = input('\n\n>>> Hit enter to loot the scav.')
             if '' in get_loot:
@@ -658,14 +659,14 @@ class Game:
         print('#                             ▀█▄  ,▄███▀▀-                                         #')
         print('#                               ▀▀▀▀                                                #')
         print('#####################################################################################')
-        regen = randint(2, 4)
-        Utility.story('\n\nYou both settle in for some rest. You regain {0} hit points back.'.format(str(regen)))
+        regen = RecoverySkill.heal_major['dice']()
+        Utility.story(f'\n\nYou both settle in for some rest. You regain {(str(regen))} hit points back.')
         self.myPlayer.hp += regen
         Utility.story('\nDaylight creeps over the hills and treetops. The two of you gather your gear and start towards the Woods.')
         Utility.story('\nAs you walk Meelon continues explaining about Shturman.')
         Utility.story('\n\n"Shturman is said to be in possession of the mighty Kappa container...\nIt has the ability to hold a vast amount of items in a very small space."')
         Utility.story('\n\n"If we could aquire the Kappa container AND remove Shturman\'s evil hold \non the Woods, I\'m sure that the King would be most grateful."')
-        Utility.story('\n\n"Listen, {0}, we should head East. \nThat\'s where Shturman was last spotted... or so I\'ve heard..."'.format(self.myPlayer.name))
+        Utility.story(f'\n\n"Listen, {self.myPlayer.name}, we should head East. \nThat\'s where Shturman was last spotted... or so I\'ve heard..."')
         Utility.story('\n\n\nThe two of you head East to see if you can find any traces of Shturman. \nAs you try to locate any clues you hear the sound of twigs snapping\nand the unmistakable smell of sweat!')
         continue_prompt = input("\n\n>>> Hit enter to continue")
         if '' in continue_prompt:
@@ -676,8 +677,10 @@ class Game:
         Utility.story('\nA wild Sweaty Steven appears!')
         result = Utility.initiative()
         if result:
+            Turn.turn_count(-1)
             Utility.player_combat_prompt(self.myPlayer, self.steven)
         else:
+            Turn.turn_count(0)
             Utility.enemy_attack(self.steven, self.myPlayer)
         
 

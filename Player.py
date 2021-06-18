@@ -24,6 +24,7 @@ class Mage(Player):
         self.mp = Dice.d_10()
         self.blk = Dice.d_4
         self.atk = Dice.d_6
+        self.buff = BuffSkill.default
         self.mprecover = Dice.d_4
         self.additional_damage = 0
         self.skill1 = ''
@@ -37,7 +38,7 @@ class Mage(Player):
 
 class Warrior(Player):
 
-    max_attack_str = "1d12"
+    max_attack_str = "1d10"
     defense = "1d8"
 
     def __init__(self, name):
@@ -46,7 +47,8 @@ class Warrior(Player):
         self.hp = Dice.d_20()
         self.mp = Dice.d_6()
         self.blk = Dice.d_8
-        self.atk = Dice.d_12
+        self.atk = Dice.d_10
+        self.buff = BuffSkill.default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skill1 = ''
@@ -70,6 +72,7 @@ class Rogue(Player):
         self.mp = Dice.d_8()
         self.blk = Dice.d_10
         self.atk = Dice.d_6
+        self.buff = BuffSkill.default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skill1 = ''
@@ -92,6 +95,7 @@ class Barb(Player):
         self.mp = Dice.d_6()
         self.blk = Dice.d_6
         self.atk = Dice.d_8
+        self.buff = BuffSkill.default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skill1 = ''
