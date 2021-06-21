@@ -5,6 +5,7 @@ from Player import *
 
 class TextSpeed:
 
+
   @staticmethod
   def normal(text):
 
@@ -13,13 +14,15 @@ class TextSpeed:
       sys.stdout.flush()
       time.sleep(0.04)
 
+
   @staticmethod
   def fast(text):
 
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
-      time.sleep(0.0000000000000000000000000000000001)
+      time.sleep(0.001)
+  
   
   @staticmethod
   def instant(text):
@@ -29,6 +32,7 @@ class TextSpeed:
       sys.stdout.flush()
       time.sleep(0)
 
+
   @staticmethod
   def slow(text):
 
@@ -37,17 +41,37 @@ class TextSpeed:
       sys.stdout.flush()
       time.sleep(1)
 
+
 class Turn:
 
   current_turn = ''
+  def_turns_passed = 1
+  def_enemy_turns_passed = 1
+  atk_turns_passed = 1
+  atk_enemy_turns_passed = 1
 
   def turn_count(turn):
 
     turn += 1
     Turn.current_turn = turn
+  
+  def clear_turn():
+      Turn.atk_turns_passed -= 1
+      Turn.def_turns_passed -= 1
+      Turn.def_enemy_turns_passed -= 1
+      Turn.atk_enemy_turns_passed -= 1
+      Turn.current_turn -= 1
+
 
 class Utility:
+
+
+  def continue_prompt(self):
+    continue_prompt = input("\n\n>>> Hit enter to continue")
+    if '' in continue_prompt:
+      None
   
+
   @staticmethod
   def story(text):
 
@@ -56,14 +80,16 @@ class Utility:
       sys.stdout.flush()
       time.sleep(0.04)
 
+
   @staticmethod
   def menu(text):
 
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
-      time.sleep(0.0000000000000000000000000000000001)
+      time.sleep(0.001)
   
+
   @staticmethod
   def combat(text):
 
@@ -72,10 +98,12 @@ class Utility:
       sys.stdout.flush()
       time.sleep(0.02)
   
+
   @staticmethod
   def clear():
 
     print('\n' * 100)
+
 
   @staticmethod
   def gameOver():
@@ -91,17 +119,83 @@ class Utility:
       Utility.gameOver()
   
 
-  def player_combat_prompt(player, enemy):
+  def def_buff_check(player, enemy):
+    
+    TextSpeed.instant('\n' * 5)
+    if player.type == "Player":
+      if player.def_buff['duration'] != Turn.def_turns_passed and player.def_buff['name'] != "default":
+        Utility.combat(f"{player.name} has {player.def_buff['duration'] - Turn.def_turns_passed} turns of \"{player.def_buff['name']}\" remaining.")
+        Utility.atk_buff_check(player, enemy)
+      elif player.def_buff == BuffSkill.default:
+        Utility.atk_buff_check(player, enemy)
+      else:
+        Utility.combat(f"{player.name}'s buff \"{player.def_buff['name']}\" has worn off!")
+        player.def_buff = BuffSkill.default
+        Turn.def_turns_passed = 0
+        Utility.atk_buff_check(player, enemy)
+    else:
+      if player.def_buff['duration'] != Turn.def_enemy_turns_passed and player.def_buff['name'] != "default":
+        Utility.combat(f"{player.name} has {player.def_buff['duration'] - Turn.def_enemy_turns_passed} turns of \"{player.def_buff['name']}\" remaining.")
+        Utility.enemy_skill_use(player, enemy)
+      elif player.def_buff == BuffSkill.default:
+        Utility.enemy_skill_use(player, enemy)
+      else:
+        Utility.combat(f"{player.name}'s buff \"{player.def_buff['name']}\" has worn off!")
+        player.def_buff = BuffSkill.default
+        Turn.def_enemy_turns_passed = 1
+        Utility.enemy_skill_use(player, enemy)
+  
+
+  def atk_buff_check(player, enemy):
 
     TextSpeed.instant('\n' * 5)
+    if player.type == "Player":
+      if player.atk_buff['duration'] != Turn.atk_turns_passed and player.atk_buff['name'] != "default":
+        Utility.combat(f"{player.name} has {player.atk_buff['duration'] - Turn.atk_turns_passed} turns of \"{player.atk_buff['name']}\" remaining.")
+        Utility.player_combat_prompt(player, enemy)
+      elif player.atk_buff == BuffSkill.default:
+        Utility.player_combat_prompt(player, enemy)
+      else:
+        Utility.combat(f"{player.name}'s buff \"{player.atk_buff['name']}\" has worn off!")
+        player.atk_buff = BuffSkill.default
+        Turn.atk_turns_passed = 0
+        Utility.player_combat_prompt(player, enemy)
+    else:
+      if player.atk_buff['duration'] != Turn.atk_enemy_turns_passed and player.atk_buff['name'] != "default":
+        Utility.combat(f"{player.name} has {player.atk_buff['duration'] - Turn.atk_enemy_turns_passed} turns of \"{player.atk_buff['name']}\" remaining.")
+        Utility.enemy_skill_use(player, enemy)
+      elif player.atk_buff == BuffSkill.default:
+        Utility.enemy_skill_use(player, enemy)
+      else:
+        Utility.combat(f"{player.name}'s buff \"{player.atk_buff['name']}\" has worn off!")
+        player.atk_buff = BuffSkill.default
+        Turn.atk_enemy_turns_passed = 1
+        Utility.enemy_skill_use(player, enemy)
+
+
+  def player_combat_prompt(player, enemy):
+
     this_turn = Turn.current_turn
+    Turn.def_turns_passed += 1
+    Turn.def_enemy_turns_passed += 1
+    Turn.atk_turns_passed += 1
+    Turn.atk_enemy_turns_passed += 1
     Turn.turn_count(this_turn)
     Utility.combat(f'\nTurn: {Turn.current_turn}')
     Utility.combat("\n\nDo you (A)ttack or do you use a (S)kill?")
     TextSpeed.fast("\n########################################")
-    Utility.combat("\n\nYou have:")
     Utility.combat("\nHP: " + str(player.hp))
     Utility.combat("\nMP: " + str(player.mp))
+    if player.def_buff['name'] != 'default':
+      Utility.combat(f"\nBuff: {player.def_buff['name']}")
+      Utility.combat(f"\nDefense: {player.defense} + {player.def_buff['maxbuff']}")
+    else:
+      Utility.combat(f"\nDefense: {player.defense}")
+    if player.atk_buff['name'] != 'default':
+      Utility.combat(f"\nBuff: {player.atk_buff['name']}")
+      Utility.combat(f"\nAttack: {player.max_attack_str} + {player.atk_buff['maxbuff']}")
+    else:
+      Utility.combat(f"\nAttack: {player.max_attack_str}")
     skillset = "{0}, {1}".format(player.skill1['name'], player.skill2['name'])
     Utility.combat("\nSkills: " + str(skillset))
     answer = input('\n>>> ')
@@ -117,79 +211,86 @@ class Utility:
       Utility.combat('\nEffect: %s' % player.skill2['skilldes'])
       answer = input("\n\n>>> ")
       if str(1) in answer:
-        if player.mp >= player.skill1['mpcost'] and player.skill1['type'] != 'buff':
+        if player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] != 'none' and player.def_buff['element'] != 'none':
           SkillUse.skill1(player, enemy)
-        elif player.mp >= player.skill1['mpcost'] and player.buff['element'] == 'none':
+        elif player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] != 'none' and player.skill1['type'] != 'atk_buff':
           SkillUse.skill1(player, enemy)
-        elif player.mp >= player.skill1['mpcost'] and player.buff['element'] != 'none':
-          Utility.combat(f"You are already using {player.buff['name']}")
-          Turn.current_turn -= 1
-          Utility.player_combat_prompt(player, enemy)
+        elif player.mp >= player.skill1['mpcost'] and player.def_buff['element'] != 'none' and player.skill1['type'] != 'def_buff':
+          SkillUse.skill1(player, enemy)
+        elif player.mp >= player.skill1['mpcost'] and player.def_buff['element'] == 'none' and player.skill1['type'] == 'def_buff':
+          SkillUse.skill1(player, enemy)
+        elif player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] == 'none' and player.skill1['type'] == 'atk_buff':
+          SkillUse.skill1(player, enemy)
+        elif player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] != 'none' and player.skill1['type'] == 'def_buff':
+          SkillUse.skill1(player, enemy)
         else:
-          Utility.combat('\nYou do not have enough mana.')
-          Turn.current_turn -= 1
-          Utility.player_combat_prompt(player, enemy)
+          Utility.combat(f"\nYou cannot use {player.skill1['name']} right now.")
+          Turn.clear_turn()
       elif str(2) in answer:
-        if player.mp >= player.skill2['mpcost'] and player.skill2['type'] != 'buff':
+        if player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] != 'none' and player.def_buff['element'] != 'none':
           SkillUse.skill2(player, enemy)
-        elif player.mp >= player.skill2['mpcost'] and player.buff['element'] == 'none':
+        elif player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] != 'none' and player.skill2['type'] != 'atk_buff':
           SkillUse.skill2(player, enemy)
-        elif player.mp >= player.skill2['mpcost'] and player.buff['element'] != 'none':
-          Utility.combat(f"You are already using {player.buff['name']}")
-          Turn.current_turn -= 1
-          Utility.player_combat_prompt(player, enemy)
+        elif player.mp >= player.skill2['mpcost'] and player.def_buff['element'] != 'none' and player.skill2['type'] != 'def_buff':
+          SkillUse.skill2(player, enemy)
+        elif player.mp >= player.skill2['mpcost'] and player.def_buff['element'] == 'none' and player.skill2['type'] == 'def_buff':
+          SkillUse.skill2(player, enemy)
+        elif player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] == 'none' and player.skill2['type'] == 'atk_buff':
+          SkillUse.skill2(player, enemy)
+        elif player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] != 'none' and player.skill2['type'] == 'def_buff':
+          SkillUse.skill2(player, enemy)
         else:
-          Utility.combat('\nYou do not have enough mana.')
-          Turn.current_turn -= 1
-          Utility.player_combat_prompt(player, enemy)
+          Utility.combat(f"\nYou cannot use {player.skill2['name']} right now.")
+          Turn.clear_turn()
       else:
-        Utility.combat('\nYou must select a skill.')
-        Turn.current_turn -= 1
+        Turn.clear_turn()
+        Utility.combat('\nYou must choose a skill.')
         Utility.player_combat_prompt(player, enemy)
-    else:
-      Turn.current_turn -= 1
-      Utility.player_combat_prompt(player, enemy)
+
 
   def attack(player, enemy):
 
     Utility.combat('\n\nYou have chosen to attack!')
     attack = player.atk()
-    if enemy.buff['element'] == "defense":
-      enemybuff = enemy.buff['dice']()
+    attackbuff = player.atk_buff['dice']()
+    if enemy.def_buff['element'] == "defense":
+      enemybuff = enemy.def_buff['dice']()
     else:
       enemybuff = 0
     enemyblock = enemy.blk()
-    damage = (attack + player.additional_damage) - (enemyblock + enemybuff) if (attack + player.additional_damage) - (enemyblock + enemybuff) > 0 else 0
+    damage = (attack + player.additional_damage + attackbuff) - (enemyblock + enemybuff) if (attack + player.additional_damage + attackbuff) - (enemyblock + enemybuff) > 0 else 0
     enemy.hp -= damage
     if (enemyblock + enemybuff) >= attack:
         finalblock = "all"
     else:
         finalblock = enemyblock + enemybuff
-    Utility.combat(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {finalblock} of it.\
+    Utility.combat(f"\n\nYou rolled a {attack + attackbuff} on your damage dice and {enemy.name} blocked {finalblock} of it.\
     \nYou have dealt {damage} points of damage. The enemy has {enemy.hp} hit points remaining.") if enemy.hp > 0 else 0
     if enemy.hp <= 0:
       Utility.combat(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {finalblock} of it.\
       \nYou have dealt {damage} points of damage. The enemy has 0 hit points remaining.")
-      player.buff == BuffSkill.default
+      player.def_buff == BuffSkill.default
       RecoverySkill.mp_recovery(player)
-      Utility.enemy_killed(enemy)
+      Utility.enemy_killed(enemy, player)
     else:
       RecoverySkill.mp_recovery(player)
-      Utility.enemy_skill_use(enemy, player)
+      Utility.def_buff_check(enemy, player)
+
 
   def enemy_attack(enemy, player):
     
       Utility.combat(f'\n\n{enemy.name} attacks!')
       enemyattack = enemy.atk()
-      playerbuff = player.buff['dice']()
+      enemyattackbuff = enemy.atk_buff['dice']()
+      playerbuff = player.def_buff['dice']()
       playerblock = player.blk()
-      damage = (enemyattack + enemy.additional_damage) - (playerblock + playerbuff) if (enemyattack + enemy.additional_damage) - (playerblock + playerbuff) > 0 else 0
+      damage = (enemyattack + enemy.additional_damage + enemyattackbuff) - (playerblock + playerbuff) if (enemyattack + enemy.additional_damage + enemyattackbuff) - (playerblock + playerbuff) > 0 else 0
       player.hp -= damage
       if (playerblock + playerbuff) >= enemyattack:
         finalblock = "all"
       else:
           finalblock = playerblock + playerbuff
-      Utility.combat(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {finalblock} of it.\
+      Utility.combat(f'\n\n{enemy.name} rolled a {enemyattack + enemyattackbuff} on their damage dice and you blocked {finalblock} of it.\
       \nThey have dealt {damage} points of damage. You have {player.hp} hit points remaining.') if player.hp > 0 else 0
       if player.hp <= 0:
         Utility.combat(f'\n\n{enemy.name} rolled a {enemyattack} on their damage dice and you blocked {finalblock} of it.\
@@ -197,35 +298,87 @@ class Utility:
         Utility.player_killed(player)
       elif player.hp > 0:
         RecoverySkill.mp_recovery(enemy)
-        Utility.player_combat_prompt(player, enemy)
+        Utility.def_buff_check(player, enemy)
+
 
   def enemy_skill_use(enemy, player):
 
-      if enemy.mp >= enemy.skill1['mpcost'] and enemy.mp >= enemy.skill2['mpcost'] and enemy.buff['element'] == 'none':
-          RandSkill1 = SkillUse.enemy_skill1
-          RandSkill2 = SkillUse.enemy_skill2
-          selection = random.choice((RandSkill1, RandSkill2))
-          if selection == RandSkill1:
-            SkillUse.enemy_skill1(enemy, player)
-          elif selection == RandSkill2:
-            SkillUse.enemy_skill2(enemy, player)
-          else:
-            Utility.enemy_attack(enemy, player)
-      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.buff['element'] == 'none':
+      if enemy.mp >= enemy.skill1['mpcost'] and enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] == 'none':
+        RandSkill1 = SkillUse.enemy_skill1
+        RandSkill2 = SkillUse.enemy_skill2
+        selection = random.choice((RandSkill1, RandSkill2))
+        if selection == RandSkill1 and enemy.skill1['type'] == 'def_buff' or 'atk_buff':
           SkillUse.enemy_skill1(enemy, player)
-      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.buff['element'] == 'none':
+        elif selection == RandSkill1 and enemy.skill2['type'] == 'def_buff' or 'atk_buff':
           SkillUse.enemy_skill2(enemy, player)
-      else:
+        elif selection == RandSkill2 and enemy.skill1['type'] == 'def_buff' or 'atk_buff':
+          SkillUse.enemy_skill1(enemy, player)
+        elif selection == RandSkill2 and enemy.skill2['type'] == 'def_buff' or 'atk_buff':
+          SkillUse.enemy_skill2(enemy, player)
+        elif selection == RandSkill1 and enemy.skill1['type'] != 'def_buff' or 'atk_buff':
+          SkillUse.enemy_skill1(enemy, player)
+        elif selection == RandSkill2 and enemy.skill2['type'] != 'def_buff' or 'atk_buff':
+          SkillUse.enemy_skill2(enemy, player)
+        else:
           Utility.enemy_attack(enemy, player)
+      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] == 'none':
+            SkillUse.enemy_skill1(enemy, player)
+      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] == 'none':
+            SkillUse.enemy_skill2(enemy, player)
+      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.def_buff['element'] != 'none' and enemy.atk_buff['element'] != 'none':
+            SkillUse.enemy_skill1(enemy, player)
+      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] != 'none' and enemy.atk_buff['element'] != 'none':
+            SkillUse.enemy_skill2(enemy, player)
+      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] != 'none':
+            SkillUse.enemy_skill1(enemy, player)
+      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] != 'none':
+            SkillUse.enemy_skill2(enemy, player)
+      else:
+            Utility.enemy_attack(enemy, player)
 
+ 
   def player_killed(player):
+
     if player.hp <= 0:
       Utility.combat('\nYou have been killed!')
       Utility.gameOver()
+  
 
-  def enemy_killed(enemy):
+  def buff_clear(player, enemy):
+
+    if player.def_buff['element'] != 'none' and player.atk_buff['element'] != 'none':
+      Turn.def_turns_passed = player.def_buff['duration']
+      Turn.atk_turns_passed = player.atk_buff['duration']
+      player.def_buff = BuffSkill.default
+      player.atk_buff = BuffSkill.default
+      enemy.def_buff = BuffSkill.default
+      enemy.atk_buff = BuffSkill.default
+      Turn.def_turns_passed = 0
+      Turn.def_enemy_turns_passed = 0
+      Turn.atk_turns_passed = 0
+      Turn.atk_enemy_turns_passed = 0
+    elif player.def_buff['element'] != 'none':
+      Turn.def_turns_passed = player.def_buff['duration']
+      player.def_buff = BuffSkill.default
+      enemy.def_buff = BuffSkill.default
+      Turn.def_turns_passed = 0
+      Turn.def_enemy_turns_passed = 0
+    elif player.atk_buff['element'] != 'none':
+      Turn.atk_turns_passed = player.atk_buff['duration']
+      player.atk_buff = BuffSkill.default
+      enemy.atk_buff = BuffSkill.default
+      Turn.atk_turns_passed = 0
+      Turn.atk_enemy_turns_passed = 0
+    else:
+      None
+
+
+  def enemy_killed(enemy, player):
+
     if enemy.hp <= 0:
       Utility.combat(f'\n{enemy.name} has been killed!')
+      Utility.buff_clear(player, enemy)
+
 
   def initiative():
 
@@ -263,10 +416,10 @@ class SkillUse:
         player.mp -= player.skill1['mpcost']
         Utility.combat(f"\n{player.name} has {player.mp} MP remaining.")
         if enemy.hp <= 0:
-          player.buff == BuffSkill.default
-          Utility.enemy_killed(enemy)
+          Utility.enemy_killed(enemy, player)
         else:
-          Utility.enemy_attack(enemy, player)
+          Utility.def_buff_check(enemy, player)
+
 
     def skill2(player, enemy):
 
@@ -277,10 +430,10 @@ class SkillUse:
         player.mp -= player.skill2['mpcost']
         Utility.combat(f"\n{player.name} has {player.mp} MP remaining.")
         if enemy.hp <= 0:
-          player.buff == BuffSkill.default
-          Utility.enemy_killed(enemy)
+          Utility.enemy_killed(enemy, player)
         else:
-          Utility.enemy_attack(enemy, player)
+          Utility.def_buff_check(enemy, player)
+
 
     def enemy_skill1(enemy, player):
 
@@ -291,11 +444,11 @@ class SkillUse:
         enemy.mp -= enemy.skill1['mpcost']
         Utility.combat(f"\n{enemy.name} has {enemy.mp} MP remaining.")
         if player.hp <= 0:
-          player.buff == BuffSkill.default
           Utility.player_killed(player)
         else:
-          Utility.player_combat_prompt(player, enemy)
+          Utility.def_buff_check(player, enemy)
     
+
     def enemy_skill2(enemy, player):
 
         skill = enemy.skill2
@@ -305,10 +458,10 @@ class SkillUse:
         enemy.mp -= enemy.skill2['mpcost']
         Utility.combat(f"\n{enemy.name} has {enemy.mp} MP remaining.")
         if player.hp <= 0:
-          player.buff == BuffSkill.default
+          player.def_buff == BuffSkill.default
           Utility.player_killed(player)
         else:
-          Utility.player_combat_prompt(player, enemy)
+          Utility.def_buff_check(player, enemy)
 
 
 class RecoverySkill:
@@ -363,7 +516,7 @@ class AttackSkill:
     
     def physical_damage(skill, player, enemy):
 
-      block = enemy.blk() + enemy.buff['dice']()
+      block = enemy.blk() + enemy.def_buff['dice']()
       damage = (skill['dice']() + skill['additionaldamage']()) - block
       if damage > 0:
         enemy.hp -= damage
@@ -373,6 +526,7 @@ class AttackSkill:
         damage = 0
         Utility.combat(f"\n\n{skill['effectdes']}")
         Utility.combat(f"\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
+
 
     overhead_slash = {
       'name': "Overhead Slash",
@@ -387,6 +541,7 @@ class AttackSkill:
       'effectdes': "\nYou swing your weapon from overhead!\n"
     }
     
+
     shield_bash = {
       'name': "Shield Bash",
       'type': 'attack',
@@ -399,6 +554,7 @@ class AttackSkill:
       'skilldes': "\nAttacks with the player's shield. Does 1d8 damage.",
       'effectdes': "\nYou throw the weight of your shield into the enemy!\n"
     }
+
 
     fireball = {
       'name': "Fireball",
@@ -413,6 +569,7 @@ class AttackSkill:
       'effectdes': "\nYou cast a mighty fireball!\n"
     }
 
+
     icewall = {
       'name': "Ice Wall",
       'type': 'magic',
@@ -425,6 +582,7 @@ class AttackSkill:
       'skilldes': "\nAttacks with a sheet of ice. Does 1d6 damage.",
       'effectdes': "\nA sheet of ice emerges from the staff into the enemy!\n"
     }
+
 
     backstab = {
       'name': "Backstab",
@@ -439,6 +597,7 @@ class AttackSkill:
       'effectdes': "\nYou backstab the enemy!\n"
     }
 
+
     flurry = {
       'name': "Flurry of Blows",
       'type': 'attack',
@@ -452,18 +611,20 @@ class AttackSkill:
       'effectdes': "\nYou unleash a barrage of attacks!\n"
     }
 
+
     legshot = {
       'name': "Leg Shot",
       'type': 'attack',
       'skillcost': 6,
       'element': "leg",
       'mpcost': 3,
-      'dice': Dice.d_6,
+      'dice': Dice.d_8,
       'additionaldamage': Dice.d_0,
       'effect': physical_damage,
-      'skilldes': "\nA shot to the legs for 1d6 damage.",
+      'skilldes': "\nA shot to the legs for 1d8 damage.",
       'effectdes': "\nAim for the legs!\n"
     }
+
 
     warrior_attack_skill_list = {
       1: overhead_slash,
@@ -472,29 +633,52 @@ class AttackSkill:
       4: legshot
     }
 
+
     rogue_attack_skill_list = {
       1: backstab,
       2: flurry,
       3: legshot
     }
 
+
     mage_attack_skill_list = {
       1: fireball,
       2: icewall,
     }
+
 
     barb_attack_skill_list = {
       1: flurry,
       2: overhead_slash,
     }
 
+
 class BuffSkill:
 
-  def defense_buff(skill, player, enemy):
-    player.buff = skill
-    Utility.combat(f"\n{player.buff['effectdes']}")
-    Utility.combat(f"\n{player.name} raised their {player.buff['element']} by {player.buff['maxbuff']}.")
+
+  def def_buff(skill, player, enemy):
+
+    player.def_buff = skill
+    if player.type == "Player":
+      Turn.def_turns_passed = 1
+    else:
+      Turn.def_enemy_turns_passed = 1
+    Utility.combat(f"\n{player.def_buff['effectdes']}")
+    Utility.combat(f"\n{player.name} raised their {player.def_buff['element']} by {player.def_buff['maxbuff']}.")
     enemy == False
+  
+
+  def atk_buff(skill, player, enemy):
+
+    player.atk_buff = skill
+    if player.type == "Player":
+      Turn.atk_turns_passed = 1
+    else:
+      Turn.atk_enemy_turns_passed = 1
+    Utility.combat(f"\n{player.atk_buff['effectdes']}")
+    Utility.combat(f"\n{player.name} raised their {player.atk_buff['element']} by {player.atk_buff['maxbuff']}.")
+    enemy == False
+  
 
   default = {
     'name': "default",
@@ -509,35 +693,54 @@ class BuffSkill:
     'effectdes': "\nERROR"
   }
 
+
   shadows = {
       'name': "Hide in Shadows",
-      'type': 'buff',
+      'type': 'def_buff',
       'skillcost': 6,
       'element': 'defense',
       'mpcost': 5,
       'duration': 3,
       'dice': Dice.d_4,
       'maxbuff': "1d4",
-      'effect': defense_buff,
-      'skilldes': "\nYou attempt to hide in shadows! Raises defense by 1d4 until the end of the battle.",
+      'effect': def_buff,
+      'skilldes': "\nRaises defense by 1d4 for 3 turns.",
       'effectdes': "\nYou hide in shadows!\n"
     }
 
+
   bush = {
       'name': "Hide in a Bush",
-      'type': 'buff',
+      'type': 'def_buff',
       'skillcost': 4,
       'element': 'defense',
       'mpcost': 4,
-      'duration': 2,
+      'duration': 3,
       'dice': Dice.d_4,
       'maxbuff': "1d4",
-      'effect': defense_buff,
+      'effect': def_buff,
       'skilldes': "\nThe enemy hides in a bush. Their defense raises by 1d4 for two turns.",
       'effectdes': "\nThe enemy hides in a bush!\n"
   }
 
+
+  rage = {
+    'name': "Blinding Rage",
+    'type': 'atk_buff',
+    'skillcost': 4,
+    'element': 'attack',
+    'mpcost': 4,
+    'duration': 3,
+    'dice': Dice.d_8,
+    'maxbuff': "1d8",
+    'effect': atk_buff,
+    'skilldes': "\nYou rage out! Your attack is raised by 1d8 for two turns!",
+    'effectdes': "\nYou rage out!"
+  }
+
+
   buff_skill_list = {
     1: shadows,
-    2: bush
+    2: bush,
+    3: rage
   }

@@ -14,11 +14,13 @@ class Nick(Enemy):
     
     def __init__(self):
         self.name = "Nick the Scav"
+        self.type = "Enemy"
         self.hp = Dice.d_8()
         self.mp = Dice.d_20()
         self.blk = Dice.d_4
         self.atk = Dice.d_8
-        self.buff = BuffSkill.default
+        self.def_buff = BuffSkill.default
+        self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_4
         self.skill1 = AttackSkill.legshot
         self.skill2 = BuffSkill.bush
@@ -32,11 +34,13 @@ class Steven(Enemy):
         
     def __init__(self):
         self.name = "Sweaty Steven"
+        self.type = "Enemy"
         self.hp = Dice.d_8()
         self.mp = Dice.d_4()
         self.blk = Dice.d_6
         self.atk = Dice.d_10
         self.buff = BuffSkill.default
+        self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_4
         self.skill1 = AttackSkill.legshot
         self.skill2 = BuffSkill.bush

@@ -20,11 +20,13 @@ class Mage(Player):
     def __init__(self, name):
         super().__init__(name)
         self.role = "Mage"
+        self.type = "Player"
         self.hp = Dice.d_6()
         self.mp = Dice.d_10()
         self.blk = Dice.d_4
         self.atk = Dice.d_6
-        self.buff = BuffSkill.default
+        self.def_buff = BuffSkill.default
+        self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_4
         self.additional_damage = 0
         self.skill1 = ''
@@ -44,11 +46,13 @@ class Warrior(Player):
     def __init__(self, name):
         super().__init__(name)
         self.role = "Warrior"
+        self.type = "Player"
         self.hp = Dice.d_20()
         self.mp = Dice.d_6()
         self.blk = Dice.d_8
         self.atk = Dice.d_10
-        self.buff = BuffSkill.default
+        self.def_buff = BuffSkill.default
+        self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skill1 = ''
@@ -68,11 +72,13 @@ class Rogue(Player):
     def __init__(self, name):
         super().__init__(name)
         self.role = "Rogue"
+        self.type = "Player"
         self.hp = Dice.d_8()
         self.mp = Dice.d_8()
         self.blk = Dice.d_10
         self.atk = Dice.d_6
-        self.buff = BuffSkill.default
+        self.def_buff = BuffSkill.default
+        self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skill1 = ''
@@ -91,11 +97,13 @@ class Barb(Player):
     def __init__(self, name):
         super().__init__(name)
         self.role = "Barbarian"
+        self.type = "Player"
         self.hp = Dice.d_12()
         self.mp = Dice.d_6()
         self.blk = Dice.d_6
         self.atk = Dice.d_8
-        self.buff = BuffSkill.default
+        self.def_buff = BuffSkill.default
+        self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skill1 = ''
