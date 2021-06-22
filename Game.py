@@ -152,28 +152,40 @@ class Game:
                 if self.myPlayer.role == "Warrior":
                     for key, value in AttackSkill.warrior_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection1()
                     self.myPlayer.skill1 = AttackSkill.warrior_attack_skill_list[int(answer1)]
                     self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
                     self.skillselection2()
                 elif self.myPlayer.role == "Mage":
                     for key, value in AttackSkill.mage_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection1()
                     self.myPlayer.skill1 = AttackSkill.mage_attack_skill_list[int(answer1)]
                     self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
                     self.skillselection2()
                 elif self.myPlayer.role == "Rogue":
                     for key, value in AttackSkill.rogue_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection1()
                     self.myPlayer.skill1 = AttackSkill.rogue_attack_skill_list[int(answer1)]
                     self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
                     self.skillselection2()
                 elif self.myPlayer.role == "Barbarian":
                     for key, value in AttackSkill.barb_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection1()
                     self.myPlayer.skill1 = AttackSkill.barb_attack_skill_list[int(answer1)]
                     self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
                     self.skillselection2()
@@ -181,8 +193,11 @@ class Game:
                 Utility.story('\n\nHere are the available Buff Skills:')
                 TextSpeed.fast('\n#####################################')
                 for key, value in BuffSkill.buff_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                Utility.story("\n(R)eturn")
                 answer1 = input('\n>>> ')
+                if "r" in answer1.lower():
+                    self.skillselection1()
                 self.myPlayer.skill1 = BuffSkill.buff_skill_list[int(answer1)]
                 self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
                 self.skillselection2()
@@ -190,8 +205,11 @@ class Game:
                 Utility.story('\n\nHere are the available Restorative Skills:')
                 TextSpeed.fast('\n##########################################')
                 for key, value in RecoverySkill.recovery_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                Utility.story("\n(R)eturn")
                 answer1 = input('\n>>> ')
+                if "r" in answer1.lower():
+                    self.skillselection1()
                 self.myPlayer.skill1 = RecoverySkill.recovery_list[int(answer1)]
                 self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
                 self.skillselection2()
@@ -213,7 +231,10 @@ class Game:
                 if self.myPlayer.role == "Warrior":
                     for key, value in AttackSkill.warrior_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection2()
                     self.myPlayer.skill2 = AttackSkill.warrior_attack_skill_list[int(answer1)]
                     if self.myPlayer.skill1 == self.myPlayer.skill2:
                         Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
@@ -230,7 +251,10 @@ class Game:
                 elif self.myPlayer.role == "Mage":
                     for key, value in AttackSkill.mage_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection2()
                     self.myPlayer.skill2 = AttackSkill.mage_attack_skill_list[int(answer1)]
                     if self.myPlayer.skill1 == self.myPlayer.skill2:
                         Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
@@ -247,10 +271,11 @@ class Game:
                 elif self.myPlayer.role == "Rogue":
                     for key, value in AttackSkill.rogue_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
-                    self.myPlayer.skill2 = AttackSkill.rogue_attack_skill_list[int(answer1)]
-                    if answer1 != int:
+                    if "r" in answer1.lower():
                         self.skillselection2()
+                    self.myPlayer.skill2 = AttackSkill.rogue_attack_skill_list[int(answer1)]
                     if self.myPlayer.skill1 == self.myPlayer.skill2:
                         Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
                         Utility.continue_prompt(self)
@@ -266,7 +291,10 @@ class Game:
                 elif self.myPlayer.role == "Barbarian":
                     for key, value in AttackSkill.barb_attack_skill_list.items():
                         Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story("\n(R)eturn")
                     answer1 = input('\n>>> ')
+                    if "r" in answer1.lower():
+                        self.skillselection2()
                     self.myPlayer.skill2 = AttackSkill.barb_attack_skill_list[int(answer1)]
                     if self.myPlayer.skill1 == self.myPlayer.skill2:
                         Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
@@ -286,8 +314,11 @@ class Game:
                 Utility.story('\n\nHere are the available Buff Skills:')
                 TextSpeed.fast('\n#####################################')
                 for key, value in BuffSkill.buff_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                Utility.story("\n(R)eturn")
                 answer1 = input('\n>>> ')
+                if "r" in answer1.lower():
+                    self.skillselection2()
                 self.myPlayer.skill2 = BuffSkill.buff_skill_list[int(answer1)]
                 if self.myPlayer.skill1 == self.myPlayer.skill2:
                     Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
@@ -305,8 +336,11 @@ class Game:
                 Utility.story('\n\nHere are the available Restorative Skills:')
                 TextSpeed.fast('\n##########################################')
                 for key, value in RecoverySkill.recovery_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
+                Utility.story("\n(R)eturn")
                 answer1 = input('\n>>> ')
+                if "r" in answer1.lower():
+                    self.skillselection2()
                 self.myPlayer.skill2 = RecoverySkill.recovery_list[int(answer1)]
                 if self.myPlayer.skill1 == self.myPlayer.skill2:
                     Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
@@ -494,7 +528,7 @@ class Game:
             Utility.story('\n\n"The silent type, I see. Well then, I shall call you Booba!"')
             self.myPlayer.name = "Booba"
             Utility.story(f'\n\n"My name is Meelon Husk. It\'s a pleasure to meet you, {self.myPlayer.name}. \
-            I can see by your outfit and your gear, \nthat you must be a {self.myPlayer.role.lower()}.')
+            \nI can see by your outfit and your gear, \nthat you must be a {self.myPlayer.role.lower()}.')
             self.cross_roads()
         else:
             self.doge_convo()
@@ -736,21 +770,21 @@ class Game:
         print('#          █▌▄█▀▀█▀▀▀▀▀╙             ╛╙▀▀▀▀▀█▄▄▄     ▀P  ╓▄█▌██▌   ²█    ▐▌  ]█      #')
         print('#           ▀█▄▄█▀         ▄▄█▀▀▀▀▀           █▌▀▀▀██▄▄█▀▀▄█        └█▄  ▄█   █      #')
         print('#              █▀▄▄     ▄█▀▀▄▄▄▄▄▄¿ ▄≡▄       █    █▌    ╔█"          ╙▀▄     █      #')
-        print('#              █▄▄█▀   ▀▀▄█▀███  ███ █▀      ▐▌   ▐█     █C   ▄▄▄██▄    ▀█   j█      #')
-        print('#              ██▌▐█    ▐█ç ▐██████▀ ╙       █▌   █      █▄▄█▀▀    ▀█▄   ▐█µ ▐▌      #')
+        print('#              █▄▄█▀   ▀▀▄█▀ ██  █ █ █▀      ▐▌   ▐█     █C   ▄▄▄██▄    ▀█   j█      #')
+        print('#              ██▌▐█    ▐█ç ▐████ █▀ ╙       █▌   █      █▄▄█▀▀    ▀█▄   ▐█µ ▐▌      #')
         print('#              ▀██▀"     ▀█▀█▄▄█▀▀          ▄█▄▄▄▄█    ▄█▀▀          ▀█▄  ▐█ ╙       #')
         print('#           ▄█▀██-       ▀▄▀N▄▄             █∞   \█   ▄█               █   █         #')
-        print('#          █▀▄▄ ▀█▄╓ ▄µ   -▀   `           ▐█▄▄▄▄▐▌  ,█                █  █▀         #')
-        print('#         █ █▀     ▀██▀█▄▄▄                 █▌╙╙▐█¬ ▄█╚               █▌ █▀          #')
+        print('#          █▀▄▄ ▀█▄╓ ▄µ   -▀   `           ▐█▄▄▄▄▐▌  ,█       ▄▄       █  █▀         #')
+        print('#         █ █▀     ▀██▀█▄▄▄                 █▌╙╙▐█¬ ▄█╚         ▄     █▌ █▀          #')
         print('#        █▀▄█      ▄█    `╙▀▀▀█▄▄▄        ;▄█▄▄▄██▀▀▀                ▄█▀▀▀           #')
         print('#       █▀,▀     ;█▀             ╙▀▀▀▀▀▀▀▀▀▀╙╙                      █▀ █C            #')
         print('#      ███▀▀▄▄  █▀                                           ▄▄   ▄▀7  ▐█            #')
         print('#      █▌    █▌ ▀█µ                                       ╥▄█▀▄▄█▀╙     ▀█           #')
         print('#      ▐█    ▐█   █▄                                   ▄█▀▀▀▀▀▀          █▌          #')
-        print('#       ▐█    ▀█   █▄                               ▄█▀╧                ▄▀           #')
-        print('#        ▀▌    ▀█   █¿                           ▄█▀╝               ╔▄█▀▀            #')
-        print('#         ▀█    ▀█   █▄                     ;▄█▀▀═           ;▄▄▄█▀▀▀                #')
-        print('#          ▀█    █▌   ▀▄                ,▄█▀▀      ▀▀█▄▄██▀▀▀▀╛                      #')
+        print('#       ▐█    ▀█   █▄                               ▄█▀╧                ▄▀ ▀▀▀█▌     #')
+        print('#        ▀▌    ▀█   █¿                           ▄█▀╝               ╔▄█▀▀     ▀▀▀▀▀▀ #')
+        print('#         ▀█    ▀█   █▄                     ;▄█▀▀═█▌          ;▄▄▄█▀▀▀               #')
+        print('#          ▀█    █▌   ▀▄                ,▄█▀▀  ▀▀▀ ▀▀█▄▄██▀▀▀▀╛                      #')
         print('#           ▀█    █`   ▀█           ▄▄█▀▀╛                                           #')
         print('#            ▐█⌐  ▐█    ▀█     ╓▄▄█▀╝                                                #')
         print('#             └█▄▄ ╚█▄  ,██▄█▀▀▀`                                                    #')
