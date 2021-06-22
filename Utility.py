@@ -12,7 +12,7 @@ class TextSpeed:
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
-      time.sleep(0.04)
+      time.sleep(0.03)
 
 
   @staticmethod
@@ -78,7 +78,7 @@ class Utility:
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
-      time.sleep(0.04)
+      time.sleep(0.03)
 
 
   @staticmethod
@@ -87,7 +87,7 @@ class Utility:
     for character in text:
       sys.stdout.write(character)
       sys.stdout.flush()
-      time.sleep(0.001)
+      time.sleep(0.02)
   
 
   @staticmethod
@@ -211,7 +211,7 @@ class Utility:
       Utility.combat('\nEffect: %s' % player.skill2['skilldes'])
       answer = input("\n\n>>> ")
       if str(1) in answer:
-        if player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] != 'none' and player.def_buff['element'] != 'none':
+        if player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] == 'none' and player.def_buff['element'] == 'none':
           SkillUse.skill1(player, enemy)
         elif player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] != 'none' and player.skill1['type'] != 'atk_buff':
           SkillUse.skill1(player, enemy)
@@ -224,10 +224,16 @@ class Utility:
         elif player.mp >= player.skill1['mpcost'] and player.atk_buff['element'] != 'none' and player.skill1['type'] == 'def_buff':
           SkillUse.skill1(player, enemy)
         else:
-          Utility.combat(f"\nYou cannot use {player.skill1['name']} right now.")
+          if player.mp < player.skill1['mpcost']:
+            Utility.combat(f"\nYou do not have enough mana.")
+          elif player.skill1['element'] != 'none' and player.skill1['type'] == 'def_buff':
+            Utility.combat(f"\nYou are already using {player.skill1['name']}.")
+          elif player.skill1['element'] != 'none' and player.skill1['type'] == 'atk_buff':
+            Utility.combat(f"\nYou are already using {player.skill1['name']}.")
           Turn.clear_turn()
+          Utility.player_combat_prompt(player, enemy)
       elif str(2) in answer:
-        if player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] != 'none' and player.def_buff['element'] != 'none':
+        if player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] == 'none' and player.def_buff['element'] == 'none':
           SkillUse.skill2(player, enemy)
         elif player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] != 'none' and player.skill2['type'] != 'atk_buff':
           SkillUse.skill2(player, enemy)
@@ -240,8 +246,14 @@ class Utility:
         elif player.mp >= player.skill2['mpcost'] and player.atk_buff['element'] != 'none' and player.skill2['type'] == 'def_buff':
           SkillUse.skill2(player, enemy)
         else:
-          Utility.combat(f"\nYou cannot use {player.skill2['name']} right now.")
+          if player.mp < player.skill2['mpcost']:
+            Utility.combat(f"\nYou do not have enough mana.")
+          elif player.skill2['element'] != 'none' and player.skill2['type'] == 'def_buff':
+            Utility.combat(f"\nYou are already using {player.skill2['name']}.")
+          elif player.skill2['element'] != 'none' and player.skill2['type'] == 'atk_buff':
+            Utility.combat(f"\nYou are already using {player.skill2['name']}.")
           Turn.clear_turn()
+          Utility.player_combat_prompt(player, enemy)
       else:
         Turn.clear_turn()
         Utility.combat('\nYou must choose a skill.')
@@ -267,7 +279,7 @@ class Utility:
     Utility.combat(f"\n\nYou rolled a {attack + attackbuff} on your damage dice and {enemy.name} blocked {finalblock} of it.\
     \nYou have dealt {damage} points of damage. The enemy has {enemy.hp} hit points remaining.") if enemy.hp > 0 else 0
     if enemy.hp <= 0:
-      Utility.combat(f"\n\nYou rolled a {attack} on your damage dice and {enemy.name} blocked {finalblock} of it.\
+      Utility.combat(f"\n\nYou rolled a {attack + attackbuff} on your damage dice and {enemy.name} blocked {finalblock} of it.\
       \nYou have dealt {damage} points of damage. The enemy has 0 hit points remaining.")
       player.def_buff == BuffSkill.default
       RecoverySkill.mp_recovery(player)
@@ -340,7 +352,7 @@ class Utility:
   def player_killed(player):
 
     if player.hp <= 0:
-      Utility.combat('\nYou have been killed!')
+      Utility.combat('\n\nYou have been killed!\n')
       Utility.gameOver()
   
 
@@ -376,7 +388,7 @@ class Utility:
   def enemy_killed(enemy, player):
 
     if enemy.hp <= 0:
-      Utility.combat(f'\n{enemy.name} has been killed!')
+      Utility.combat(f'\n\n{enemy.name} has been killed!\n')
       Utility.buff_clear(player, enemy)
 
 
@@ -505,11 +517,24 @@ class RecoverySkill:
     'effectdes': "\nYou cast heal major wounds!\n"
   }
 
+  bandage = {
+    'name': 'Bandage Wounds',
+    'type': 'heal',
+    'skillcost': 3,
+    'element': 'healing',
+    'mpcost': 3,
+    'dice': Dice.d_2,
+    'effect': hp_recovery,
+    'skilldes': "\nAn attempt to bandage wounds. Recovers 1d2 HP.",
+    'effectdes': "\nYou attempt to bandage your wounds.\n"
+  }
+
   recovery_list = {
     1: heal_minor,
-    2: heal_major
+    2: heal_major,
+    3: bandage
   }
-    
+
 
 class AttackSkill:
 
@@ -527,20 +552,7 @@ class AttackSkill:
         Utility.combat(f"\n\n{skill['effectdes']}")
         Utility.combat(f"\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
 
-
-    overhead_slash = {
-      'name': "Overhead Slash",
-      'type': 'attack',
-      'skillcost': 6,
-      'element': "slashing",
-      'mpcost': 5,
-      'dice': Dice.d_10,
-      'additionaldamage': Dice.d_0,
-      'effect': physical_damage,
-      'skilldes': "\nA powerful overhead slash. Does 1d10 damage.",
-      'effectdes': "\nYou swing your weapon from overhead!\n"
-    }
-    
+  ### Warrior Skills ###
 
     shield_bash = {
       'name': "Shield Bash",
@@ -555,6 +567,49 @@ class AttackSkill:
       'effectdes': "\nYou throw the weight of your shield into the enemy!\n"
     }
 
+
+    overhead_slash = {
+      'name': "Overhead Slash",
+      'type': 'attack',
+      'skillcost': 6,
+      'element': "slashing",
+      'mpcost': 5,
+      'dice': Dice.d_10,
+      'additionaldamage': Dice.d_0,
+      'effect': physical_damage,
+      'skilldes': "\nA powerful overhead slash. Does 1d10 damage.",
+      'effectdes': "\nYou swing your weapon from overhead!\n"
+    }
+    
+    ### Barbarian Skills ###
+
+    kick = {
+      'name': "Fierce Kick",
+      'type': 'attack',
+      'skillcost': 5,
+      'element': "kicking",
+      'mpcost': 5,
+      'dice': Dice.d_8,
+      'additionaldamage': Dice.d_2,
+      'effect': physical_damage,
+      'skilldes': "\nA powerful kick. 1d8 + 1d2 kicking damage.",
+      'effectdes': "\nYou kick with all of your might!\n"
+    }
+
+    flurry = {
+      'name': "Flurry of Blows",
+      'type': 'attack',
+      'skillcost': 8,
+      'element': "striking",
+      'mpcost': 4,
+      'dice': Dice.d_8,
+      'additionaldamage': Dice.d_2,
+      'effect': physical_damage,
+      'skilldes': "\nUnleash a flurry of blows for 1d8 + 1d2 damage.",
+      'effectdes': "\nYou unleash a barrage of attacks!\n"
+    }
+
+  ### Mage Skills ###
 
     fireball = {
       'name': "Fireball",
@@ -584,38 +639,54 @@ class AttackSkill:
     }
 
 
+    lightning = {
+      'name': "Lightning Strike",
+      'type': 'magic',
+      'skillcost': 4,
+      'element': "lightning",
+      'mpcost': 3,
+      'dice': Dice.d_6,
+      'additionaldamage': Dice.d_4,
+      'effect': physical_damage,
+      'skilldes': "\nA lightning strike! Does 1d6 + 1d4 of lightning damage.",
+      'effectdes': "\nA bolt of lightning comes from the heavens!\n"
+    }
+
+  ### Rogue Skills ###
+
     backstab = {
       'name': "Backstab",
       'type': 'attack',
       'skillcost': 8,
       'element': "critical",
-      'mpcost': 3,
+      'mpcost': 5,
       'dice': Dice.d_8,
-      'additionaldamage': Dice.d_0,
+      'additionaldamage': Dice.d_2,
       'effect': physical_damage,
-      'skilldes': "\nSneak around to the back of the enemy for 1d8 damage.",
+      'skilldes': "\nSneak around to the back of the enemy for 1d8 + 1d2 damage.",
       'effectdes': "\nYou backstab the enemy!\n"
     }
 
 
-    flurry = {
-      'name': "Flurry of Blows",
+    tripwire = {
+      'name': "Trip Wire",
       'type': 'attack',
-      'skillcost': 8,
-      'element': "striking",
+      'skillcost': 4,
+      'element': "critical",
       'mpcost': 4,
-      'dice': Dice.d_8,
-      'additionaldamage': Dice.d_2,
+      'dice': Dice.d_6,
+      'additionaldamage': Dice.d_4,
       'effect': physical_damage,
-      'skilldes': "\nUnleash a flurry of blows for 1d8 + 1d2 damage.",
-      'effectdes': "\nYou unleash a barrage of attacks!\n"
+      'skilldes': "\nSet up a trip wire for the enemy. Does 1d6 + 1d4 damage.",
+      'effectdes': "\nThe enemy hits the trip wire!\n"
     }
 
-
+  ### Enemy Skills ##
+  
     legshot = {
       'name': "Leg Shot",
       'type': 'attack',
-      'skillcost': 6,
+      'skillcost': 3,
       'element': "leg",
       'mpcost': 3,
       'dice': Dice.d_8,
@@ -626,30 +697,43 @@ class AttackSkill:
     }
 
 
+    aim = {
+      'name': "Aim for the Head",
+      'type': 'attack',
+      'skillcost': 6,
+      'element': "head",
+      'mpcost': 6,
+      'dice': Dice.d_10,
+      'additionaldamage': Dice.d_0,
+      'effect': physical_damage,
+      'skilldes': "\nA shot to the legs for 1d8 damage.",
+      'effectdes': "\nSteben aims for the head!\n"
+    }
+
+
+
     warrior_attack_skill_list = {
       1: overhead_slash,
       2: shield_bash,
-      3: flurry,
-      4: legshot
     }
 
 
     rogue_attack_skill_list = {
       1: backstab,
-      2: flurry,
-      3: legshot
+      3: tripwire
     }
 
 
     mage_attack_skill_list = {
       1: fireball,
       2: icewall,
+      3: lightning
     }
 
 
     barb_attack_skill_list = {
       1: flurry,
-      2: overhead_slash,
+      3: kick
     }
 
 
@@ -688,6 +772,7 @@ class BuffSkill:
     'mpcost': 0,
     'duration': 0,
     'dice': Dice.d_0,
+    'maxbuff': 'none',
     'effect': 'none',
     'skilldes': "\nERROR",
     'effectdes': "\nERROR"
@@ -708,6 +793,19 @@ class BuffSkill:
       'effectdes': "\nYou hide in shadows!\n"
     }
 
+  barrier = {
+      'name': "Magical Barrier",
+      'type': 'def_buff',
+      'skillcost': 6,
+      'element': 'defense',
+      'mpcost': 6,
+      'duration': 3,
+      'dice': Dice.d_6,
+      'maxbuff': "1d6",
+      'effect': def_buff,
+      'skilldes': "\nRaises defense by 1d6 for 3 turns.",
+      'effectdes': "\nYou hide in shadows!\n"
+  }
 
   bush = {
       'name': "Hide in a Bush",
@@ -719,7 +817,7 @@ class BuffSkill:
       'dice': Dice.d_4,
       'maxbuff': "1d4",
       'effect': def_buff,
-      'skilldes': "\nThe enemy hides in a bush. Their defense raises by 1d4 for two turns.",
+      'skilldes': "\nHide in a bush! Defense raises by 1d4 for two turns.",
       'effectdes': "\nThe enemy hides in a bush!\n"
   }
 
@@ -738,9 +836,22 @@ class BuffSkill:
     'effectdes': "\nYou rage out!"
   }
 
+  exit_camp = {
+      'name': "Exit Camp",
+      'type': 'atk_buff',
+      'skillcost': 6,
+      'element': 'attack',
+      'mpcost': 4,
+      'duration': 2,
+      'dice': Dice.d_8,
+      'maxbuff': '1d8',
+      'effect': atk_buff,
+      'skilldes': "\nExit camps for 1d8 for two turns.",
+      'effectdes': "\nSteven exit camps for an attack buff of 1d8 for two turns!\n"
+    }
 
   buff_skill_list = {
     1: shadows,
-    2: bush,
-    3: rage
+    2: rage,
+    3: barrier
   }
