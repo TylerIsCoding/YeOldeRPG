@@ -1,6 +1,7 @@
 from Dice import *
 from Game import *
 from Player import *
+from Skills import *
 
 
 ### Enemy Setup ###
@@ -22,8 +23,10 @@ class Nick(Enemy):
         self.def_buff = BuffSkill.default
         self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_4
-        self.skill1 = AttackSkill.legshot
-        self.skill2 = BuffSkill.bush
+        self.skills = [
+            BuffSkill.bush,
+            AttackSkill.legshot
+        ]
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 15 or total_skill_points <= 8:
             self.hp = Dice.d_8()
@@ -42,8 +45,10 @@ class Steven(Enemy):
         self.def_buff = BuffSkill.default
         self.atk_buff = BuffSkill.default
         self.mprecover = Dice.d_4
-        self.skill1 = AttackSkill.aim
-        self.skill2 = BuffSkill.exit_camp
+        self.skills = [
+            BuffSkill.exit_camp,
+            AttackSkill.aim
+        ]
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 15 or total_skill_points <= 8:
             self.hp = Dice.d_8()

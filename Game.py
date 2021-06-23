@@ -3,6 +3,7 @@ from Enemy import *
 from random import *
 from Player import *
 from Utility import *
+from Skills import *
 
 class Game:
 
@@ -126,7 +127,7 @@ class Game:
             self.myPlayer = Barb(self.myPlayer.name)
         else:
             self.player_setup()
-        while self.skillselection1():
+        while self.skillselection():
             if "w" in answer_2.lower():
                 self.myPlayer = Warrior(self.myPlayer.name)
             elif "m" in answer_2.lower():
@@ -139,226 +140,19 @@ class Game:
                 break
    
 
-    def skillselection1(self):
+    def skillselection(self):
 
             Utility.clear()
-            Utility.story('\n\nYou now must choose two skills.')
+            Utility.story('\n\nYou now must choose your starting skills.')
             Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.')
-            Utility.story('\n\nFor your first skill, do you want an (A)ttack Skill, a (B)uff Skill, or a (R)estorative Skill?')
-            answer = input('\n\n>>>')
-            if "a" in answer.lower():
-                Utility.story('\n\nHere are the available Attack Skills:')
-                TextSpeed.fast('\n#####################################')
-                if self.myPlayer.role == "Warrior":
-                    for key, value in AttackSkill.warrior_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection1()
-                    self.myPlayer.skill1 = AttackSkill.warrior_attack_skill_list[int(answer1)]
-                    self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
-                    self.skillselection2()
-                elif self.myPlayer.role == "Mage":
-                    for key, value in AttackSkill.mage_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection1()
-                    self.myPlayer.skill1 = AttackSkill.mage_attack_skill_list[int(answer1)]
-                    self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
-                    self.skillselection2()
-                elif self.myPlayer.role == "Rogue":
-                    for key, value in AttackSkill.rogue_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection1()
-                    self.myPlayer.skill1 = AttackSkill.rogue_attack_skill_list[int(answer1)]
-                    self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
-                    self.skillselection2()
-                elif self.myPlayer.role == "Barbarian":
-                    for key, value in AttackSkill.barb_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection1()
-                    self.myPlayer.skill1 = AttackSkill.barb_attack_skill_list[int(answer1)]
-                    self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
-                    self.skillselection2()
-            elif "b" in answer.lower():
-                Utility.story('\n\nHere are the available Buff Skills:')
-                TextSpeed.fast('\n#####################################')
-                for key, value in BuffSkill.buff_skill_list.items():
-                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                Utility.story("\n(R)eturn")
-                answer1 = input('\n>>> ')
-                if "r" in answer1.lower():
-                    self.skillselection1()
-                self.myPlayer.skill1 = BuffSkill.buff_skill_list[int(answer1)]
-                self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
-                self.skillselection2()
-            elif "r" in answer.lower():
-                Utility.story('\n\nHere are the available Restorative Skills:')
-                TextSpeed.fast('\n##########################################')
-                for key, value in RecoverySkill.recovery_list.items():
-                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                Utility.story("\n(R)eturn")
-                answer1 = input('\n>>> ')
-                if "r" in answer1.lower():
-                    self.skillselection1()
-                self.myPlayer.skill1 = RecoverySkill.recovery_list[int(answer1)]
-                self.myPlayer.skillpoints -= self.myPlayer.skill1['skillcost']
-                self.skillselection2()
-            else:
-                Utility.story('\n\nYou need to input a valid command.')
-                Utility.continue_prompt(self)
-                self.skillselection1()
+            Utility.story("\n#################")
+            Utility.story("\n1.) Attacks")
+            Utility.story("\n2.) Buffs")
+            Utility.story("\n3.) Restorative")
+            answer = input('\n\n>>> ')
+            if str(1) in answer:
 
-    def skillselection2(self):
-
-            Utility.clear()
-            Utility.story('\n\nYou now must choose the second skill.')
-            Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.')
-            Utility.story('\n\nFor your second skill, do you want an (A)ttack Skill, a (B)uff Skill, or a (R)estorative Skill?')
-            answer = input('\n\n>>>')
-            if "a" in answer.lower():
-                Utility.story('\n\nHere are the available Attack Skills:')
-                Utility.story('\n#####################################')
-                if self.myPlayer.role == "Warrior":
-                    for key, value in AttackSkill.warrior_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection2()
-                    self.myPlayer.skill2 = AttackSkill.warrior_attack_skill_list[int(answer1)]
-                    if self.myPlayer.skill1 == self.myPlayer.skill2:
-                        Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
-                        Utility.continue_prompt(self)
-                        self.skillselection2()
-                    else:
-                        if self.myPlayer.skillpoints >= self.myPlayer.skill2['skillcost']:
-                            self.myPlayer.skillpoints -= self.myPlayer.skill2['skillcost']
-                            self.confirmation()
-                        else:
-                            Utility.story('\n\nYou do not have enough points. Try again.')
-                            Utility.continue_prompt(self)
-                            self.skillselection2()
-                elif self.myPlayer.role == "Mage":
-                    for key, value in AttackSkill.mage_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection2()
-                    self.myPlayer.skill2 = AttackSkill.mage_attack_skill_list[int(answer1)]
-                    if self.myPlayer.skill1 == self.myPlayer.skill2:
-                        Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
-                        Utility.continue_prompt(self)
-                        self.skillselection2()
-                    else:
-                        if self.myPlayer.skillpoints >= self.myPlayer.skill2['skillcost']:
-                            self.myPlayer.skillpoints -= self.myPlayer.skill2['skillcost']
-                            self.confirmation()
-                        else:
-                            Utility.story('\n\nYou do not have enough points. Try again.')
-                            Utility.continue_prompt(self)
-                            self.skillselection2()
-                elif self.myPlayer.role == "Rogue":
-                    for key, value in AttackSkill.rogue_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection2()
-                    self.myPlayer.skill2 = AttackSkill.rogue_attack_skill_list[int(answer1)]
-                    if self.myPlayer.skill1 == self.myPlayer.skill2:
-                        Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
-                        Utility.continue_prompt(self)
-                        self.skillselection2()
-                    else:
-                        if self.myPlayer.skillpoints >= self.myPlayer.skill2['skillcost']:
-                            self.myPlayer.skillpoints -= self.myPlayer.skill2['skillcost']
-                            self.confirmation()
-                        else:
-                            Utility.story('\n\nYou do not have enough points. Try again.')
-                            Utility.continue_prompt(self)
-                            self.skillselection2()
-                elif self.myPlayer.role == "Barbarian":
-                    for key, value in AttackSkill.barb_attack_skill_list.items():
-                        Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                    Utility.story("\n(R)eturn")
-                    answer1 = input('\n>>> ')
-                    if "r" in answer1.lower():
-                        self.skillselection2()
-                    self.myPlayer.skill2 = AttackSkill.barb_attack_skill_list[int(answer1)]
-                    if self.myPlayer.skill1 == self.myPlayer.skill2:
-                        Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
-                        Utility.continue_prompt(self)
-                        self.skillselection2()
-                    else:
-                        if self.myPlayer.skillpoints >= self.myPlayer.skill2['skillcost']:
-                            self.myPlayer.skillpoints -= self.myPlayer.skill2['skillcost']
-                            self.confirmation()
-                        else:
-                            Utility.story('\n\nYou do not have enough points. Try again.')
-                            Utility.continue_prompt(self)
-                            self.skillselection2()
-                else:
-                    self.skillselection2()
-            elif "b" in answer.lower():
-                Utility.story('\n\nHere are the available Buff Skills:')
-                TextSpeed.fast('\n#####################################')
-                for key, value in BuffSkill.buff_skill_list.items():
-                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                Utility.story("\n(R)eturn")
-                answer1 = input('\n>>> ')
-                if "r" in answer1.lower():
-                    self.skillselection2()
-                self.myPlayer.skill2 = BuffSkill.buff_skill_list[int(answer1)]
-                if self.myPlayer.skill1 == self.myPlayer.skill2:
-                    Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
-                    Utility.continue_prompt(self)
-                    self.skillselection2()
-                else:
-                    if self.myPlayer.skillpoints >= self.myPlayer.skill2['skillcost']:
-                        self.myPlayer.skillpoints -= self.myPlayer.skill2['skillcost']
-                        self.confirmation()
-                    elif self.myPlayer.skillpoints < self.myPlayer.skill2['skillcost']:
-                        Utility.story('\n\nYou do not have enough points. Try again.')
-                        Utility.continue_prompt(self)
-                        self.skillselection2()
-            elif "r" in answer.lower():
-                Utility.story('\n\nHere are the available Restorative Skills:')
-                TextSpeed.fast('\n##########################################')
-                for key, value in RecoverySkill.recovery_list.items():
-                    Utility.story(f"\n{str(key)}.) {value['name']} | Cost: {value['skillcost']}")
-                Utility.story("\n(R)eturn")
-                answer1 = input('\n>>> ')
-                if "r" in answer1.lower():
-                    self.skillselection2()
-                self.myPlayer.skill2 = RecoverySkill.recovery_list[int(answer1)]
-                if self.myPlayer.skill1 == self.myPlayer.skill2:
-                    Utility.story('\n\nThe second skill cannot be the same as the first. Try again.')
-                    Utility.continue_prompt(self)
-                    self.skillselection2()
-                else:
-                    if self.myPlayer.skillpoints >= self.myPlayer.skill2['skillcost']:
-                        self.myPlayer.skillpoints -= self.myPlayer.skill2['skillcost']
-                        self.confirmation()
-                    else:
-                        Utility.story('\n\nYou do not have enough points. Try again.')
-                        Utility.continue_prompt(self)
-                        self.skillselection2()
-            else:
-                Utility.story('\n\nYou need to input a valid command.')
-                Utility.continue_prompt(self)
-                self.skillselection2()
-    
+                           
 
 
     def confirmation(self):
@@ -375,11 +169,11 @@ class Game:
         Utility.story("\n\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")
         if "n" in answer_3:
-            self.skillselection1 == False
+            self.skillselection == False
         elif "y" in answer_3:
             print('\n' * 10)
             self.player_setup()
-            self.skillselection1 == True
+            self.skillselection == True
         else:
             Utility.story("\n\nYou have to choose (Y)es or (N)o\n")
             self.confirmation()

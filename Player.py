@@ -1,6 +1,7 @@
 from Dice import *
 from Enemy import *
 from Utility import *
+from Skills import *
 
 ### Player Setup ###
 
@@ -30,8 +31,7 @@ class Mage(Player):
         self.mprecover = Dice.d_4
         self.additional_damage = 0
         self.skillpoints = 15
-        self.skill1 = ''
-        self.skill2 = ''
+        self.skills = []
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_6()
@@ -57,8 +57,7 @@ class Warrior(Player):
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skillpoints = 10
-        self.skill1 = ''
-        self.skill2 = ''
+        self.skills = []
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_20()
@@ -84,8 +83,7 @@ class Rogue(Player):
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skillpoints = 12
-        self.skill1 = ''
-        self.skill2 = ''
+        self.skills = []
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_8()
@@ -110,8 +108,7 @@ class Barb(Player):
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skillpoints = 10
-        self.skill1 = ''
-        self.skill2 = ''
+        self.skills = []
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 20 or total_skill_points <= 15:
             self.hp = Dice.d_12()
