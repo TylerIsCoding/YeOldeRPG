@@ -67,6 +67,12 @@ class Turn:
 class Utility:
 
 
+  def enumerateList(x):
+    for i in x:
+     result = enumerate(x, 1)
+    return result
+
+
   def continue_prompt(self):
     continue_prompt = input("\n\n>>> Hit enter to continue")
     if '' in continue_prompt:

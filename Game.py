@@ -141,18 +141,15 @@ class Game:
                 self.myPlayer = Barb(self.myPlayer.name)
             else:
                 break
-   
-
+    
+    
     def skillselection(self):
 
-        Attacks = [ShieldBash, Flurry, TripWire, Backstab, Fireball, Lightning, IceWall, Kick]
+        Attacks = [ShieldBash, OverheadSlash, Flurry, TripWire, Backstab, Fireball, Lightning, IceWall, Kick]
         Buffs = [Rage, Anger, Barrier, Shadows]
         Recovery = [HealMinor, HealMajor]
 
-        def count(x):
-            for i in x:
-                numbers = x.count(i)
-                return numbers
+       
         Utility.clear()
         Utility.story('\n\nYou now must choose your starting skills.')
         Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
@@ -162,17 +159,16 @@ class Game:
         Utility.story("\n3.) Restorative")
         answer = input('\n\n>>> ')
         if str(1) in answer:
-            for Attack in Attacks:
+            for i, Attack in enumerate(Attacks, 1):
                 if Attack.role == self.myPlayer.role:
-                    Utility.story(f"\n{count(Attacks)}.) {Attack.name}")
+                    print(f"{i}.) {Attack.name} | Cost: {Attack.skillcost}")
         elif str(2) in answer:
-            for Buff in Buffs:
+            for i, Buff in enumerate(Buffs, 1):
                 if Buff.role == self.myPlayer.role:
-                    Utility.story(f"\n{count(Buffs)}.) {Buff.name}")
+                   print(f"{i}.) {Buff.name} | Cost: {Buff.skillcost}")
         elif str(3) in answer:
-            for Skill in Recovery:
-                if Skill.role == self.myPlayer.role:
-                    Utility.story(f"\n{count(Recovery)}.) {Skill.name}")
+            for i, Skill in enumerate(Recovery, 1):
+                   print(f"{i}.) {Skill.name} | Cost: {Skill.skillcost}")
 
 
 

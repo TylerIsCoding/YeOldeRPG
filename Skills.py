@@ -95,7 +95,7 @@ class ShieldBash(Attack):
 
 class OverheadSlash(Attack):
 
-  name = "Shield Bash"
+  name = "Overhead Slash"
   role = "Warrior"
   skillcost = 6
   element = "slashing"
@@ -176,7 +176,7 @@ class Fireball(Attack):
   name = "Fireball"
   role = 'Mage'
   type = 'magic'
-  skillcost = 6,
+  skillcost = 6
   element = "fire"
   mpcost = 3
   dice = Dice.d_8
