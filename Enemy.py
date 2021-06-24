@@ -20,13 +20,10 @@ class Nick(Enemy):
         self.mp = Dice.d_8()
         self.blk = Dice.d_4
         self.atk = Dice.d_8
-        self.def_buff = BuffSkill.default
-        self.atk_buff = BuffSkill.default
+        self.def_buff = Default
+        self.atk_buff = Default
         self.mprecover = Dice.d_4
-        self.skills = [
-            BuffSkill.bush,
-            AttackSkill.legshot
-        ]
+        self.skills = [Bush, Legshot]
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 15 or total_skill_points <= 8:
             self.hp = Dice.d_8()
@@ -42,13 +39,10 @@ class Steven(Enemy):
         self.mp = Dice.d_10()
         self.blk = Dice.d_6
         self.atk = Dice.d_10
-        self.def_buff = BuffSkill.default
-        self.atk_buff = BuffSkill.default
+        self.def_buff = Default
+        self.atk_buff = Default
         self.mprecover = Dice.d_4
-        self.skills = [
-            BuffSkill.exit_camp,
-            AttackSkill.aim
-        ]
+        self.skills = [ExitCamp, Aim]
         total_skill_points = (self.hp + self.mp)
         while total_skill_points >= 15 or total_skill_points <= 8:
             self.hp = Dice.d_8()

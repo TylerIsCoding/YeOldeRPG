@@ -10,6 +10,9 @@ class Game:
     myPlayer = Player("name")
     nick = Nick()
     steven = Steven()
+    attack = Attack()
+    buff = Buff()
+    restore = Recovery()
 
 
     def main_menu(self):
@@ -142,17 +145,36 @@ class Game:
 
     def skillselection(self):
 
-            Utility.clear()
-            Utility.story('\n\nYou now must choose your starting skills.')
-            Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.')
-            Utility.story("\n#################")
-            Utility.story("\n1.) Attacks")
-            Utility.story("\n2.) Buffs")
-            Utility.story("\n3.) Restorative")
-            answer = input('\n\n>>> ')
-            if str(1) in answer:
+        Attacks = [ShieldBash, Flurry, TripWire, Backstab, Fireball, Lightning, IceWall, Kick]
+        Buffs = [Rage, Anger, Barrier, Shadows]
+        Recovery = [HealMinor, HealMajor]
 
-                           
+        def count(x):
+            for i in x:
+                numbers = x.count(i)
+                return numbers
+        Utility.clear()
+        Utility.story('\n\nYou now must choose your starting skills.')
+        Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
+        Utility.story("\n#################")
+        Utility.story("\n1.) Attacks")
+        Utility.story("\n2.) Buffs")
+        Utility.story("\n3.) Restorative")
+        answer = input('\n\n>>> ')
+        if str(1) in answer:
+            for Attack in Attacks:
+                if Attack.role == self.myPlayer.role:
+                    Utility.story(f"\n{count(Attacks)}.) {Attack.name}")
+        elif str(2) in answer:
+            for Buff in Buffs:
+                if Buff.role == self.myPlayer.role:
+                    Utility.story(f"\n{count(Buffs)}.) {Buff.name}")
+        elif str(3) in answer:
+            for Skill in Recovery:
+                if Skill.role == self.myPlayer.role:
+                    Utility.story(f"\n{count(Recovery)}.) {Skill.name}")
+
+
 
 
     def confirmation(self):
@@ -164,7 +186,7 @@ class Game:
         Utility.story(f"\nMana Points: {self.myPlayer.mp}")
         Utility.story(f"\nDefence: {self.myPlayer.defense}")
         Utility.story(f"\nAttack Dice: {self.myPlayer.max_attack_str}")
-        skillset = "{0}, {1}".format(str(self.myPlayer.skill1['name']), str(self.myPlayer.skill2['name']))
+        skillset = self.myPlayer.skills
         Utility.story(f'\nSkills: {str(skillset)}')
         Utility.story("\n\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")

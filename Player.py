@@ -26,8 +26,8 @@ class Mage(Player):
         self.mp = Dice.d_10()
         self.blk = Dice.d_4
         self.atk = Dice.d_6
-        self.def_buff = BuffSkill.default
-        self.atk_buff = BuffSkill.default
+        self.def_buff = Default
+        self.atk_buff = Default
         self.mprecover = Dice.d_4
         self.additional_damage = 0
         self.skillpoints = 15
@@ -52,8 +52,8 @@ class Warrior(Player):
         self.mp = Dice.d_6()
         self.blk = Dice.d_8
         self.atk = Dice.d_10
-        self.def_buff = BuffSkill.default
-        self.atk_buff = BuffSkill.default
+        self.def_buff = Default
+        self.atk_buff = Default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skillpoints = 10
@@ -78,8 +78,8 @@ class Rogue(Player):
         self.mp = Dice.d_8()
         self.blk = Dice.d_10
         self.atk = Dice.d_6
-        self.def_buff = BuffSkill.default
-        self.atk_buff = BuffSkill.default
+        self.def_buff = Default
+        self.atk_buff = Default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skillpoints = 12
@@ -103,8 +103,8 @@ class Barb(Player):
         self.mp = Dice.d_6()
         self.blk = Dice.d_6
         self.atk = Dice.d_8
-        self.def_buff = BuffSkill.default
-        self.atk_buff = BuffSkill.default
+        self.def_buff = Default
+        self.atk_buff = Default
         self.mprecover = Dice.d_2
         self.additional_damage = 0
         self.skillpoints = 10
