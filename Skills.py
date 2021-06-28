@@ -37,16 +37,16 @@ class Attack:
 
   def physical_damage(skill, player, enemy):
 
-    block = enemy.blk() + enemy.def_buff['dice']()
-    damage = (skill['dice']() + skill['additionaldamage']()) - block
+    block = enemy.blk() + enemy.def_buff.dice()
+    damage = (skill.dice() + skill.additionaldamage()) - block
     if damage > 0:
       enemy.hp -= damage
-      Utility.combat(f"\n\n{skill['effectdes']}")
-      Utility.combat(f"\n\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
+      Utility.combat(f"\n\n{skill.effectdes}")
+      Utility.combat(f"\n\n{player.name} has done {damage} points of {skill.element} damage to {enemy.name}.")
     else:
       damage = 0
-      Utility.combat(f"\n\n{skill['effectdes']}")
-      Utility.combat(f"\n{player.name} has done {damage} points of {skill['element']} damage to {enemy.name}.")
+      Utility.combat(f"\n\n{skill.effectdes}")
+      Utility.combat(f"\n{player.name} has done {damage} points of {skill.element} damage to {enemy.name}.")
 
   type = "attack"
   effect = physical_damage
@@ -61,8 +61,8 @@ class Buff:
         Turn.def_turns_passed = 1
     else:
         Turn.def_enemy_turns_passed = 1
-    Utility.combat(f"\n{player.def_buff['effectdes']}")
-    Utility.combat(f"\n{player.name} raised their {player.def_buff['element']} by {player.def_buff['maxbuff']}.")
+    Utility.combat(f"\n{skill.effectdes}")
+    Utility.combat(f"\n{player.name} raised their {skill.element} by {skill.maxbuff}.")
     enemy == False
 
   def atk_buff(skill, player, enemy):
@@ -72,8 +72,8 @@ class Buff:
         Turn.atk_turns_passed = 1
     else:
         Turn.atk_enemy_turns_passed = 1
-    Utility.combat(f"\n{player.atk_buff['effectdes']}")
-    Utility.combat(f"\n{player.name} raised their {player.atk_buff['element']} by {player.atk_buff['maxbuff']}.")
+    Utility.combat(f"\n{skill.effectdes}")
+    Utility.combat(f"\n{player.name} raised their {skill.element} by {skill.maxbuff}.")
     enemy == False
 
 
@@ -341,10 +341,10 @@ class Bush(Buff):
 class Recovery:
 
   def hp_recovery(self, skill, player, enemy):
-    recovery = skill['dice']()
+    recovery = skill.dice()
     player.hp += recovery
-    Utility.combat(f"\n\n{skill['effectdes']}")
-    Utility.combat(f"\n{player.name} recovered {recovery} HP from {skill['name']}.")
+    Utility.combat(f"\n\n{skill.effectdes}")
+    Utility.combat(f"\n{player.name} recovered {recovery} HP from {skill.name}.")
     enemy == False
 
   def mp_recovery(self, player):
@@ -356,6 +356,7 @@ class Recovery:
 class HealMinor(Recovery):
 
     name = "Heal Minor Wounds"
+    role = ''
     type = 'heal'
     skillcost = 4
     element = 'healing'
@@ -369,6 +370,7 @@ class HealMinor(Recovery):
 class HealMajor(Recovery):
 
     name = "Heal Major Wounds"
+    role = ''
     type = 'heal'
     skillcost = 6
     element = 'healing'
@@ -382,6 +384,7 @@ class HealMajor(Recovery):
 class Bandage(Recovery):
 
     name = "Bandage Wounds"
+    role = ''
     type = 'heal'
     skillcost = 3
     element = 'healing'
@@ -390,4 +393,3 @@ class Bandage(Recovery):
     effect = Recovery.hp_recovery
     skilldes = "\nAn attempt to bandage wounds. Recovers 1d2 HP."
     effectdes = "\nYou attempt to bandage your wounds.\n"
-  

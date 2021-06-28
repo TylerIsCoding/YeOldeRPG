@@ -147,29 +147,63 @@ class Game:
 
         Attacks = [ShieldBash, OverheadSlash, Flurry, TripWire, Backstab, Fireball, Lightning, IceWall, Kick]
         Buffs = [Rage, Anger, Barrier, Shadows]
-        Recovery = [HealMinor, HealMajor]
+        Recovery = [HealMinor, HealMajor, Bandage]
 
        
         Utility.clear()
-        Utility.story('\n\nYou now must choose your starting skills.')
+        if self.myPlayer.skills == []:
+            Utility.story('\n\nYou now must choose your starting skills.')
+        elif self.myPlayer.skillpoints < 2:
+            self.confirmation()
+            return True
+        else:
+            Utility.story('\n\nChoose another skill.')
+            for skill in self.myPlayer.skills:
+                Utility.story(f"\n\nSkills so far:\
+                \n##############\
+                \n\n{skill.name}")
         Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
         Utility.story("\n#################")
         Utility.story("\n1.) Attacks")
         Utility.story("\n2.) Buffs")
         Utility.story("\n3.) Restorative")
+        Utility.story("\n4.) Continue")
         answer = input('\n\n>>> ')
         if str(1) in answer:
-            for i, Attack in enumerate(Attacks, 1):
-                if Attack.role == self.myPlayer.role:
-                    print(f"{i}.) {Attack.name} | Cost: {Attack.skillcost}")
+            SkillList = Attacks
         elif str(2) in answer:
-            for i, Buff in enumerate(Buffs, 1):
-                if Buff.role == self.myPlayer.role:
-                   print(f"{i}.) {Buff.name} | Cost: {Buff.skillcost}")
+            SkillList = Buffs
         elif str(3) in answer:
-            for i, Skill in enumerate(Recovery, 1):
-                   print(f"{i}.) {Skill.name} | Cost: {Skill.skillcost}")
-
+            SkillList = Recovery
+            for skill in SkillList:
+                skill.role = self.myPlayer.role
+        elif str(4) in answer:
+            self.confirmation()
+            return True
+        count = 1
+        for Skill in SkillList:
+            if Skill.role == self.myPlayer.role:
+                Utility.story(f"\n{count}.) {Skill.name} | Cost: {Skill.skillcost}")
+                count += 1
+        selection = input('\n>>> ')
+        if (int(selection) < len(Attacks)):
+            choice = SkillList[int(selection) - 1]
+            if self.myPlayer.skillpoints >= choice.skillcost and choice not in self.myPlayer.skills:
+                self.myPlayer.skills.append(choice)
+                self.myPlayer.skillpoints -= (choice.skillcost)
+                self.skillselection()
+            elif self.myPlayer.skillpoints < choice.skillcost:
+                Utility.story('\nNot enough skill points.')
+                Utility.continue_prompt(self)
+                self.skillselection()
+            else:
+                Utility.story('\nSkill already selected. Choose a different skill.')
+                Utility.continue_prompt(self)
+                self.skillselection()
+        else:
+            Utility.story('\nPlease enter a valid selection. Try again.')
+            Utility.continue_prompt(self)
+            self.skillselection()
 
 
 
@@ -182,8 +216,8 @@ class Game:
         Utility.story(f"\nMana Points: {self.myPlayer.mp}")
         Utility.story(f"\nDefence: {self.myPlayer.defense}")
         Utility.story(f"\nAttack Dice: {self.myPlayer.max_attack_str}")
-        skillset = self.myPlayer.skills
-        Utility.story(f'\nSkills: {str(skillset)}')
+        for skill in self.myPlayer.skills:
+            Utility.story(f'\nSkill: {str(skill.name)}')
         Utility.story("\n\nRe-roll? (Y)es or (N)o")
         answer_3 = input("\n>>> ")
         if "n" in answer_3:
