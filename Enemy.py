@@ -1,7 +1,7 @@
+##### Imports #####
 from Dice import *
-from Game import *
-from Player import *
 from Skills import *
+###################
 
 
 ### Enemy Setup ###

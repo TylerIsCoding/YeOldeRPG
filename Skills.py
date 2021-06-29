@@ -1,11 +1,60 @@
-from Utility import *
+##### Imports #####
 from Dice import *
-
+from Utility import Utility, Turn
+###################
 
 class SkillUse:
 
     def player_skill(player, enemy):
-      None
+      count = 1
+      for skill in player.skills:
+        Utility.combat(f'\n{count}.) {skill.name} | {skill.mpcost}')
+        count += 1
+      Utility.combat(f'\n{count}.) Return')
+      selection = input('\n\n>>> ')
+      if int(selection) <= len(player.skills):
+        choice = player.skills[(int(selection) - 1)]
+        if choice.type == 'attack' and choice.mpcost <= player.mp:
+          player.mp -= choice.mpcost
+          choice.effect(choice, player, enemy)
+          Utility.def_buff_check(enemy, player)
+        elif choice.type == 'atk_buff' and player.atk_buff == Default and choice.mpcost <= player.mp:
+          player.mp -= choice.mpcost
+          choice.effect(choice, player, enemy)
+          Utility.def_buff_check(enemy, player)
+        elif choice.type == 'atk_buff' and player.atk_buff != Default:
+          Utility.combat('\nYou already have an attack buff. Please make a different selection.')
+          Turn.clear_turn()
+          Utility.continue_prompt()
+          Utility.player_combat_prompt(player, enemy)
+        elif choice.type == 'def_buff' and player.def_buff == Default and choice.mpcost <= player.mp:
+          player.mp -= choice.mpcost
+          choice.effect(choice, player, enemy)
+          Utility.def_buff_check(enemy, player)
+        elif choice.type == 'def_buff' and player.def_buff != Default:
+          Utility.combat('\nYou already have a defensive buff. Please make a different selection.')
+          Turn.clear_turn()
+          Utility.continue_prompt()
+          Utility.player_combat_prompt(player, enemy)
+        elif choice.type == 'heal' and choice.mpcost <= player.mp:
+          player.mp -= choice.mpcost
+          choice.effect(choice, player, enemy)
+          Utility.def_buff_check(enemy, player)
+        elif choice.mpcost > player.mp:
+          Utility.combat('\nYou do not have enough mana.')
+          Turn.clear_turn()
+          Utility.continue_prompt()
+          Utility.player_combat_prompt(player, enemy)
+      elif int(selection) == count:
+        Turn.clear_turn()
+        Utility.player_combat_prompt(player, enemy)
+      else:
+        Utility.combat('\nPlease make a valid selection.')
+        Turn.clear_turn()
+        Utility.continue_prompt()
+        Utility.player_combat_prompt(player, enemy)
+
+
   
     def enemy_skill(enemy, player):
       None
@@ -110,7 +159,7 @@ class Rage(Buff):
 
   name = "Blinding Rage"
   role = "Warrior"
-  type = 'attack'
+  type = 'atk_buff'
   skillcost = 4
   element = 'attack'
   mpcost = 4
@@ -118,7 +167,7 @@ class Rage(Buff):
   dice = Dice.d_8
   maxbuff = "1d8"
   effect = Buff.atk_buff
-  skilldes = "\nYou rage out! Your attack is raised by 1d8 for two turns!"
+  skilldes = "\nYour attack is raised by 1d8 for two turns!"
   effectdes =  "\nYou are filled with rage!"
 
 
@@ -189,7 +238,7 @@ class IceWall(Attack):
 
   name = "Ice Wall"
   role = 'Mage'
-  type = 'magic'
+  type = 'attack'
   skillcost = 4
   element = "ice"
   mpcost = 2
@@ -203,7 +252,7 @@ class Lightning(Attack):
 
   name = "Lightning Strike"
   role = 'Mage'
-  type = 'magic'
+  type = 'attack'
   skillcost = 4
   element = "lightning"
   mpcost = 3
@@ -236,6 +285,7 @@ class Backstab(Attack):
 
   name = "Backstab"
   role = "Rogue"
+  type = 'attack'
   skillcost = 8
   element = "critical"
   mpcost = 5
@@ -249,6 +299,7 @@ class TripWire(Attack):
 
   name = "Trip Wire"
   role = "Rogue"
+  type = 'attack'
   skillcost = 4
   element = "critical"
   mpcost = 4
@@ -281,6 +332,7 @@ class Legshot(Attack):
 
   name = "Leg Shot"
   role = "Enemy"
+  type = 'attack'
   skillcost = 3
   element = "leg"
   mpcost = 3
@@ -294,6 +346,7 @@ class Aim(Attack):
 
   name = "Aim for the Head"
   role = "Enemy"
+  type = 'attack'
   skillcost = 6
   element = "head"
   mpcost = 6
@@ -340,14 +393,14 @@ class Bush(Buff):
 
 class Recovery:
 
-  def hp_recovery(self, skill, player, enemy):
+  def hp_recovery(skill, player, enemy):
     recovery = skill.dice()
     player.hp += recovery
     Utility.combat(f"\n\n{skill.effectdes}")
     Utility.combat(f"\n{player.name} recovered {recovery} HP from {skill.name}.")
     enemy == False
 
-  def mp_recovery(self, player):
+  def mp_recovery(player):
     recovery = player.mprecover()
     player.mp += recovery
     Utility.combat(f'\n{player.name} naturally recovered {recovery} MP this turn.\n\n')

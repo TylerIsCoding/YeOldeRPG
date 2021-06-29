@@ -1,9 +1,9 @@
-from Dice import *
-from Enemy import *
-from random import *
+##### Imports #####
 from Player import *
+from Enemy import *
 from Utility import *
 from Skills import *
+###################
 
 class Game:
 
@@ -158,10 +158,10 @@ class Game:
             return True
         else:
             Utility.story('\n\nChoose another skill.')
+            Utility.story('\n\nSkills chosen so far:')
+            Utility.story('\n#####################')
             for skill in self.myPlayer.skills:
-                Utility.story(f"\n\nSkills so far:\
-                \n##############\
-                \n\n{skill.name}")
+                Utility.story(f"\n{skill.name}")
         Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
         Utility.story("\n#################")
         Utility.story("\n1.) Attacks")
@@ -181,13 +181,20 @@ class Game:
             self.confirmation()
             return True
         count = 1
-        for Skill in SkillList:
-            if Skill.role == self.myPlayer.role:
-                Utility.story(f"\n{count}.) {Skill.name} | Cost: {Skill.skillcost}")
+        ListStore = []
+        for skill in SkillList:
+            if skill.role == self.myPlayer.role:
+                ListStore.append(skill)
+                Utility.story(f"\n{count}.) {skill.name} | Cost: {skill.skillcost}")
                 count += 1
+        Utility.story(f"\n{count}.) Return")
         selection = input('\n>>> ')
-        if (int(selection) < len(Attacks)):
-            choice = SkillList[int(selection) - 1]
+        if (int(selection)) == '':
+            Utility.story('\nPlease enter a valid selection. Try again.')
+            Utility.continue_prompt(self)
+            self.skillselection()
+        elif (int(selection) <= len(ListStore)):
+            choice = ListStore[int(selection) - 1]
             if self.myPlayer.skillpoints >= choice.skillcost and choice not in self.myPlayer.skills:
                 self.myPlayer.skills.append(choice)
                 self.myPlayer.skillpoints -= (choice.skillcost)
@@ -200,6 +207,8 @@ class Game:
                 Utility.story('\nSkill already selected. Choose a different skill.')
                 Utility.continue_prompt(self)
                 self.skillselection()
+        elif (int(selection) == count):
+            self.skillselection()
         else:
             Utility.story('\nPlease enter a valid selection. Try again.')
             Utility.continue_prompt(self)
@@ -587,7 +596,7 @@ class Game:
         print('#                             ▀█▄  ,▄███▀▀-                                         #')
         print('#                               ▀▀▀▀                                                #')
         print('#####################################################################################')
-        regen = RecoverySkill.heal_major['dice']()
+        regen = HealMajor.dice()
         Utility.story(f'\n\nYou both settle in for some rest. You regain {(str(regen))} hit points from sleeping.')
         self.myPlayer.hp += regen
         Utility.story('\nDaylight creeps over the hills and treetops. The two of you gather your gear and start towards the Woods.')

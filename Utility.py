@@ -1,8 +1,9 @@
+##### Imports #####
 import time, sys
 from Dice import *
 from random import *
-from Player import *
 from Skills import *
+###################
 
 class TextSpeed:
 
@@ -67,12 +68,6 @@ class Turn:
 class Utility:
 
 
-  def enumerateList(x):
-    for i in x:
-     result = enumerate(x, 1)
-    return result
-
-
   def continue_prompt(self):
     continue_prompt = input("\n\n>>> Hit enter to continue")
     if '' in continue_prompt:
@@ -128,7 +123,6 @@ class Utility:
 
   def def_buff_check(player, enemy):
     
-    #buff = player.def_buff
     TextSpeed.instant('\n' * 5)
     if player.type == "Player":
       if player.def_buff.duration != Turn.def_turns_passed and player.def_buff != Default:
@@ -210,11 +204,7 @@ class Utility:
     if 'a' in answer.lower():
       Utility.attack(player, enemy)
     elif 's' in answer.lower():
-      count = 1
-      for skill in player.skills:
-        Utility.combat(f"\n{count}.) {skill.name} | MP Cost: {skill.mpcost}")
-        count += 1
-      answer = input("\n\n>>> ")
+      SkillUse.player_skill(player, enemy)
      
 
 
@@ -223,7 +213,7 @@ class Utility:
     Utility.combat('\n\nYou have chosen to attack!')
     attack = player.atk()
     attackbuff = player.atk_buff.dice()
-    if enemy.def_buff.element == "defense":
+    if enemy.def_buff != Default:
       enemybuff = enemy.def_buff.dice()
     else:
       enemybuff = 0
@@ -273,39 +263,12 @@ class Utility:
 
   def enemy_skill_use(enemy, player):
 
-      if enemy.mp >= enemy.skill1['mpcost'] and enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] == 'none':
-        RandSkill1 = SkillUse.enemy_skill1
-        RandSkill2 = SkillUse.enemy_skill2
-        selection = random.choice((RandSkill1, RandSkill2))
-        if selection == RandSkill1 and enemy.skill1['type'] == 'def_buff' or 'atk_buff':
-          SkillUse.enemy_skill1(enemy, player)
-        elif selection == RandSkill1 and enemy.skill2['type'] == 'def_buff' or 'atk_buff':
-          SkillUse.enemy_skill2(enemy, player)
-        elif selection == RandSkill2 and enemy.skill1['type'] == 'def_buff' or 'atk_buff':
-          SkillUse.enemy_skill1(enemy, player)
-        elif selection == RandSkill2 and enemy.skill2['type'] == 'def_buff' or 'atk_buff':
-          SkillUse.enemy_skill2(enemy, player)
-        elif selection == RandSkill1 and enemy.skill1['type'] != 'def_buff' or 'atk_buff':
-          SkillUse.enemy_skill1(enemy, player)
-        elif selection == RandSkill2 and enemy.skill2['type'] != 'def_buff' or 'atk_buff':
-          SkillUse.enemy_skill2(enemy, player)
-        else:
-          Utility.enemy_attack(enemy, player)
-      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] == 'none':
-            SkillUse.enemy_skill1(enemy, player)
-      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] == 'none':
-            SkillUse.enemy_skill2(enemy, player)
-      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.def_buff['element'] != 'none' and enemy.atk_buff['element'] != 'none':
-            SkillUse.enemy_skill1(enemy, player)
-      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] != 'none' and enemy.atk_buff['element'] != 'none':
-            SkillUse.enemy_skill2(enemy, player)
-      elif enemy.mp >= enemy.skill1['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] != 'none':
-            SkillUse.enemy_skill1(enemy, player)
-      elif enemy.mp >= enemy.skill2['mpcost'] and enemy.def_buff['element'] == 'none' and enemy.atk_buff['element'] != 'none':
-            SkillUse.enemy_skill2(enemy, player)
-      else:
-            Utility.enemy_attack(enemy, player)
+      for skill in enemy.skills:
+        if enemy.atk_buff == Default and enemy.def_buff == Default:
+          choice = random.choice(enemy.skills)
+          choice.effect()
 
+         
  
   def player_killed(player):
 
@@ -316,27 +279,27 @@ class Utility:
 
   def buff_clear(player, enemy):
 
-    if player.def_buff['element'] != 'none' and player.atk_buff['element'] != 'none':
-      Turn.def_turns_passed = player.def_buff['duration']
-      Turn.atk_turns_passed = player.atk_buff['duration']
-      player.def_buff = BuffSkill.default
-      player.atk_buff = BuffSkill.default
-      enemy.def_buff = BuffSkill.default
-      enemy.atk_buff = BuffSkill.default
+    if player.def_buff != Default and player.atk_buff != Default:
+      Turn.def_turns_passed = player.def_buff.duration
+      Turn.atk_turns_passed = player.atk_buff.duration
+      player.def_buff = Default
+      player.atk_buff = Default
+      enemy.def_buff = Default
+      enemy.atk_buff = Default
       Turn.def_turns_passed = 0
       Turn.def_enemy_turns_passed = 0
       Turn.atk_turns_passed = 0
       Turn.atk_enemy_turns_passed = 0
-    elif player.def_buff['element'] != 'none':
-      Turn.def_turns_passed = player.def_buff['duration']
-      player.def_buff = BuffSkill.default
-      enemy.def_buff = BuffSkill.default
+    elif player.def_buff != Default:
+      Turn.def_turns_passed = player.def_buff.duration
+      player.def_buff = Default
+      enemy.def_buff = Default
       Turn.def_turns_passed = 0
       Turn.def_enemy_turns_passed = 0
-    elif player.atk_buff['element'] != 'none':
-      Turn.atk_turns_passed = player.atk_buff['duration']
-      player.atk_buff = BuffSkill.default
-      enemy.atk_buff = BuffSkill.default
+    elif player.atk_buff != Default:
+      Turn.atk_turns_passed = player.atk_buff.duration
+      player.atk_buff = Default
+      enemy.atk_buff = Default
       Turn.atk_turns_passed = 0
       Turn.atk_enemy_turns_passed = 0
     else:

@@ -1,5 +1,7 @@
+##### Imports #####
 from Game import *
-from Utility import *
+from Utility import TextSpeed
+###################
 
 game = Game()
 Utility.menu = TextSpeed.instant
