@@ -1,6 +1,6 @@
 ##### Imports #####
 from Dice import *
-from Skills import *
+from Utility import *
 ###################
 
 

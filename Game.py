@@ -2,7 +2,6 @@
 from Player import *
 from Enemy import *
 from Utility import *
-from Skills import *
 ###################
 
 class Game:
@@ -18,12 +17,12 @@ class Game:
     def main_menu(self):
 
         Utility.clear() 
-        TextSpeed.fast("\n############################")
-        TextSpeed.fast("\nWelcome to Ye Olde Text RPG!")
-        TextSpeed.fast("\n############################")
-        TextSpeed.fast("\n       --(P)lay--")
-        TextSpeed.fast("\n      --(O)ptions--")
-        TextSpeed.fast("\n       --(Q)uit--")
+        TextSpeed.fast("\n################################")
+        TextSpeed.fast("\n# Welcome to Ye Olde Text RPG! #")
+        TextSpeed.fast("\n################################")
+        TextSpeed.fast("\n         --(P)lay--")
+        TextSpeed.fast("\n        --(O)ptions--")
+        TextSpeed.fast("\n         --(Q)uit--")
         print('\n' * 5)
         main_menu_selection = input("\n>>> ")
         if "p" in main_menu_selection.lower():
@@ -159,11 +158,10 @@ class Game:
         else:
             Utility.story('\n\nChoose another skill.')
             Utility.story('\n\nSkills chosen so far:')
-            Utility.story('\n#####################')
+            Utility.story('\n#####################\n')
             for skill in self.myPlayer.skills:
                 Utility.story(f"\n{skill.name}")
-        Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
-        Utility.story("\n#################")
+        Utility.story("\n\n#####################")
         Utility.story("\n1.) Attacks")
         Utility.story("\n2.) Buffs")
         Utility.story("\n3.) Restorative")
@@ -188,7 +186,8 @@ class Game:
                 Utility.story(f"\n{count}.) {skill.name} | Cost: {skill.skillcost}")
                 count += 1
         Utility.story(f"\n{count}.) Return")
-        selection = input('\n>>> ')
+        Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
+        selection = input('\n\n>>> ')
         if (int(selection)) == '':
             Utility.story('\nPlease enter a valid selection. Try again.')
             Utility.continue_prompt(self)
@@ -219,7 +218,7 @@ class Game:
     def confirmation(self):
 
         Utility.clear()
-        Utility.story(f"\n   {self.myPlayer.name} the {self.myPlayer.role}")
+        Utility.story(f"\n{self.myPlayer.name} the {self.myPlayer.role}")
         Utility.story("\n########################")
         Utility.story(f"\nHit Points: {self.myPlayer.hp}")
         Utility.story(f"\nMana Points: {self.myPlayer.mp}")
@@ -512,7 +511,7 @@ class Game:
         result = Utility.initiative()
         if result:
             Turn.turn_count(-1)
-            Utility.def_buff_check(self.myPlayer, self.nick)
+            Utility.player_combat_prompt(self.myPlayer, self.nick)
         else:
             Turn.turn_count(0)
             Utility.def_buff_check(self.nick, self.myPlayer)
