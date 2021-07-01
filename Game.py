@@ -111,14 +111,14 @@ class Game:
 
         Utility.clear()
         Utility.story("\nWhat is your name?")
-        self.myPlayer.name = input("\n>>> ").title()
+        self.myPlayer.name = input("\n\n>>> ").title()
         self.player_setup()
 
     def player_setup(self):
 
         Utility.clear()
         Utility.story("\nAre you a (W)arrior, (M)age, (R)ogue, or (B)arbarian?")
-        answer_2 = input("\n>>> ")
+        answer_2 = input("\n\n>>> ")
         if "w" in answer_2.lower():
             self.myPlayer = Warrior(self.myPlayer.name)
         elif "m" in answer_2.lower():
@@ -219,15 +219,17 @@ class Game:
 
         Utility.clear()
         Utility.story(f"\n{self.myPlayer.name} the {self.myPlayer.role}")
-        Utility.story("\n########################")
+        Utility.story("\n########################\n")
         Utility.story(f"\nHit Points: {self.myPlayer.hp}")
         Utility.story(f"\nMana Points: {self.myPlayer.mp}")
         Utility.story(f"\nDefence: {self.myPlayer.defense}")
         Utility.story(f"\nAttack Dice: {self.myPlayer.max_attack_str}")
+        Utility.story("\n\n#######| Skills |#######\n")
         for skill in self.myPlayer.skills:
-            Utility.story(f'\nSkill: {str(skill.name)}')
+            Utility.story(f'\n{skill.name}')
+        Utility.story("\n\n########################")
         Utility.story("\n\nRe-roll? (Y)es or (N)o")
-        answer_3 = input("\n>>> ")
+        answer_3 = input("\n\n>>> ")
         if "n" in answer_3:
             self.skillselection == False
         elif "y" in answer_3:
@@ -465,8 +467,7 @@ class Game:
 
     def nick_fight(self):
 
-        Utility.continue_prompt(self)
-
+        Utility.continue_prompt()
         Utility.clear()
         print("#################################################################################################")
         print("#                                                                                               #")
@@ -514,12 +515,13 @@ class Game:
             Utility.player_combat_prompt(self.myPlayer, self.nick)
         else:
             Turn.turn_count(0)
-            Utility.def_buff_check(self.nick, self.myPlayer)
+            Utility.buff_check(self.nick, self.myPlayer)
         self.post_nick_fight()
             
-    def post_nick_fight(self):
-        Utility.continue_prompt(self)
 
+    def post_nick_fight(self):
+        
+        Utility.continue_prompt()
         Utility.clear()
         Utility.story('\n\n"Wow!" says Meelon. "It looks like you can fight... \nLook, he dropped this after you got him."')
         get_loot = input('\n\n>>> Hit enter to loot the scav.')
@@ -551,7 +553,7 @@ class Game:
             Utility.story('\nIt appears to be a TOZ-106! You pick it up. It adds (+ 1) to your damage roll.')
             self.myPlayer.additional_damage += 1
             Utility.story(f'\n\nYou now do {str(self.myPlayer.max_attack_str)} + {str(self.myPlayer.additional_damage)} points of damage.')
-            Utility.continue_prompt(self)
+            Utility.continue_prompt()
             self.woods()
 
 
@@ -604,7 +606,8 @@ class Game:
         Utility.story('\n\n"If we could aquire the Kappa container AND remove Shturman\'s evil hold \non the Woods, I\'m sure that the King would be most grateful."')
         Utility.story(f'\n\n"Listen, {self.myPlayer.name}, we should head East. \nThat\'s where Shturman was last spotted... or so I\'ve heard..."')
         Utility.story('\n\n\nThe two of you head East to see if you can find any traces of Shturman. \nAs you try to locate any clues you hear the sound of twigs snapping\nand the unmistakable smell of sweat!')
-        Utility.continue_prompt(self)
+        Utility.story('\n\nA wild Sweaty Steven appears!')
+        Utility.continue_prompt()
         self.steven_fight()
 
     def steven_fight(self):
@@ -644,14 +647,12 @@ class Game:
         print('#             └█▄▄ ╚█▄  ,██▄█▀▀▀`                                                    #')
         print('#                ▀▀█▄███▀-                                                           #')
         print('######################################################################################')
-        Utility.story('\nA wild Sweaty Steven appears!')
-        Utility.continue_prompt(self)
         result = Utility.initiative()
         if result:
             Turn.turn_count(-1)
-            Utility.def_buff_check(self.myPlayer, self.steven)
+            Utility.buff_check(self.myPlayer, self.steven)
         else:
             Turn.turn_count(0)
-            Utility.def_buff_check(self.steven, self.myPlayer)
+            Utility.buff_check(self.steven, self.myPlayer)
         
 
