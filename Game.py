@@ -13,7 +13,52 @@ class Game:
     buff = Buff()
     restore = Recovery()
 
+    def title_screen(self):
 
+        Utility.clear()
+
+        print('##################################################################################################################################################################################')
+        print('#                                                                                                                                                                                #')
+        print('#                           ,▄Æ▀▀▀▀▄                                                                                                                                             #')
+        print('#                       ▄▄▄ ▄██▄  ▄▄  ▀▄                                                                                                                 ,█▀▀▀▀▀▄,               #')
+        print('#                     ,█`  ▀ ,,-▀▓▓▓▓ ██4▄                                               ▐█           ▄█▌                                            ▄A▄█▀ ,▄▄▄  ▀█              #')
+        print('#                   █▌  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▀ ▄█▄▄▄▄▄▄▄▄▄,,                                   █ ▀▄       ▄▀▐█                                           ▄▀  ▐▌ á▓▓▓▓▓L █▀▀▄            #')
+        print('#             ▄▄▄▄▄▄A▀▀3▓▓▓▀▀▀▀▀▀▀▀▀▀▀╙         ,,▄▄▄▄██▀                     ▄         ╒█       ,▄▀  ▐▌  ,▄                               ,,,▄▀▀4█,╓▓▓▄╦&▓▓▓▓▓▓▓▓▓&&m▀▀▀&▄▄▄▄,  #')
+        print('#           ▀▀▀P&æææææÆPP▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀-`                              ▀▄   ▀PPP▀  ▄▄▄æ▄▄▄     ▀▀▀                         ▄▄▄4▀▀▀`-   ╚▓▀▓▓▓▀▀▓▓▓▓████▄æN▀▀▀▀▀▀▀▀▀PP▀▀▀ #')
+        print('#                                                                                █▄     ▄▀`       `▀▄     ▄▀                       `▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀  `                         #')
+        print('#                                                                                 █∩  ,█             ▀▄  j█    ,▄█████▄▄                                                         #')
+        print('#                                                                             ▄▄▄▄▀   █               ▐µ   ,▄███╢▓▓█▀  ▀██▄                                                      #')
+        print('#                                     ,▄████▄▄                                       ▐▌               ▐█▄███╢▓▓▓▓█▀       ▀█▄                                                    #')
+        print('#                                  ,▄██▓█▀   ▀▀█▄                             ▀▀▄▄▄   █           ▄▄███▓▓▓██▌▓▓▓█▀       ,,,▀▀█▄▄,                                               #')
+        print('#                               ▄███╢▓█▀        `▀█▄                              ,█   █▄   ▄▄█████╢▓▓▓▓▓▓▓╢██▀▀ ,,  ,▄▄▄▀      `▀▀▀█▄▄                                          #')
+        print('#                           ▄▄███▓▓▓█▀             ▀█▄▄                         ╓█▀  ,▄▄████▓▓▓▓▓▓▓▓▓▓▓▓██▀▀   ▀▀ -▀▀▀                ▀▀██▄,                                   ▄ #')
+        print('#                         ▄██╢▓▓▓▓█▀           ╖      ▀▀█▄▄                    ,▄▄████▓╢╣▓▓▓▓▓▓▓▓▓▓██▀▀                       ╙8,         "▀██▄,                           ,▄██▓ #') 
+        print('#                      ,██╢▓▓▓╢▓█▀              ▓         ▀██▄,            ,▄███▓╢▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██                               "╙ºæ,       `▀▀██▄▄▄▄,                 ▄██╢▓▓█ #')       
+        print('#                  ,▄███╢▓▓██▀▀                  ▓           "██      ,▄▄███╣▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▀▀       ,@             w,              ╙&╗,           ▀▀▀▀█▄▄         ▄███▓▓█▀`  #')          
+        print('#              ,▄███╢▓▓▓▓▓█▀                      ╙R⌐          ▀███████╢╣▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▀         ,▓                 ▐                  `               `▀▀█▄▄▄████▓▓▓▓█-    #')                 
+        print('#         ,▄▄███▓╢▓▓▓▓╬█▀▀                ,                      ███╣▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▀-                               ╙W,                                ▄███▓╣▓▓▓▓▓▓██`     #')                   
+        print('#    ,▄▄███╢▓▓▓▓▓▓▓█▀▀        φ╜          ▓                        ▀▀██╢╢▓▓▓▓▓▓▓▓▓▓▓▓▓▓█`                                     ╙╨                        ,▄████╢▓▓▓▓▓▓▓█▀▀        #')
+        print('# ▄███╢╢▓▓▓▓▓▓▓▓█▀          ,▓            ▐                  R▄       -▀▀████▓▓▓▓▓▓▓▓▓█                                                               ▄██▓▓▓▓▓▓▓▓▓▓▓▓█           #')
+        print('# ▀█▓▓▓▓▓▓▓▓▓█▀             `                                  ▀▄,          `▀███▓╣▓▓█                                                               ▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▌           #')
+        print('#   ▀▀█╢▓▓▓▓█                                                                    ▀███▌                                                               ▐█╢╢▓▓▓▓▓▓▓▓▓▓▓█▌           #')
+        print('#      ▀▀▀██                                                                                                                                           - ▀▀▀▀▀▀▀▀▀▀▀▀            #')
+        print('#                                                                                                                                                                                #')
+        print('#                                                            __     __     ____  _     _        _____  _____   _____                                                             #')
+        print('#                                                            \ \   / /    / __ \| |   | |      |  __ \|  __ \ / ____|                                                            #')
+        print('#                                                             \ \_/ /__  | |  | | | __| | ___  | |__) | |__) | |  __                                                             #')
+        print('#                                                              \   / _ \ | |  | | |/ _` |/ _ \ |  _  /|  ___/| | |_ |                                                            #')
+        print('#                                                               | |  __/ | |__| | | (_| |  __/ | | \ \| |    | |__| |                                                            #')
+        print('#                                                               |_|\___|  \____/|_|\__,_|\___| |_|  \_\_|     \_____|                                                            #')
+        print('#                                                                                                                                                                                #')
+        print('#                                                                              Press Enter to begin!                                                                             #')
+        print('#                                                                                                                                                                                #')
+        print('#                                                                          Created by Tyler McKenna 2021                                                                         #')
+        print('#                                                                                                                                                                                #')
+        print('##################################################################################################################################################################################')
+        start = input('')
+        if '' in start:
+            self.main_menu()
+    
     def main_menu(self):
 
         Utility.clear() 
@@ -188,9 +233,9 @@ class Game:
         Utility.story(f"\n{count}.) Return")
         Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
         selection = input('\n\n>>> ')
-        if (int(selection)) == '':
+        if selection == '':
             Utility.story('\nPlease enter a valid selection. Try again.')
-            Utility.continue_prompt(self)
+            Utility.continue_prompt()
             self.skillselection()
         elif (int(selection) <= len(ListStore)):
             choice = ListStore[int(selection) - 1]
@@ -200,17 +245,17 @@ class Game:
                 self.skillselection()
             elif self.myPlayer.skillpoints < choice.skillcost:
                 Utility.story('\nNot enough skill points.')
-                Utility.continue_prompt(self)
+                Utility.continue_prompt()
                 self.skillselection()
             else:
                 Utility.story('\nSkill already selected. Choose a different skill.')
-                Utility.continue_prompt(self)
+                Utility.continue_prompt()
                 self.skillselection()
         elif (int(selection) == count):
             self.skillselection()
-        else:
+        elif (selection != int):
             Utility.story('\nPlease enter a valid selection. Try again.')
-            Utility.continue_prompt(self)
+            Utility.continue_prompt()
             self.skillselection()
 
 
@@ -218,7 +263,8 @@ class Game:
     def confirmation(self):
 
         Utility.clear()
-        Utility.story(f"\n{self.myPlayer.name} the {self.myPlayer.role}")
+        a = (f"{self.myPlayer.name} the {self.myPlayer.role}")
+        Utility.story(f'{a:^24}')
         Utility.story("\n########################\n")
         Utility.story(f"\nHit Points: {self.myPlayer.hp}")
         Utility.story(f"\nMana Points: {self.myPlayer.mp}")
@@ -249,7 +295,7 @@ class Game:
         Utility.story("\n                            #########################")
         Utility.story("\n\n\nAs night falls you enter a small tavern on the crossroads.")
         Utility.story("\n\nThere aren't many patrons in the tavern but the fireplace \nburns bright and the ale seems to be flowing.")
-        Utility.continue_prompt(self)
+        Utility.continue_prompt()
         Utility.clear()
         print("##################################################################################")
         print("#                                                                                #")
@@ -329,7 +375,7 @@ class Game:
         
     
     def doge_convo(self):
-        Utility.continue_prompt(self)
+        Utility.continue_prompt()
         Utility.clear()
         print("##################################################################################")
         print("#                                                               ▄▀▀▀█            #")
@@ -410,7 +456,7 @@ class Game:
     
     def stables(self):
 
-        Utility.continue_prompt(self)
+        Utility.continue_prompt()
         Utility.clear()                                                                                            
         print('##################################################################################')
         print('#               ~      ,,                                                        #')               

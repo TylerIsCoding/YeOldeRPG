@@ -4,5 +4,5 @@ from Utility import *
 ###################
 
 game = Game()
-game.main_menu()
+game.title_screen()
 game.chapter_one_begin()

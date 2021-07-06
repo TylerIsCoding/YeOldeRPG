@@ -12,6 +12,9 @@ class Enemy:
 
 
 class Nick(Enemy):
+
+    max_attack_str = "1d8"
+    defense = "1d4"
     
     def __init__(self):
         self.name = "Nick the Scav"
@@ -31,7 +34,10 @@ class Nick(Enemy):
             total_skill_points = (self.hp + self.mp)
 
 class Steven(Enemy):
-        
+
+    max_attack_str = "1d10"
+    defense = "1d6"
+
     def __init__(self):
         self.name = "Sweaty Steven"
         self.type = "Enemy"
