@@ -23,6 +23,7 @@ class Mage(Player):
         self.role = "Mage"
         self.type = "Player"
         self.hp = Dice.d_6()
+        self.max_hp = ''
         self.mp = Dice.d_10()
         self.blk = Dice.d_6
         self.atk = Dice.d_6
@@ -49,6 +50,7 @@ class Warrior(Player):
         self.role = "Warrior"
         self.type = "Player"
         self.hp = Dice.d_12()
+        self.max_hp = ''
         self.mp = Dice.d_6()
         self.blk = Dice.d_8
         self.atk = Dice.d_10
@@ -75,6 +77,7 @@ class Rogue(Player):
         self.role = "Rogue"
         self.type = "Player"
         self.hp = Dice.d_8()
+        self.max_hp = ''
         self.mp = Dice.d_8()
         self.blk = Dice.d_10
         self.atk = Dice.d_6
@@ -100,6 +103,7 @@ class Barb(Player):
         self.role = "Barbarian"
         self.type = "Player"
         self.hp = Dice.d_12()
+        self.max_hp = ''
         self.mp = Dice.d_6()
         self.blk = Dice.d_6
         self.atk = Dice.d_8

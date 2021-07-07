@@ -20,6 +20,7 @@ class Nick(Enemy):
         self.name = "Nick the Scav"
         self.type = "Enemy"
         self.hp = Dice.d_8()
+        self.max_hp = ''
         self.mp = Dice.d_8()
         self.blk = Dice.d_4
         self.atk = Dice.d_8
@@ -42,6 +43,7 @@ class Steven(Enemy):
         self.name = "Sweaty Steven"
         self.type = "Enemy"
         self.hp = Dice.d_8()
+        self.max_hp = ''
         self.mp = Dice.d_10()
         self.blk = Dice.d_6
         self.atk = Dice.d_10

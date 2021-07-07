@@ -63,6 +63,78 @@ class Turn:
       Turn.current_turn -= 1
 
 
+class HealthBar:
+
+
+  def Health(player):
+
+    hp = player.hp
+    maxhp = player.max_hp
+
+    if int(hp) == int(maxhp):
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ')
+    elif int(hp) >= int(maxhp) * 0.9:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.8:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.7:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▰ ▰ ▰ ▱ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.6:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▰ ▰ ▱ ▱ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.5:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▰ ▱ ▱ ▱ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.4:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▰ ▱ ▱ ▱ ▱ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.3:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▰ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.2:
+      return(f'HP: {hp}/{maxhp} ▰ ▰ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ')
+    elif int(hp) >= int(maxhp) * 0.1:
+      return(f'HP: {hp}/{maxhp} ▰ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ')
+    elif int(hp) >= 0:
+      return(f'HP: {hp}/{maxhp} ▱ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ▱ ')
+
+
+  def Mana(player):
+
+      pips = player.mp
+      if pips > 0:
+        return (f'MP: {pips} ' + '▰ ' * pips)
+      else:
+        return (f'MP: 0 ▱ ')
+
+
+  def DisplayBars(player, enemy):
+
+    a = HealthBar.Health(player)
+    b = HealthBar.Health(enemy)
+    c = HealthBar.Mana(player)
+    d = HealthBar.Mana(enemy)
+    e = player.name
+    f = enemy.name
+
+    if player.type == "Player":
+      Utility.combat(f'\n|{e:<44}' + '|')
+      Utility.combat(f'\n|{a:>44}' + '|')
+      Utility.combat(f'\n|{c:>44}' + '|')
+      Utility.combat('\n|' + '-' * 44 + '|')
+      Utility.combat(f'\n|{f:<44}' + '|')
+      Utility.combat(f'\n|{b:>44}' + '|')
+      Utility.combat(f'\n|{d:>44}' + '|')
+      Utility.combat('\n+' + '-' * 44 + '+')
+    else:
+      Utility.combat(f'\n|{f:<44}' + '|')
+      Utility.combat(f'\n|{b:>44}' + '|')
+      Utility.combat(f'\n|{d:>44}' + '|')
+      Utility.combat('\n|' + '-' * 44 + '|')
+      Utility.combat(f'\n|{e:<44}' + '|')
+      Utility.combat(f'\n|{a:>44}' + '|')
+      Utility.combat(f'\n|{c:>44}' + '|')
+      Utility.combat('\n+' + '-' * 44 + '+')
+    
+    
+
+
 class Utility:
 
 
@@ -165,6 +237,8 @@ class Utility:
           Utility.player_combat_prompt(player, enemy)
     elif player.type == "Enemy":
       Utility.combat('\n\n##############################################')
+      Utility.combat(f"\n\n{player.name}'s Turn!")
+      Utility.continue_prompt()
       if player.def_buff == Default and player.atk_buff == Default:
         SkillUse.enemy_skill(player, enemy)
       elif player.def_buff != Default and player.atk_buff == Default:
@@ -214,11 +288,12 @@ class Utility:
     print(f'\n\n{a:^46}')
     print(f'{b:^46}')
     print(f'{c:^46}')
+    health = HealthBar.Health
     TextSpeed.instant("\n\n##############################################") 
     TextSpeed.instant("\n#  Do you (A)ttack or do you use a (S)kill?  #")
-    TextSpeed.instant("\n##############################################\n")
-    TextSpeed.instant("\nHP: " + str(player.hp))
-    TextSpeed.instant("\nMP: " + str(player.mp))
+    TextSpeed.instant("\n##############################################\n\n")
+    TextSpeed.instant(f'{health(player)}')
+    TextSpeed.instant('\n' + HealthBar.Mana(player))
     if player.def_buff.name != "default":
       TextSpeed.instant(f"\nBuff: {player.def_buff.name} | Turns Remaining: {player.def_buff.duration - Turn.def_turns_passed}")
       TextSpeed.instant(f"\nDefense: {player.defense} + {player.def_buff.maxbuff}")
@@ -252,29 +327,32 @@ class Utility:
 
     atkbuff = player.atk_buff.dice()
     defbuff = enemy.def_buff.dice()
-    damage = player.atk() + player.additional_damage + atkbuff
+    attack = player.atk()
     enemyblock = enemy.blk()
+    damage = attack + player.additional_damage + atkbuff
     block = enemyblock + defbuff
     enemy.hp -= (damage - block) if (damage - block) > 0 else 0
     if enemy.hp < 0:
       enemy.hp = 0
     Utility.combat(f'\n\n{player.name} attacks!')
-    Utility.combat(f'\n\n------------------------------')
-    a = (f'\n| Attack Roll [ {player.max_attack_str} ] = {damage}')
+    print('\n' * 2)
+    Utility.combat(f'+' + '-' * 44 + '+')
+    a = (f'\n| Attack Roll [ {player.max_attack_str} ] = {attack}')
     b = (f'\n| Defense Roll [ {enemy.defense} ] = {block}')
     c = (f'\n| Total Damage = {(damage - block) if (damage - block) > 0 else 0}')
-    d = (f"\n| {enemy.name.title()}'s HP = {enemy.hp}") 
     e = (f"\n| Defense Buff [ {enemy.def_buff.maxbuff} ] = {defbuff}")
     f = (f"\n| Attack Buff [ {player.atk_buff.maxbuff} ] = {atkbuff}")
-    Utility.combat(f"{a:<30}|")
+    Utility.combat(f"{a:<46}|")
     if player.atk_buff != Default:
-      Utility.combat(f"{f:<30}|")
-    Utility.combat(f"{b:<30}|")
+      Utility.combat(f"{f:<46}|")
+    Utility.combat(f"{b:<46}|")
     if enemy.def_buff != Default:
-      Utility.combat(f"{e:<30}|")
-    Utility.combat(f"{c:<30}|")
-    Utility.combat(f"{d:<30}|")
-    Utility.combat(f'\n------------------------------')
+      Utility.combat(f"{e:<46}|")
+    Utility.combat('\n|' + '-' * 44 + '|')
+    Utility.combat(f"{c:<46}|")
+    Utility.combat('\n' + '+' + '-' * 44 + '+')
+    Utility.combat('\n|' + ' ' * 44 + '|')
+    HealthBar.DisplayBars(player, enemy)
     if enemy.hp == 0 and enemy.type == "Enemy":
       Recovery.mp_recovery(player)
       Utility.enemy_killed(enemy, player)
@@ -299,7 +377,7 @@ class Utility:
       a = ('*************************************')
       b = (f'{enemy.name} has been killed!')
       c = ('*************************************')
-      Utility.combat(f'\n\n{a:^46}')
+      Utility.combat(f'\n\n\n{a:^46}')
       Utility.combat(f'\n{b:^46}')
       Utility.combat(f'\n{c:^46}')
       Utility.buff_clear(player, enemy)
@@ -424,19 +502,18 @@ class Attack:
     enemy.hp -= damage
     if enemy.hp < 0:
         enemy.hp = 0
-    Utility.combat(f'\n\n------------------------------')
+    Utility.combat('\n\n'+ '+' + '-' * 44 + '+')
     a = (f'\n| Skill Roll [ {skill.skilldice} ] = {attackdice}')
     b = (f'\n| Defense Roll [ {enemy.defense} ] = {block}')
     c = (f'\n| Total Damage = {damage}')
-    d = (f"\n| {enemy.name.title()}'s HP = {enemy.hp}") 
     e = (f'\n| Defense Buff [ {enemy.def_buff.maxbuff} ] = {buff}')
-    Utility.combat(f"{a:<30}|")
-    Utility.combat(f"{b:<30}|")
+    Utility.combat(f"{a:<46}|")
+    Utility.combat(f"{b:<46}|")
     if enemy.def_buff != Default:
-      Utility.combat(f"{e:<30}|")
-    Utility.combat(f"{c:<30}|")
-    Utility.combat(f"{d:<30}|")
-    Utility.combat(f'\n------------------------------')
+      Utility.combat(f"{e:<46}|")
+    Utility.combat(f"{c:<46}|")
+    Utility.combat('\n' + '+' + '-' * 44 + '+')
+    HealthBar.DisplayBars(player, enemy)
     if enemy.hp == 0 and enemy.type == "Enemy":
       Utility.enemy_killed(enemy, player)
     elif enemy.hp == 0 and enemy.type == "Player":
@@ -766,7 +843,7 @@ class Recovery:
   def mp_recovery(player):
     recovery = player.mprecover()
     player.mp += recovery
-    Utility.combat(f'\n\n{player.name} recovers {recovery} MP.')
+    Utility.combat(f'\n\n\n{player.name} recovers {recovery} MP.')
 
 
 class HealMinor(Recovery):

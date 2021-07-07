@@ -8,7 +8,9 @@ class Game:
 
     myPlayer = Player("name")
     nick = Nick()
+    nick.max_hp = nick.hp
     steven = Steven()
+    steven.max_hp = steven.hp
     attack = Attack()
     buff = Buff()
     restore = Recovery()
@@ -223,6 +225,10 @@ class Game:
         elif str(4) in answer:
             self.confirmation()
             return True
+        elif answer == str(answer):
+            Utility.story('\nPlease enter a valid selection. Try again.')
+            Utility.continue_prompt()
+            self.skillselection()
         count = 1
         ListStore = []
         for skill in SkillList:
@@ -233,11 +239,7 @@ class Game:
         Utility.story(f"\n{count}.) Return")
         Utility.story(f'\n\nYou have {self.myPlayer.skillpoints} points remaining.\n')
         selection = input('\n\n>>> ')
-        if selection == '':
-            Utility.story('\nPlease enter a valid selection. Try again.')
-            Utility.continue_prompt()
-            self.skillselection()
-        elif (int(selection) <= len(ListStore)):
+        if (int(selection) <= len(ListStore)):
             choice = ListStore[int(selection) - 1]
             if self.myPlayer.skillpoints >= choice.skillcost and choice not in self.myPlayer.skills:
                 self.myPlayer.skills.append(choice)
@@ -253,20 +255,22 @@ class Game:
                 self.skillselection()
         elif (int(selection) == count):
             self.skillselection()
-        elif (selection != int):
+        elif selection == str(selection):
             Utility.story('\nPlease enter a valid selection. Try again.')
             Utility.continue_prompt()
             self.skillselection()
+        
 
 
 
     def confirmation(self):
 
         Utility.clear()
+        self.myPlayer.max_hp = self.myPlayer.hp
         a = (f"{self.myPlayer.name} the {self.myPlayer.role}")
         Utility.story(f'{a:^24}')
         Utility.story("\n########################\n")
-        Utility.story(f"\nHit Points: {self.myPlayer.hp}")
+        Utility.story(f"\nHit Points: {self.myPlayer.hp}/{self.myPlayer.max_hp}")
         Utility.story(f"\nMana Points: {self.myPlayer.mp}")
         Utility.story(f"\nDefence: {self.myPlayer.defense}")
         Utility.story(f"\nAttack Dice: {self.myPlayer.max_attack_str}")
