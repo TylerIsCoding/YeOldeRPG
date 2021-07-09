@@ -29,7 +29,7 @@ class Nick(Enemy):
         self.mprecover = Dice.d_4
         self.skills = [Bush, Legshot]
         total_skill_points = (self.hp + self.mp)
-        while total_skill_points >= 15 or total_skill_points <= 8:
+        while total_skill_points >= 15 or total_skill_points <= 8 and self.hp <= 5:
             self.hp = Dice.d_8()
             self.mp = Dice.d_6()
             total_skill_points = (self.hp + self.mp)
@@ -52,7 +52,7 @@ class Steven(Enemy):
         self.mprecover = Dice.d_4
         self.skills = [ExitCamp, Aim]
         total_skill_points = (self.hp + self.mp)
-        while total_skill_points >= 15 or total_skill_points <= 8:
+        while total_skill_points >= 15 or total_skill_points <= 8 and self.hp <= 7:
             self.hp = Dice.d_8()
             self.mp = Dice.d_4()
             total_skill_points = (self.hp + self.mp)

@@ -333,8 +333,10 @@ class Utility:
     Utility.combatline("\n##############################################") 
     Utility.combatline("#  Do you (A)ttack or do you use a (S)kill?  #")
     Utility.combatline("##############################################\n")
+    result1 = len(HealthBar.HealthNum(player)) + 2
+    result2 = len(HealthBar.ManaNum(player))
     Utility.combatline(f'{HealthBar.HealthNum(player)} {HealthBar.Health(player)}')
-    Utility.combatline(f'{HealthBar.ManaNum(player)} {HealthBar.Mana(player)}')
+    Utility.combatline(f'{HealthBar.ManaNum(player)}' + ' ' * (result1 - result2) + f'{HealthBar.Mana(player)}')
     if player.def_buff.name != "default":
       Utility.combatline(f"Buff: {player.def_buff.name} | Turns Remaining: {player.def_buff.duration - Turn.def_turns_passed + 1}")
       Utility.combatline(f"Defense: {player.defense} + {player.def_buff.maxbuff}")
@@ -385,7 +387,7 @@ class Utility:
     print('\n')
     Utility.combatline(f'+' + '-' * 44 + '+')
     a = (f'| Attack Roll [ {player.max_attack_str} ] = {attack}')
-    b = (f'| Defense Roll [ {enemy.defense} ] = {block}')
+    b = (f'| Defense Roll [ {enemy.defense} ] = {enemyblock}')
     c = (f'| Total Damage = {(damage - block) if (damage - block) > 0 else 0}')
     e = (f"| Defense Buff [ {enemy.def_buff.maxbuff} ] = {defbuff}")
     f = (f"| Attack Buff [ {player.atk_buff.maxbuff} ] = {atkbuff}")
@@ -418,14 +420,14 @@ class Utility:
       Utility.combat('\nYou have been killed!\n')
       Utility.gameOver()
 
+
   def enemy_killed(enemy, player):
 
-      a = ('*************************************')
-      b = (f'{enemy.name} has been killed!')
-      c = ('*************************************')
-      Utility.combatline(f'\n\n{a:^46}')
+      a = (f'*   {enemy.name} has been killed!   *')
+      b = ('*' * (len(a)))
+      Utility.combatline(f'\n\n{b:^46}')
+      Utility.combatline(f'{a:^46}')
       Utility.combatline(f'{b:^46}')
-      Utility.combatline(f'{c:^46}')
       Utility.buff_clear(player, enemy)
 
 
@@ -550,7 +552,7 @@ class Attack:
         enemy.hp = 0
     Utility.combatline('\n\n'+ '+' + '-' * 44 + '+')
     a = (f'| Skill Roll [ {skill.skilldice} ] = {attackdice}')
-    b = (f'| Defense Roll [ {enemy.defense} ] = {block}')
+    b = (f'| Defense Roll [ {enemy.defense} ] = {defense}')
     c = (f'| Total Damage = {damage}')
     e = (f'| Defense Buff [ {enemy.def_buff.maxbuff} ] = {buff}')
     Utility.combatline(f"{a:<45}|")
@@ -885,14 +887,14 @@ class Recovery:
     if player.hp > player.max_hp:
       player.hp = player.max_hp
     Utility.combat(f"\n\n{skill.effectdes}")
-    Utility.combat(f"\n{player.name} recovered {recovery} HP from {skill.name}.")
+    Utility.combat(f"\n{player.name} recovered {recovery} HP from {skill.name}.\n")
     Utility.buff_check(enemy, player)
 
 
   def mp_recovery(player):
     recovery = player.mprecover()
     player.mp += recovery
-    Utility.combat(f'\n\n\n{player.name} recovers {recovery} MP.')
+    Utility.combat(f'\n\n\n{player.name} recovers {recovery} MP.\n')
 
 
 class HealMinor(Recovery):

@@ -611,8 +611,9 @@ class Game:
             TextSpeed.line("#    `▀444████▀                                                                                                           #")
             TextSpeed.line('###########################################################################################################################')  
             Utility.story('\n\nThe doge bends down and picks up a weapon off of the ground.')
-            Utility.story('\nIt appears to be a TOZ-106! You pick it up. It adds (+ 1) to your damage roll.')
+            Utility.story('\nIt appears to be a TOZ-106! You pick it up. It adds (+1) to your damage roll.')
             self.myPlayer.additional_damage += 1
+            self.myPlayer.max_attack_str = (f'{self.myPlayer.max_attack_str} + 1')
             Utility.story(f'\n\nYou now do {str(self.myPlayer.max_attack_str)} + {str(self.myPlayer.additional_damage)} points of damage.')
             Utility.continue_prompt()
             self.woods()
@@ -661,10 +662,13 @@ class Game:
         regen = HealMajor.dice()
         Utility.story(f'\n\nYou both settle in for some rest. You regain {(str(regen))} hit points from sleeping.')
         self.myPlayer.hp += regen
+        if self.myPlayer.hp > self.myPlayer.max_hp:
+            self.myPlayer.hp = self.myPlayer.max_hp
         Utility.story('\nDaylight creeps over the hills and treetops. The two of you gather your gear and start towards the Woods.')
         Utility.story('\nAs you walk Meelon continues explaining about Shturman.')
         Utility.story('\n\n"Shturman is said to be in possession of the mighty Kappa container...\nIt has the ability to hold a vast amount of items in a very small space."')
         Utility.continue_prompt()
+        Utility.clear()
         TextSpeed.line('#######################################################################################################')
         TextSpeed.line('#                                                   ,▄▄▄▄▄▄▄▄▄▄▄▄▄                                    #')
         TextSpeed.line('#                                                  ▄▀    ,   ,, , ▀▀█▄▄,                              #')
@@ -752,5 +756,11 @@ class Game:
         else:
             Turn.turn_count(0)
             Utility.buff_check(self.steven, self.myPlayer)
+        self.post_steven_fight()
+
+    def post_steven_fight():
+        Utility.continue_prompt()
+        
+        
         
 
