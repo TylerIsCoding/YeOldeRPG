@@ -156,7 +156,7 @@ class HealthBar:
       Utility.combatline(f'|{j:<44}' + '|')
       Utility.combatline(f'|{f}' + f'{q}' + f'{h}' + '|')
       Utility.combatline(f'|{g}' + f'{r}' + f'{i}' + f'{s}' +'|')
-      Utility.combatline(f'+' + '-' * 44 + '+')
+      Utility.combatline(f'+' + '=' * 44 + '+')
     else:
       Utility.combatline(f'|{j:<44}' + '|')
       Utility.combatline(f'|{f}' + f'{q}' + f'{h}' + '|')
@@ -165,7 +165,7 @@ class HealthBar:
       Utility.combatline(f'|{e:<44}' + '|')
       Utility.combatline(f'|{a}' + f'{x}' + f'{c}' + '|')
       Utility.combatline(f'|{b}' + f'{y}' + f'{d}' + f'{z}' +'|')
-      Utility.combatline(f'+' + '-' * 44 + '+')
+      Utility.combatline(f'+' + '=' * 44 + '+')
 
 
 
@@ -248,10 +248,12 @@ class Utility:
     elif player_init == enemy_init:
       Utility.story('\n\nYou both tied. The enemy gets to attack first!')
       Utility.continue_prompt()
+      Utility.clear()
       return False
     else:
       Utility.story('\n\nThe enemy rolled higher and gets the first attack!\n')
       Utility.continue_prompt()
+      Utility.clear()
       return False
 
 
@@ -281,6 +283,7 @@ class Utility:
       Utility.combat('\n\n#############################################')
       Utility.combat(f"\n\n{player.name}'s Turn!")
       Utility.continue_prompt()
+      Utility.clear()
       if player.def_buff == Default and player.atk_buff == Default:
         SkillUse.enemy_skill(player, enemy)
       elif player.def_buff != Default and player.atk_buff == Default:
@@ -318,6 +321,7 @@ class Utility:
     Utility.combatline('\n')
     Utility.combatline('Your turn!')
     Utility.continue_prompt()
+    Utility.clear()
     this_turn = Turn.current_turn
     Turn.def_turns_passed += 1
     Turn.def_enemy_turns_passed += 1
@@ -330,9 +334,9 @@ class Utility:
     Utility.combatline(f'\n{a:^46}')
     Utility.combatline(f'{b:^46}')
     Utility.combatline(f'{c:^46}')
-    Utility.combatline("\n##############################################") 
-    Utility.combatline("#  Do you (A)ttack or do you use a (S)kill?  #")
-    Utility.combatline("##############################################\n")
+    Utility.combatline("\n==============================================") 
+    Utility.combatline("|  Do you (A)ttack or do you use a (S)kill?  |")
+    Utility.combatline("==============================================\n")
     result1 = len(HealthBar.HealthNum(player)) + 2
     result2 = len(HealthBar.ManaNum(player))
     Utility.combatline(f'{HealthBar.HealthNum(player)} {HealthBar.Health(player)}')
@@ -365,6 +369,7 @@ class Utility:
       for skill in player.skills:
         Utility.combatline(f'\n{skill.name}:{skill.skilldes}')
       Utility.continue_prompt()
+      Utility.clear()
       Utility.player_combat_prompt(player, enemy)
     else:
       Utility.combat('You must make a valid selection.')
@@ -376,30 +381,46 @@ class Utility:
 
     atkbuff = player.atk_buff.dice()
     defbuff = enemy.def_buff.dice()
-    attack = player.atk()
+    attack = player.atk() + player.additional_damage
     enemyblock = enemy.blk()
-    damage = attack + player.additional_damage + atkbuff
+    damage = attack + atkbuff
     block = enemyblock + defbuff
     enemy.hp -= (damage - block) if (damage - block) > 0 else 0
     if enemy.hp < 0:
       enemy.hp = 0
     Utility.combat(f'\n\n{player.name} attacks!')
     print('\n')
-    Utility.combatline(f'+' + '-' * 44 + '+')
-    a = (f'| Attack Roll [ {player.max_attack_str} ] = {attack}')
-    b = (f'| Defense Roll [ {enemy.defense} ] = {enemyblock}')
-    c = (f'| Total Damage = {(damage - block) if (damage - block) > 0 else 0}')
+    a = (f"| Attack Roll [ {player.max_attack_str} ] = {attack}")
+    b = (f"| Defense Roll [ {enemy.defense} ] = {enemyblock}")
+    c = (f'|  Total Damage = {(damage - block) if (damage - block) > 0 else 0}  |')
+    d = (f'| {player.name}')
     e = (f"| Defense Buff [ {enemy.def_buff.maxbuff} ] = {defbuff}")
     f = (f"| Attack Buff [ {player.atk_buff.maxbuff} ] = {atkbuff}")
+    g = (f'| {enemy.name}')
+    length = len(c)
+    h = ('=' * length)
+    Utility.combatline(f'+' + '=' * 44 + '+')
+    Utility.combatline(f"{d:<45}|")
+    Utility.combatline('|' + '-' * 44 + '|')
+    Utility.combatline('|' + ' ' * 44 + '|')
     Utility.combatline(f"{a:<45}|")
     if player.atk_buff != Default:
       Utility.combatline(f"{f:<45}|")
+    Utility.combatline('|' + ' ' * 44 + '|')
+    Utility.combatline('+' + '=' * 44 + '+\n')
+    Utility.combatline('+' + '=' * 44 + '+')
+    Utility.combatline(f"{g:<45}|")  
+    Utility.combatline('|' + '-' * 44 + '|')
+    Utility.combatline('|' + ' ' * 44 + '|')
     Utility.combatline(f"{b:<45}|")
     if enemy.def_buff != Default:
       Utility.combatline(f"{e:<45}|")
-    Utility.combatline('|' + '-' * 44 + '|')
-    Utility.combatline(f"{c:<45}|")  
-    Utility.combatline('|' + '-' * 44 + '|')
+    Utility.combatline('|' + ' ' * 44 + '|')
+    Utility.combatline('+' + '=' * 44 + '+\n')
+    Utility.combatline(f'{h:^46}')
+    Utility.combatline(f"{c:^46}")
+    Utility.combatline(f'{h:^46}\n')
+    Utility.combatline('+' + '=' * 44 + '+')
     HealthBar.DisplayBars(player, enemy)
     if enemy.hp == 0 and enemy.type == "Enemy":
       Recovery.mp_recovery(player)
@@ -550,18 +571,29 @@ class Attack:
     enemy.hp -= damage
     if enemy.hp < 0:
         enemy.hp = 0
-    Utility.combatline('\n\n'+ '+' + '-' * 44 + '+')
-    a = (f'| Skill Roll [ {skill.skilldice} ] = {attackdice}')
-    b = (f'| Defense Roll [ {enemy.defense} ] = {defense}')
+    Utility.combatline('\n\n'+ '+' + '=' * 44 + '+')
+    a = (f"| Skill Roll [ {skill.skilldice} ] = {attackdice}")
+    b = (f"| Defense Roll [ {enemy.defense} ] = {defense}")
     c = (f'| Total Damage = {damage}')
-    e = (f'| Defense Buff [ {enemy.def_buff.maxbuff} ] = {buff}')
+    d = (f'| {player.name}')
+    e = (f"| Defense Buff [ {enemy.def_buff.maxbuff} ] = {buff}")
+    f = (f'| {enemy.name}')
+    Utility.combatline(f"{d:<45}|")
+    Utility.combatline('|' + '-' * 44 + '|')
+    Utility.combatline('|' + ' ' * 44 + '|')
     Utility.combatline(f"{a:<45}|")
+    Utility.combatline('|' + ' ' * 44 + '|')
+    Utility.combatline('|' + '=' * 44 + '|')
+    Utility.combatline(f"{f:<45}|")
+    Utility.combatline('|' + '-' * 44 + '|')
+    Utility.combatline('|' + ' ' * 44 + '|')
     Utility.combatline(f"{b:<45}|")
     if enemy.def_buff != Default:
       Utility.combatline(f"{e:<45}|")
-    Utility.combatline('|' + '-' * 44 + '|')
+      Utility.combatline('|' + ' ' * 44 + '|')
+    Utility.combatline('|' + '=' * 44 + '|')
     Utility.combatline(f"{c:<45}|")
-    Utility.combatline('|' + '-' * 44 + '|')
+    Utility.combatline('|' + '=' * 44 + '|')
     HealthBar.DisplayBars(player, enemy)
     if enemy.hp == 0 and enemy.type == "Enemy":
       Utility.enemy_killed(enemy, player)
@@ -648,6 +680,21 @@ class Rage(Buff):
   effect = Buff.atk_buff
   skilldes = "\nYour attack is raised by 1d8 for two turns!"
   effectdes =  "\nYou are filled with rage!"
+
+class Pain(Buff):
+
+  name = "Ignore Pain"
+  role = "Warrior"
+  type = 'def_buff'
+  skillcost = 4
+  element = 'defense'
+  mpcost = 4
+  duration = 2
+  dice = Dice.d_6
+  maxbuff = "1d6"
+  effect = Buff.def_buff
+  skilldes = "\nIncreases your defense by 1d6 for two turns."
+  effectdes =  "\nYou shrug off the pain!"
 
 
 ##### Barbarian Abilities #####
@@ -894,7 +941,12 @@ class Recovery:
   def mp_recovery(player):
     recovery = player.mprecover()
     player.mp += recovery
-    Utility.combat(f'\n\n\n{player.name} recovers {recovery} MP.\n')
+    b = (f'|  {player.name} recovers {recovery} MP.  |')
+    length = len(b)
+    a = ('+' * length)
+    Utility.combatline(f'\n{a:^46}')
+    Utility.combatline(f'{b:^46}')
+    Utility.combatline(f'{a:^46}\n')
 
 
 class HealMinor(Recovery):

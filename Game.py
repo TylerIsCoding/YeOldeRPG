@@ -192,7 +192,7 @@ class Game:
     def skillselection(self):
 
         Attacks = [ShieldBash, OverheadSlash, Flurry, TripWire, Backstab, Fireball, Lightning, IceWall, Kick]
-        Buffs = [Rage, Anger, Barrier, Shadows]
+        Buffs = [Rage, Anger, Barrier, Shadows, Pain]
         Recovery = [HealMinor, HealMajor, Bandage]
 
        
@@ -614,7 +614,7 @@ class Game:
             Utility.story('\nIt appears to be a TOZ-106! You pick it up. It adds (+1) to your damage roll.')
             self.myPlayer.additional_damage += 1
             self.myPlayer.max_attack_str = (f'{self.myPlayer.max_attack_str} + 1')
-            Utility.story(f'\n\nYou now do {str(self.myPlayer.max_attack_str)} + {str(self.myPlayer.additional_damage)} points of damage.')
+            Utility.story(f'\n\nYou now do {str(self.myPlayer.max_attack_str)} points of damage.')
             Utility.continue_prompt()
             self.woods()
 
