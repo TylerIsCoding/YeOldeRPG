@@ -382,7 +382,7 @@ class Utility:
     atkbuff = player.atk_buff.dice()
     defbuff = enemy.def_buff.dice()
     attack = player.atk() + player.additional_damage
-    enemyblock = enemy.blk()
+    enemyblock = enemy.blk() + enemy.additional_defense
     damage = attack + atkbuff
     block = enemyblock + defbuff
     enemy.hp -= (damage - block) if (damage - block) > 0 else 0
@@ -560,7 +560,7 @@ class Attack:
 
     player.mp -= skill.mpcost
     buff = enemy.def_buff.dice()
-    defense = enemy.blk()
+    defense = enemy.blk() + enemy.additional_defense
     block = buff + defense
     attackdice = skill.dice() + skill.additionaldamage()
     damage =  attackdice - block

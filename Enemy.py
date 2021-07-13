@@ -9,6 +9,7 @@ from Utility import *
 class Enemy:
     
     additional_damage = 0
+    additional_defense = 0
 
 
 class Nick(Enemy):

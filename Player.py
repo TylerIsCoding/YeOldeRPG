@@ -8,6 +8,7 @@ from Utility import *
 class Player:
 
     additional_damage = 0
+    additional_defense = 0
     
     def __init__(self, name):
         self.name = name
@@ -30,7 +31,6 @@ class Mage(Player):
         self.def_buff = Default
         self.atk_buff = Default
         self.mprecover = Dice.d_4
-        self.additional_damage = 0
         self.skillpoints = 15
         self.skills = []
         total_skill_points = (self.hp + self.mp)
@@ -57,7 +57,6 @@ class Warrior(Player):
         self.def_buff = Default
         self.atk_buff = Default
         self.mprecover = Dice.d_2
-        self.additional_damage = 0
         self.skillpoints = 10
         self.skills = []
         total_skill_points = (self.hp + self.mp)
@@ -84,7 +83,6 @@ class Rogue(Player):
         self.def_buff = Default
         self.atk_buff = Default
         self.mprecover = Dice.d_2
-        self.additional_damage = 0
         self.skillpoints = 12
         self.skills = []
         total_skill_points = (self.hp + self.mp)
@@ -110,7 +108,6 @@ class Barb(Player):
         self.def_buff = Default
         self.atk_buff = Default
         self.mprecover = Dice.d_2
-        self.additional_damage = 0
         self.skillpoints = 12
         self.skills = []
         total_skill_points = (self.hp + self.mp)
