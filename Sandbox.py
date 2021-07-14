@@ -7,4 +7,4 @@ game = Game()
 Utility.menu = TextSpeed.instant
 Utility.story = TextSpeed.instant
 game.player_name()
-game.post_steven_fight()
+game.steven_fight()

@@ -20,18 +20,16 @@ class Nick(Enemy):
     def __init__(self):
         self.name = "Nick the Scav"
         self.type = "Enemy"
-        self.hp = Dice.d_8()
-        self.max_hp = ''
-        self.mp = Dice.d_8()
+        self.hp = 6
+        self.max_hp = 6
+        self.mp = 4
         self.blk = Dice.d_4
         self.atk = Dice.d_8
         self.def_buff = Default
         self.atk_buff = Default
         self.mprecover = Dice.d_4
         self.skills = [Bush, Legshot]
-        while self.hp < 5 and self.mp < 3:
-            self.hp = Dice.d_8()
-            self.mp = Dice.d_6()
+        
 
 
 class Steven(Enemy):
@@ -42,16 +40,14 @@ class Steven(Enemy):
     def __init__(self):
         self.name = "Sweaty Steven"
         self.type = "Enemy"
-        self.hp = Dice.d_8()
-        self.max_hp = ''
-        self.mp = Dice.d_10()
+        self.hp = 8
+        self.max_hp = 8
+        self.mp = 4
         self.blk = Dice.d_6
         self.atk = Dice.d_10
         self.def_buff = Default
         self.atk_buff = Default
         self.mprecover = Dice.d_4
         self.skills = [ExitCamp, Aim]
-        while self.hp < 5 and self.mp < 3:
-            self.hp = Dice.d_8()
-            self.mp = Dice.d_4()
+        
 
