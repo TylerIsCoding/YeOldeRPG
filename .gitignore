@@ -13,3 +13,6 @@ __pycache__/Enemy.cpython-39.pyc
 *.pyc
 __pycache__/Enemy.cpython-39.pyc
 __pycache__/Enemy.cpython-39.pyc
+*.bak
+*.dat
+*.dir
