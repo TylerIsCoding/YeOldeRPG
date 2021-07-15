@@ -2,18 +2,64 @@
 from Player import *
 from Enemy import *
 from Utility import *
+import shelve
 ###################
 
-class Game:
+class Main:
+
+    def save_game(self):
+
+        shelfFile = shelve.open('save_game')
+        shelfFile['playerData'] = self.myPlayer
+        shelfFile['area'] = Main.area
+        shelfFile.close()
+
+    def load_game(self):
+
+        shelfFile = shelve.open('save_game')
+        Main.myPlayer = shelfFile['playerData']
+        Main.area = shelfFile['area']
+        shelfFile.close()
+        area = Main.area
+
+        Main.resume(self, area)
+
+    def resume(self, area):
+
+        if area == 'chapter_one_begin':
+            Main.chapter_one_begin(self)
+        elif area == 'doge_convo':
+            Main.doge_convo(self)
+        elif area == 'cross_roads':
+            Main.cross_roads(self)
+        elif area == 'stables':
+            Main.stables(self)
+        elif area == 'Nick':
+            Main.nick_fight(self)
+        elif area == 'postNick':
+            Main.post_nick_fight(self)
+        elif area == 'woods':
+            Main.woods(self)
+        elif area == 'Steven':
+            Main.steven_fight(self)
+        elif area == 'postSteven':
+            Main.post_steven_fight(self)
+        elif area == 'lumber':
+            Main.lumber_mill(self)
+        else:
+            Main.main_menu()
 
     myPlayer = Player("name")
     nick = Nick()
     nick.max_hp = nick.hp
     steven = Steven()
     steven.max_hp = steven.hp
+    shturman = Shturman()
+    shturman.max_hp = shturman.hp
     attack = Attack()
     buff = Buff()
     restore = Recovery()
+    area = ''
 
     def title_screen(self):
 
@@ -68,12 +114,15 @@ class Game:
         TextSpeed.line("# Welcome to Ye Olde Text RPG! #")
         TextSpeed.line("################################")
         TextSpeed.line("         --(P)lay--")
+        TextSpeed.line("         --(L)oad--")
         TextSpeed.line("        --(O)ptions--")
         TextSpeed.line("         --(Q)uit--")
         print('\n' * 5)
         main_menu_selection = input("\n>>> ")
         if "p" in main_menu_selection.lower():
             self.player_name()
+        if "l" in main_menu_selection.lower():
+            Main.load_game(self)
         elif "o" in main_menu_selection.lower():
             self.options()
         elif "q" in main_menu_selection.lower():
@@ -312,6 +361,8 @@ class Game:
 
     def chapter_one_begin(self):
 
+        Main.area = 'chapter_one_begin'
+        Main.save_game(selfself)
         Utility.clear()
         TextSpeed.line("                            #########################")
         TextSpeed.line("                            #      Chapter One      #")
@@ -398,7 +449,10 @@ class Game:
         
     
     def doge_convo(self):
+
         Utility.continue_prompt()
+        Main.area = 'doge_convo'
+        Main.save_game(self)
         Utility.clear()
         TextSpeed.line("##################################################################################")
         TextSpeed.line("#                                                               ▄▀▀▀█            #")
@@ -461,6 +515,8 @@ class Game:
 
     def cross_roads(self):
 
+        Main.area = 'cross_roads'
+        Main.save_game(self)
         Utility.story('\n\n"Listen, I have some information that you may find valuable. \n\nI know that we don\'t know one another,\nbut we should talk in private."')
         Utility.story('\n\n"Let\'s go outside and speak near the stables..."\n')
         Utility.story('\nDo you (F)ollow the doge or do you (R)emain seated?')
@@ -480,6 +536,8 @@ class Game:
     def stables(self):
 
         Utility.continue_prompt()
+        Main.area = 'stables'
+        Main.save_game(self)
         Utility.clear()                                                                                            
         TextSpeed.line('##################################################################################')
         TextSpeed.line('#               ~      ,,                                                        #')               
@@ -537,6 +595,8 @@ class Game:
     def nick_fight(self):
 
         Utility.continue_prompt()
+        Main.area = "Nick"
+        Main.save_game(self)
         Utility.clear()
         TextSpeed.line("#################################################################################################")
         TextSpeed.line("#                                                                                               #")
@@ -591,6 +651,8 @@ class Game:
     def post_nick_fight(self):
         
         Utility.continue_prompt()
+        Main.area = "postNick"
+        Main.save_game(self)
         Utility.clear()
         Utility.story('\n\n"Wow!" says Meelon. "It looks like you can fight... \nLook, he dropped this after you got him."')
         get_loot = input('\n\n>>> Hit enter to loot the scav.')
@@ -628,6 +690,8 @@ class Game:
 
 
     def woods(self):
+        Main.area = "woods"
+        Main.save_game(self)
         Utility.clear()
         TextSpeed.line('#####################################################################################')                                                                                
         TextSpeed.line('#                                       ▐▄                                          #')
@@ -721,6 +785,8 @@ class Game:
         self.steven_fight()
 
     def steven_fight(self):
+        Main.area = "Steven"
+        Main.save_game(self)
         Utility.clear()
         TextSpeed.line('######################################################################################')
         TextSpeed.line('#                          ▄▄▄█                         ▀▄▄▄▄▄╓                      #')
@@ -768,6 +834,9 @@ class Game:
 
     def post_steven_fight(self):
         Utility.continue_prompt()
+        Utility.clear()
+        Main.area = 'postSteven'
+        Main.save_game(self)
         Utility.story('\nAs your final shot lands you see the sweaty boy hit the ground with a gasp.')
         Utility.story('\n"That was close!" says Meelon. "He came out of nowhere! Come; we need to find Shturman\
         \nbefore we lose any more daylight... He should be at the Lumber Mill nearby."')
@@ -873,9 +942,61 @@ class Game:
     
     def lumber_mill(self):
 
+        Main.area = 'lumber'
+        Main.save_game(self)
         Utility.story('The two of you wake up as the sun rises. A sense of anxiousness washes over you...\
         \nShturman will not be an easy foe. You can sense that you and Meelon are close.')
         Utility.story('\n\nAfter traveling for a few hours you come over the crest of a hill and see the Lumber Mill below.')
+        Utility.story('\nThe entire forest becomes quiet... A sudden crack in the air as a bullet narrowly misses you!')
+        Utility.story('\n\nA wild Shturman appears!')
         Utility.continue_prompt()
         Utility.clear()
+        TextSpeed.line('#######################################################################################################')
+        TextSpeed.line('#                                              ▄▄▄▄▄▄▄▄                                               #')
+        TextSpeed.line('#                                       ,▄Æ▀▀ -         `▀▀∞▄▄▄▄                                      #')
+        TextSpeed.line('#                                   ▄▄▀▀                         `▀▀4▄▄                               #')
+        TextSpeed.line('#                                ,▄▀                                    ▀▀▄                           #')
+        TextSpeed.line('#                              ▄▀"                                   ,▄▄▄  ▀▄,                        #')
+        TextSpeed.line('#                             █`   ▀▀P▄                          ▄▄██▓▓▓▓▓█▄▄-▀▀N▄                    #')
+        TextSpeed.line('#                           ▄▀              ▀▀▄               ▄Æ▀░░▀▀█▓▓▓▓▓▓▓▓▓▄, -▀▀▄▄               #')
+        TextSpeed.line('#                          ▄▀                  `▀▄,        ,▄▀▒▒▒▒▒▒▒▒░▀██▓▓▓▓▓▓╣▓▓▄   ▀▄             #')
+        TextSpeed.line('#                         █                        ▀`   ▄▄▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▀█▓▓▓▓▓▓▓▓▓▓▄▄ ▀▄           #')
+        TextSpeed.line('#                    ▄▄  █                           ▄Æ▀░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▀█▓▓▓▓▓▓▓▓▓█, ▀▄         #')
+        TextSpeed.line('#                ▄▄ ▄  -█                         ,█▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▀█▓▓▓▓▓▓▓▓╢█  ▀▄       #')
+        TextSpeed.line('#              ,▄▌ -   ▐▌                       ,█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀█▓▓▓▓▓▓▓▓▓█   ▀▄     #')
+        TextSpeed.line('#           ▀█,        ▐▄                      ▄▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐╣▓▓▓▓▓▓▓▓▓█▄  █     #')
+        TextSpeed.line('#          ,▄▀`         ▀                    ▄▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▓▓▓▓▓▓▓▓▓▓█  ▐`    #')
+        TextSpeed.line('#       ▐█-             ▐                  ▄▀▒▒▒▒▒▒▒▒▄▄ÅÅ▀ÑÑ▄▄▄▄▄▄▄▄▄▄▄▄▄▄░▒▒▒▒▒▒▐▌▓▓▓▓▓▓▓▓▓▓█  █     #')
+        TextSpeed.line('#      ▄P▀             █                 ▄▀▒▒▒▒▒▒▄▀▀  ,▄▄████▄▄⌐           ▀▀█░▒▒█▓▓▓▓▓▓▓▓▓▓▓█  █     #')
+        TextSpeed.line('#    ▄▀               ▐`               ▄▀░▒▒▒▒▒▄▀    ▀      ▀▀▀▀∞      ███▀▀▀▀▀`▄▓▓▓▓▓▓▓▓▓▓▓╫▌  █     #')
+        TextSpeed.line('#     ▄▀              █              ▄█▒▒▒▒▒▒▄▀      ,▄P▀███▀▀▄,        ,▄▄▄▄▄ ▐▌▓▓▓▓▓▓▓▓▓▓▓█   █     #')
+        TextSpeed.line('#   ▄▀               ▐▌              ▌▒▒▒▒▒▒▒█      ▀▄   ███▄ ,█      █▐▄ ██▄▐▌█▓▓▓▓▓▓▓▓▓▓▓▓█  ,▌     #')
+        TextSpeed.line('#    ▀█              ▐`             ▐▌▒▒▒▒▒▒▒░█       - ▀▀▀▀▀▀         █  ▀▀▀▀ █▓▓▓▓▓▓▓▓▓▓▓▓▌ ,▌      #')
+        TextSpeed.line('#   ▄▀                ▌             ▐▒▒▒▒▒▒▒▒▒▒█,                       ▀▄     ▀╣▓▓▓▓▓▓▓▓▓▓▓▌ █       #')
+        TextSpeed.line('#   ▀▀█               █             ▐▌▒▒▒▒▒▒▒▒▒▒▒▀▄,                ,,▄▄▄▄,    ╖▀╣▓▓▓▓▓▓▓▓▓█  █       #')
+        TextSpeed.line('#    ▐                 ▌             ▐▌▒▒▒▒▒▒▒▒▒▒▒▒░▒▀▀B▄▄▄▄▄▄▄▄▀▀▀░░▒▒▒▒▒▒▀▀▀▀░▒█▓▓▓▓▓▓▓▓█   █       #')
+        TextSpeed.line('#   ▄▀                 ▀▄             █▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▄▄▄▒▒▒▒▒▒▒█▒▒▒▒▒░▌▓▓▓▓▓▓▓█  ,█        #')
+        TextSpeed.line('#   ▀▀█                  ▀▄            █░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▀▒▒░▒░▀▒▄▒▒▒▒▀▀▒▒▒▒▒▒▐╢▓▓▓▓▓▓█  ╒▀         #')
+        TextSpeed.line('#    ,▌                    ▀▄           █▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒¥▒░█▒▒▒▒▒▒▒▒▒▒▒▒█▓▓▓▓▓▓█   █          #')
+        TextSpeed.line('#   ▄▀ ,                     ▀&▄        ▀█░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐░▒▒▒▒▒▒▒▒▒▒▒▒█▓▓▓▓▓█-  █ █Æ█       #')
+        TextSpeed.line('#       ▀                       ▀N▄       ▀▄▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▓▓▓▓▓▓▌  █    ▀█` ,   #')
+        TextSpeed.line('#        █                          ▀▀▄▄    █▒▒▒▒▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▓▓▓▓▓▓▓█  ▄`     ▀▀█▀   #')
+        TextSpeed.line('#         ▀▀█                           `▀▄▄ ▀▀█▄▀ ╙▌▒▄▄▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▓▓▓▓▓▓█▀ ▄▀       ▄▀     #')
+        TextSpeed.line('#           █                               ▀▀▀▀    ▀▀` █▒▒▄▀█▒▒▒▒▒▒▒▒▒▒▒▒▄█╣▓▓▓██▀,▄▀        ▄▄▀Γ    #')
+        TextSpeed.line('#           █▄█                                         `▀▀  ▀▀█▌▒▒▒▒▒▒░▄█╢▓╢███▀▀▀-       ▄▄▄▌       #')
+        TextSpeed.line('#              █  ,▄µ                                         ▄▀-----▀▀▀▀▀▀"               ▐          #')
+        TextSpeed.line('#               ▀▀  ▀▄▄▀█                                     ▀▌                     ,   █▀▀          #')
+        TextSpeed.line('#                       █▄Aⁿ▀▀▀▄▄▀▌                          ▄4▀ ▄  ▄  ▄▄  ▄▄,    ,P▀`▀X▀             #')
+        TextSpeed.line('#                                 █  ▄▄  ,▄▀▄  ,▄∞▀▄,▄▀▀N█▀▀▄▌    ▀▀ ▀▀   ▀   "▀4▀                    #')
+        TextSpeed.line('#                                                                                                     #')
+        TextSpeed.line('#######################################################################################################')
+        self.shturman_fight()
 
+    def shturman_fight(self):
+        result = Utility.initiative()
+        if result:
+            Turn.turn_count(-1)
+            Utility.buff_check(self.myPlayer, self.shturman)
+        else:
+            Turn.turn_count(0)
+            Utility.buff_check(self.shturman, self.myPlayer)

@@ -226,7 +226,7 @@ class Utility:
     Utility.menu("\n(Y)es or (N)o")
     answer = input("\n>>> ")
     if "y" in answer.lower():
-      Game.main_menu()
+      Main.main_menu()
     elif "n" in answer.lower():
       quit()
     else:
@@ -571,29 +571,31 @@ class Attack:
     enemy.hp -= damage
     if enemy.hp < 0:
         enemy.hp = 0
-    Utility.combatline('\n\n'+ '+' + '=' * 44 + '+')
     a = (f"| Skill Roll [ {skill.skilldice} ] = {attackdice}")
-    b = (f"| Defense Roll [ {enemy.defense} ] = {defense}")
-    c = (f'| Total Damage = {damage}')
+    b = (f"| Defense Roll [ {enemy.defense} ] = {block}")
+    c = (f'|  Total Damage = {(damage) if (damage) > 0 else 0}  |')
     d = (f'| {player.name}')
-    e = (f"| Defense Buff [ {enemy.def_buff.maxbuff} ] = {buff}")
-    f = (f'| {enemy.name}')
+    g = (f'| {enemy.name}')
+    length = len(c)
+    h = ('=' * length)
+    Utility.combatline(f'\n\n+' + '=' * 44 + '+')
     Utility.combatline(f"{d:<45}|")
     Utility.combatline('|' + '-' * 44 + '|')
     Utility.combatline('|' + ' ' * 44 + '|')
     Utility.combatline(f"{a:<45}|")
     Utility.combatline('|' + ' ' * 44 + '|')
-    Utility.combatline('|' + '=' * 44 + '|')
-    Utility.combatline(f"{f:<45}|")
+    Utility.combatline('+' + '=' * 44 + '+\n')
+    Utility.combatline('+' + '=' * 44 + '+')
+    Utility.combatline(f"{g:<45}|")  
     Utility.combatline('|' + '-' * 44 + '|')
     Utility.combatline('|' + ' ' * 44 + '|')
     Utility.combatline(f"{b:<45}|")
-    if enemy.def_buff != Default:
-      Utility.combatline(f"{e:<45}|")
-      Utility.combatline('|' + ' ' * 44 + '|')
-    Utility.combatline('|' + '=' * 44 + '|')
-    Utility.combatline(f"{c:<45}|")
-    Utility.combatline('|' + '=' * 44 + '|')
+    Utility.combatline('|' + ' ' * 44 + '|')
+    Utility.combatline('+' + '=' * 44 + '+\n')
+    Utility.combatline(f'{h:^46}')
+    Utility.combatline(f"{c:^46}")
+    Utility.combatline(f'{h:^46}\n')
+    Utility.combatline('+' + '=' * 44 + '+')
     HealthBar.DisplayBars(player, enemy)
     if enemy.hp == 0 and enemy.type == "Enemy":
       Utility.enemy_killed(enemy, player)
@@ -824,7 +826,7 @@ class Backstab(Attack):
   skilldice = "1d8 + 1d2"
   additionaldamage = Dice.d_2
   skilldes = "\nSneak around to the back of the enemy for 1d8 + 1d2 damage."
-  effectdes = "\nYou backstab the enemy!\n"
+  effectdes = "\nYou attempt to backstab the enemy!\n"
 
 
 class TripWire(Attack):
@@ -839,7 +841,7 @@ class TripWire(Attack):
   skilldice = "1d6 + 1d4"
   additionaldamage = Dice.d_4
   skilldes = "\nSet up a trip wire for the enemy. Does 1d6 + 1d4 damage."
-  effectdes = "\nThe enemy hits the trip wire!\n"
+  effectdes = "\nThe enemy triggers the trip wire!\n"
 
 
 class Shadows(Buff):
@@ -904,7 +906,7 @@ class ExitCamp(Buff):
   maxbuff = '1d8'
   effect = Buff.atk_buff
   skilldes = "\nExit camps for 1d8 for two turns."
-  effectdes = "\nSteven exit camps for an attack buff of 1d8 for two turns!\n"
+  effectdes = "\nSteven exit camps for an attack buff\nof 1d8 for two turns!\n"
 
 
 class Bush(Buff):
@@ -921,6 +923,36 @@ class Bush(Buff):
   effect = Buff.def_buff
   skilldes = "\nHide in a bush for two turns."
   effectdes = "\nNick hides in a bush!\n"
+
+
+class Goons(Attack):
+
+  name = "Use Goons"
+  role = "Enemy"
+  type = 'attack'
+  skillcost = 3
+  element = "horrible"
+  mpcost = 4
+  dice = Dice.d_8
+  skilldice = "1d8 + 1d2"
+  additionaldamage = Dice.d_2
+  skilldes = "\nShturman uses his goons for a 1d8 + 1d2 attack!"
+  effectdes = "\nShturman sends his goons!\n"
+
+
+class Grenade(Attack):
+
+  name = "Toss Grenade"
+  role = "Enemy"
+  type = 'attack'
+  skillcost = 4
+  element = "grenade"
+  mpcost = 4
+  dice = Dice.d_10
+  skilldice = "1d10"
+  additionaldamage = Dice.d_0
+  skilldes = "\nA tossed grenade causes 1d10 damage!"
+  effectdes = "\nShturman tosses a grenade!\n"
 
 
 ##### Recovery Skills #####

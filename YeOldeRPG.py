@@ -3,6 +3,6 @@ from Game import *
 from Utility import *
 ###################
 
-game = Game()
+game = Main()
 game.title_screen()
 game.chapter_one_begin()

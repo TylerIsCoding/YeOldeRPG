@@ -3,8 +3,8 @@ from Game import *
 from Utility import TextSpeed
 ###################
 
-game = Game()
+game = Main()
 Utility.menu = TextSpeed.instant
 Utility.story = TextSpeed.instant
 game.player_name()
-game.steven_fight()
+game.cross_roads()
