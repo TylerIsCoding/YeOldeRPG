@@ -901,7 +901,7 @@ class ExitCamp(Buff):
   skillcost = 6
   element = 'attack'
   mpcost = 4
-  duration = 2
+  duration = 3
   dice = Dice.d_8
   maxbuff = '1d8'
   effect = Buff.atk_buff

@@ -7,4 +7,4 @@ game = Main()
 Utility.menu = TextSpeed.instant
 Utility.story = TextSpeed.instant
 game.player_name()
-game.cross_roads()
+game.kingsmen()

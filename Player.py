@@ -9,6 +9,7 @@ class Player:
 
     additional_damage = 0
     additional_defense = 0
+    on_the_run = ''
     
     def __init__(self, name):
         self.name = name
