@@ -3,27 +3,44 @@ import random
 
 ### Dice Rolls ###
 class Dice:
+
     @staticmethod
     def d_20():
-        return random.randint(1, 20)
+        result = random.randint(1, 20)
+        return result
 
     @staticmethod
     def d_12():
-        return random.randint(1, 12)
+        result = random.randint(1, 12)
+        return result
 
     @staticmethod
     def d_10():
-        return random.randint(1, 10)
+        result = random.randint(1, 10)
+        return result
 
     @staticmethod
     def d_8():
-        return random.randint(1, 8)
+        result = random.randint(1, 8)
+        return result
 
     @staticmethod
     def d_6():
-        return random.randint(1, 6)
+        result = random.randint(1, 6)
+        return result
 
     @staticmethod
     def d_4():
-        return random.randint(1, 4)
+        result = random.randint(1, 4)
+        return result
+
+    @staticmethod
+    def d_2():
+        result = random.randint(1, 2)
+        return result
+
+    @staticmethod
+    def d_0():
+        result = random.randint(0, 0)
+        return result
 

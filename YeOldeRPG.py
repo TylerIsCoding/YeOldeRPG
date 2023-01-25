@@ -1,12 +1,7 @@
-import cmd
-import textwrap
-import sys
-import os
-import datetime
-import random
-
+##### Imports #####
 from Game import *
+from Utility import *
+###################
 
-game = Game()
-game.main_menu()
-game.chapter_one()
+game = Main()
+game.title_screen()
